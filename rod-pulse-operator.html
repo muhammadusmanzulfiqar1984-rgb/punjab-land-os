@@ -1,0 +1,634 @@
+<title>LandOS · Sub-Registrar Data Entry</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap">
+<style>
+:root{
+  --g1:#1B5E35;--g2:#2D7A45;--g3:#3D9A58;
+  --gold:#C8A045;--amber:#E67E22;--red:#C0392B;--blue:#1A4A8C;
+  --bg:#F0F4F0;--win:#fff;--border:#DDE8DD;--border2:#C8D8C8;
+  --fg:#0F1F0F;--fg2:#3A5A3A;--fg3:#7A9A7A;
+  --sidebar:220px;
+  --sans:'Inter',system-ui,sans-serif;
+  --urdu:'Noto Nastaliq Urdu','Arial Unicode MS',serif;
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#080F08;--win:#0D180D;--border:#1A2E1A;--border2:#1A2E1A;--fg:#C8DCC8;--fg2:#7A9A7A;--fg3:#3A5A3A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#080F08;--win:#0D180D;--border:#1A2E1A;--border2:#1A2E1A;--fg:#C8DCC8;--fg2:#7A9A7A;--fg3:#3A5A3A;color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:13px;min-height:100vh;display:flex;flex-direction:column}
+
+/* ── TOP BAR ── */
+.topbar{
+  background:var(--g1);
+  display:flex;align-items:center;
+  padding:0 max(20px,env(safe-area-inset-right,0px)) 0 max(20px,env(safe-area-inset-left,0px));
+  height:52px;gap:16px;position:sticky;top:0;z-index:50;
+}
+.tb-brand{color:#fff;font-size:15px;font-weight:800;display:flex;align-items:center;gap:8px}
+.tb-sep{color:rgba(255,255,255,.3);font-size:18px}
+.tb-module{color:rgba(255,255,255,.75);font-size:13px;font-weight:500}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.tb-session{background:rgba(255,255,255,.12);color:rgba(255,255,255,.8);font-size:11px;font-family:monospace;padding:4px 10px;border-radius:4px}
+.tb-user{display:flex;align-items:center;gap:7px;color:rgba(255,255,255,.85);font-size:12px}
+.tb-avatar{width:28px;height:28px;border-radius:50%;background:var(--gold);color:#1A1A1A;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+.tb-logout{color:rgba(255,255,255,.55);font-size:12px;cursor:pointer;padding:4px 8px;border-radius:4px}
+.tb-logout:hover{background:rgba(255,255,255,.12);color:#fff}
+
+/* ── LAYOUT ── */
+.app{display:flex;flex:1;min-height:calc(100vh - 52px)}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:var(--sidebar);flex-shrink:0;
+  background:var(--win);border-left:1px solid var(--border);
+  display:flex;flex-direction:column;
+  padding:16px 0;position:sticky;top:52px;height:calc(100vh - 52px);overflow-y:auto;
+}
+.sb-section{padding:0 12px;margin-bottom:4px}
+.sb-sec-label{font-size:10px;font-weight:700;color:var(--fg3);text-transform:uppercase;letter-spacing:.1em;padding:8px 8px 4px}
+.sb-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 10px;border-radius:8px;cursor:pointer;
+  font-size:13px;color:var(--fg2);font-weight:500;
+  transition:background .1s;margin-bottom:2px;
+}
+.sb-item:hover{background:var(--bg)}
+.sb-item.active{background:#EAF5EA;color:var(--g1);font-weight:600}
+.sb-item.active .sb-ico{color:var(--g1)}
+.sb-ico{font-size:15px;width:20px;text-align:center}
+.sb-badge{margin-left:auto;background:var(--amber);color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:8px}
+.sb-badge.green{background:var(--g2)}
+
+/* ── MAIN CONTENT ── */
+.main{flex:1;padding:24px max(24px,env(safe-area-inset-right,0px)) 24px 24px;overflow-y:auto;min-width:0}
+
+/* ── PAGE HEADER ── */
+.page-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;gap:12px}
+.page-title{font-size:20px;font-weight:800;color:var(--fg)}
+.page-sub{font-size:13px;color:var(--fg3);margin-top:3px}
+.page-actions{display:flex;gap:8px}
+.btn-sm{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;display:flex;align-items:center;gap:6px}
+.btn-green{background:var(--g1);color:#fff}
+.btn-outline{background:transparent;border:1.5px solid var(--border2);color:var(--fg2)}
+.btn-amber{background:var(--amber);color:#fff}
+
+/* ── STATS ROW ── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+@media(max-width:800px){.stats-row{grid-template-columns:repeat(2,1fr)}}
+.stat-card{background:var(--win);border:1px solid var(--border);border-radius:12px;padding:16px 20px}
+.stat-val{font-size:24px;font-weight:800;color:var(--fg)}
+.stat-lbl{font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
+.stat-delta{font-size:11px;font-weight:600;margin-top:6px}
+.delta-up{color:#1B9E50}
+.delta-dn{color:var(--red)}
+
+/* ── QUEUE TABLE ── */
+.section-card{background:var(--win);border:1px solid var(--border);border-radius:12px;margin-bottom:20px;overflow:hidden}
+.sc-hdr{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border)}
+.sc-title{font-size:14px;font-weight:700;color:var(--fg)}
+.sc-sub{font-size:12px;color:var(--fg3);margin-top:2px}
+
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{background:var(--bg);font-size:11px;font-weight:700;color:var(--fg2);text-transform:uppercase;letter-spacing:.05em;padding:10px 16px;text-align:left;border-bottom:1px solid var(--border)}
+.tbl td{padding:12px 16px;border-bottom:1px solid var(--border);font-size:12px;color:var(--fg)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--bg)}
+.deed-type{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 8px;border-radius:6px}
+.dt-sale{background:#E8F5E8;color:#1B5E35}
+.dt-transfer{background:#E3F2FD;color:#0D47A1}
+.dt-gift{background:#F3E5F5;color:#6A1B9A}
+.dt-mutation{background:#FFF3E0;color:#E65100}
+.dt-correction{background:#FFEBEE;color:#C62828}
+.status-pill{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:12px}
+.sp-pending{background:#FFF3E0;color:#E65100}
+.sp-approved{background:#E8F5E8;color:#1B5E35}
+.sp-draft{background:#F5F5F5;color:#757575}
+.sp-rejected{background:#FFEBEE;color:#C62828}
+.action-btns{display:flex;gap:6px}
+.act-btn{padding:5px 10px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:none}
+.act-view{background:var(--bg);color:var(--fg2);border:1px solid var(--border)}
+.act-approve{background:#E8F5E8;color:#1B5E35}
+.act-reject{background:#FFEBEE;color:#C62828}
+
+/* ── DEED ENTRY FORM ── */
+.deed-form{display:none;padding:24px}
+.deed-form.active{display:block}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:700px){.form-grid{grid-template-columns:1fr}}
+.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:700px){.form-grid-3{grid-template-columns:1fr}}
+.fg{display:flex;flex-direction:column;gap:5px}
+.fg label{font-size:11px;font-weight:700;color:var(--fg2);text-transform:uppercase;letter-spacing:.05em}
+.fg label .req{color:var(--red)}
+.fg-field{display:flex;align-items:center;border:1.5px solid var(--border2);border-radius:8px;overflow:hidden;background:var(--win);transition:border-color .12s}
+.fg-field:focus-within{border-color:var(--g1)}
+.fg-field input,.fg-field select,.fg-field textarea{flex:1;border:none;outline:none;padding:10px 12px;font-size:13px;font-family:var(--sans);color:var(--fg);background:transparent;min-width:0;appearance:none}
+.fg-field textarea{resize:vertical;min-height:70px;padding:10px 12px}
+.fg-field select{cursor:pointer}
+.fg-ico{padding:0 10px;color:var(--fg3);font-size:14px;display:flex;align-items:center;flex-shrink:0}
+.fg-suf{padding:0 10px;font-size:11px;color:var(--fg3);font-weight:600;white-space:nowrap}
+.form-section{margin-bottom:28px}
+.form-sec-title{font-size:13px;font-weight:700;color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.form-sec-num{width:22px;height:22px;border-radius:50%;background:var(--g1);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.party-row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:12px;align-items:end;margin-bottom:12px}
+@media(max-width:700px){.party-row{grid-template-columns:1fr}}
+.add-party-btn{background:transparent;border:1.5px dashed var(--border2);border-radius:8px;padding:10px;color:var(--fg3);cursor:pointer;font-size:13px;font-weight:600;width:100%;margin-top:4px}
+.add-party-btn:hover{border-color:var(--g2);color:var(--g2)}
+.rm-btn{background:var(--bg);border:1px solid var(--border);color:var(--red);border-radius:6px;padding:9px 10px;cursor:pointer;font-size:14px;flex-shrink:0}
+
+.deed-no-preview{background:#EAF5EA;border:1px solid #B8DDB8;border-radius:8px;padding:12px 16px;margin-top:16px;display:flex;align-items:center;gap:12px}
+.deed-no-val{font-size:18px;font-weight:800;color:var(--g1);font-family:monospace}
+.deed-no-lbl{font-size:11px;color:var(--g2);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+
+.form-actions{display:flex;gap:10px;padding:20px 24px;border-top:1px solid var(--border);background:var(--bg)}
+
+/* ── URDU RTL fields ── */
+.urdu-field input,.urdu-field select{font-family:var(--urdu);direction:rtl;text-align:right;font-size:14px}
+
+/* ── SUCCESS TOAST ── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1B5E35;color:#fff;padding:12px 24px;border-radius:10px;font-size:14px;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,.2);opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
+.toast.show{opacity:1}
+</style>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="tb-brand">🌍 LandOS <span class="tb-sep">|</span> <span class="tb-module">Sub-Registrar Portal — رحیم یار خان</span></div>
+  <div class="tb-right">
+    <span class="tb-session">SES: SREG-RYK-2026 · OPR: SREG-01</span>
+    <div class="tb-user">
+      <div class="tb-avatar">S</div>
+      <span>Sub-Registrar RYK</span>
+    </div>
+    <span class="tb-logout" onclick="location.href='operator-login.html'">⬅ Logout</span>
+  </div>
+</div>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sb-section">
+      <div class="sb-sec-label">Main</div>
+      <div class="sb-item active" onclick="showView('dashboard')">
+        <span class="sb-ico">📊</span> Dashboard
+      </div>
+      <div class="sb-item" onclick="showView('queue')">
+        <span class="sb-ico">📋</span> Deed Queue
+        <span class="sb-badge">7</span>
+      </div>
+      <div class="sb-item" onclick="showView('newdeed')">
+        <span class="sb-ico">➕</span> New Deed Entry
+      </div>
+    </div>
+    <div class="sb-section">
+      <div class="sb-sec-label">Registry</div>
+      <div class="sb-item" onclick="showView('search')">
+        <span class="sb-ico">🔍</span> Search Deeds
+      </div>
+      <div class="sb-item" onclick="showView('parties')">
+        <span class="sb-ico">👥</span> Party Lookup
+      </div>
+      <div class="sb-item" onclick="showView('mauza')">
+        <span class="sb-ico">🗺️</span> Mauza Register
+      </div>
+    </div>
+    <div class="sb-section">
+      <div class="sb-sec-label">Reports</div>
+      <div class="sb-item" onclick="showView('daily')">
+        <span class="sb-ico">📅</span> Daily Register
+      </div>
+      <div class="sb-item" onclick="showView('audit')">
+        <span class="sb-ico">🔎</span> Audit Log
+        <span class="sb-badge green">2</span>
+      </div>
+    </div>
+    <div class="sb-section" style="margin-top:auto;padding-top:16px">
+      <div class="sb-item" onclick="location.href='rod-pulse-citizen.html'">
+        <span class="sb-ico">🌐</span> Citizen Portal
+      </div>
+      <div class="sb-item" onclick="location.href='clrmis-khata14-tool.html'">
+        <span class="sb-ico">🗂️</span> CLRMIS
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- ── DASHBOARD VIEW ── -->
+    <div id="view-dashboard">
+      <div class="page-hdr">
+        <div>
+          <div class="page-title">Dashboard</div>
+          <div class="page-sub">Sub-Registrar Office · رحیم یار خان · Today: <span id="todayDate"></span></div>
+        </div>
+        <div class="page-actions">
+          <button class="btn-sm btn-outline" onclick="showView('search')">🔍 Search</button>
+          <button class="btn-sm btn-green" onclick="showView('newdeed')">➕ New Deed</button>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-val">247</div>
+          <div class="stat-lbl">Deeds This Month</div>
+          <div class="stat-delta delta-up">↑ 12% vs last month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" style="color:var(--amber)">7</div>
+          <div class="stat-lbl">Pending Approval</div>
+          <div class="stat-delta delta-dn">3 overdue &gt;48h</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">1,842</div>
+          <div class="stat-lbl">Total Registered (2026)</div>
+          <div class="stat-delta delta-up">↑ 8% vs 2025</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" style="color:var(--red)">2</div>
+          <div class="stat-lbl">Audit Flags</div>
+          <div class="stat-delta delta-dn">Requires review</div>
+        </div>
+      </div>
+
+      <!-- Pending queue preview -->
+      <div class="section-card">
+        <div class="sc-hdr">
+          <div>
+            <div class="sc-title">Pending Deed Queue</div>
+            <div class="sc-sub">7 deeds awaiting Sub-Registrar approval</div>
+          </div>
+          <button class="btn-sm btn-outline" onclick="showView('queue')">View All</button>
+        </div>
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th>Deed No.</th><th>Type</th><th>Mauza</th><th>Parties</th><th>Entered</th><th>Status</th><th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="queueTbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── QUEUE VIEW ── -->
+    <div id="view-queue" style="display:none">
+      <div class="page-hdr">
+        <div>
+          <div class="page-title">Deed Queue</div>
+          <div class="page-sub">All pending and recent deeds</div>
+        </div>
+        <button class="btn-sm btn-green" onclick="showView('newdeed')">➕ New Deed Entry</button>
+      </div>
+      <div class="section-card">
+        <div class="sc-hdr">
+          <div class="sc-title">All Deeds</div>
+        </div>
+        <table class="tbl">
+          <thead><tr><th>Deed No.</th><th>Type</th><th>Mauza</th><th>Parties</th><th>Entered By</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody id="allQueueTbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── NEW DEED ENTRY VIEW ── -->
+    <div id="view-newdeed" style="display:none">
+      <div class="page-hdr">
+        <div>
+          <div class="page-title">New Deed Registration</div>
+          <div class="page-sub">Register a new document with the Sub-Registrar</div>
+        </div>
+        <div class="page-actions">
+          <button class="btn-sm btn-outline" onclick="showView('dashboard')">← Back</button>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="sc-hdr">
+          <div class="sc-title">Deed No. (Auto-assigned on Save)</div>
+        </div>
+        <div class="deed-form active">
+
+          <!-- Section 1: Document Details -->
+          <div class="form-section">
+            <div class="form-sec-title"><span class="form-sec-num">1</span> Document Classification</div>
+            <div class="form-grid">
+              <div class="fg">
+                <label>Deed Type <span class="req">*</span></label>
+                <div class="fg-field">
+                  <span class="fg-ico">📄</span>
+                  <select id="deedType">
+                    <option value="">Select deed type</option>
+                    <option value="SALE">Sale Deed (بیع نامہ)</option>
+                    <option value="GIFT">Gift Deed (ہبہ نامہ)</option>
+                    <option value="TRANSFER">Transfer Deed (انتقال)</option>
+                    <option value="MUTATION">Mutation (فرد بدر)</option>
+                    <option value="CORRECTION">Correction (تصحیح)</option>
+                    <option value="WILL">Will (وصیت نامہ)</option>
+                    <option value="MORTGAGE">Mortgage (رہن نامہ)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="fg">
+                <label>Registration Year <span class="req">*</span></label>
+                <div class="fg-field">
+                  <span class="fg-ico">📅</span>
+                  <select id="regYear">
+                    <option value="2026" selected>2026</option>
+                    <option value="2025">2025</option>
+                  </select>
+                </div>
+              </div>
+              <div class="fg">
+                <label>District <span class="req">*</span></label>
+                <div class="fg-field">
+                  <span class="fg-ico">📍</span>
+                  <select id="districtF">
+                    <option value="RYK" selected>Rahim Yar Khan</option>
+                    <option value="LHR">Lahore</option>
+                    <option value="FSD">Faisalabad</option>
+                    <option value="MLT">Multan</option>
+                  </select>
+                </div>
+              </div>
+              <div class="fg">
+                <label>Tehsil <span class="req">*</span></label>
+                <div class="fg-field">
+                  <span class="fg-ico">🏢</span>
+                  <select id="tehsilF">
+                    <option value="RYK" selected>Rahim Yar Khan</option>
+                    <option value="LPR">Liaqatpur</option>
+                    <option value="SHR">Sadiqabad</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: Land Details -->
+          <div class="form-section">
+            <div class="form-sec-title"><span class="form-sec-num">2</span> Land / Property Details</div>
+            <div class="form-grid-3">
+              <div class="fg urdu-field">
+                <label>Mauza Name (Urdu) <span class="req">*</span></label>
+                <div class="fg-field">
+                  <input type="text" id="mauza" placeholder="موضع کا نام" style="font-family:var(--urdu);direction:rtl;text-align:right">
+                </div>
+              </div>
+              <div class="fg">
+                <label>Chak / Survey No.</label>
+                <div class="fg-field">
+                  <span class="fg-ico">#</span>
+                  <input type="text" id="chak" placeholder="e.g. 72/NP">
+                </div>
+              </div>
+              <div class="fg">
+                <label>Khata / Khewat No.</label>
+                <div class="fg-field">
+                  <span class="fg-ico">#</span>
+                  <input type="text" id="khata" placeholder="e.g. 14">
+                </div>
+              </div>
+              <div class="fg">
+                <label>Area (Marlas)</label>
+                <div class="fg-field">
+                  <input type="number" id="areaM" placeholder="0.00" step="0.01" style="text-align:right">
+                  <span class="fg-suf">Marlas</span>
+                </div>
+              </div>
+              <div class="fg">
+                <label>Area (Kanal-Marla)</label>
+                <div class="fg-field">
+                  <input type="text" id="areaKM" placeholder="e.g. 1K 13.02M">
+                </div>
+              </div>
+              <div class="fg">
+                <label>Consideration Value (PKR)</label>
+                <div class="fg-field">
+                  <span class="fg-ico">₨</span>
+                  <input type="number" id="value" placeholder="0">
+                </div>
+              </div>
+            </div>
+            <div style="margin-top:16px">
+              <div class="fg">
+                <label>Property Description</label>
+                <div class="fg-field">
+                  <textarea id="propDesc" placeholder="Enter property description, boundaries, etc."></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Parties -->
+          <div class="form-section">
+            <div class="form-sec-title"><span class="form-sec-num">3</span> Parties (Transferor / Transferee)</div>
+            <div id="partiesContainer"></div>
+            <button class="add-party-btn" onclick="addParty()">+ Add Party</button>
+          </div>
+
+          <!-- Section 4: Witnesses -->
+          <div class="form-section">
+            <div class="form-sec-title"><span class="form-sec-num">4</span> Witnesses</div>
+            <div class="form-grid">
+              <div class="fg urdu-field">
+                <label>Witness 1 — Name (Urdu)</label>
+                <div class="fg-field">
+                  <input type="text" placeholder="گواہ نمبر 1 کا نام" style="font-family:var(--urdu);direction:rtl;text-align:right">
+                </div>
+              </div>
+              <div class="fg">
+                <label>Witness 1 — NIC</label>
+                <div class="fg-field">
+                  <input type="text" id="w1nic" placeholder="XXXXX-XXXXXXX-X">
+                </div>
+              </div>
+              <div class="fg urdu-field">
+                <label>Witness 2 — Name (Urdu)</label>
+                <div class="fg-field">
+                  <input type="text" placeholder="گواہ نمبر 2 کا نام" style="font-family:var(--urdu);direction:rtl;text-align:right">
+                </div>
+              </div>
+              <div class="fg">
+                <label>Witness 2 — NIC</label>
+                <div class="fg-field">
+                  <input type="text" id="w2nic" placeholder="XXXXX-XXXXXXX-X">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 5: Operator Notes -->
+          <div class="form-section">
+            <div class="form-sec-title"><span class="form-sec-num">5</span> Operator Notes / Remarks</div>
+            <div class="fg">
+              <div class="fg-field">
+                <textarea id="remarks" placeholder="Enter any notes, flags, or remarks for this deed entry..."></textarea>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="form-actions">
+          <button class="btn-sm btn-green" onclick="saveDeed()">💾 Save &amp; Submit for Approval</button>
+          <button class="btn-sm btn-amber" onclick="saveDraft()">📋 Save as Draft</button>
+          <button class="btn-sm btn-outline" onclick="resetForm()">🔄 Clear Form</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SEARCH VIEW ── -->
+    <div id="view-search" style="display:none">
+      <div class="page-hdr">
+        <div class="page-title">Search Registered Deeds</div>
+      </div>
+      <div class="section-card" style="padding:24px">
+        <div class="form-grid" style="margin-bottom:16px">
+          <div class="fg"><label>Deed No.</label><div class="fg-field"><span class="fg-ico">#</span><input type="text" placeholder="e.g. RYK-2026-0247"></div></div>
+          <div class="fg"><label>Party NIC</label><div class="fg-field"><input type="text" placeholder="XXXXX-XXXXXXX-X"></div></div>
+          <div class="fg"><label>Mauza</label><div class="fg-field"><input type="text" placeholder="Mauza name"></div></div>
+          <div class="fg"><label>Year</label><div class="fg-field"><select><option>2026</option><option>2025</option><option>2024</option></select></div></div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn-sm btn-green">🔍 Search</button>
+          <button class="btn-sm btn-outline">Reset</button>
+        </div>
+      </div>
+      <div class="section-card" style="margin-top:16px">
+        <div class="sc-hdr"><div class="sc-title">Search Results</div></div>
+        <table class="tbl">
+          <thead><tr><th>Deed No.</th><th>Type</th><th>Mauza</th><th>Parties</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody id="searchTbody"></tbody>
+        </table>
+        <div style="padding:40px;text-align:center;color:var(--fg3);font-size:13px">Enter search criteria above to find deeds</div>
+      </div>
+    </div>
+
+    <!-- stub views -->
+    <div id="view-parties" style="display:none"><div class="page-hdr"><div class="page-title">Party Lookup</div></div><div class="section-card" style="padding:48px;text-align:center;color:var(--fg3)">Search parties by NIC or name</div></div>
+    <div id="view-mauza" style="display:none"><div class="page-hdr"><div class="page-title">Mauza Register</div></div><div class="section-card" style="padding:48px;text-align:center;color:var(--fg3)">District mauza index</div></div>
+    <div id="view-daily" style="display:none"><div class="page-hdr"><div class="page-title">Daily Register</div></div><div class="section-card" style="padding:48px;text-align:center;color:var(--fg3)">Daily deed register printout</div></div>
+    <div id="view-audit" style="display:none"><div class="page-hdr"><div class="page-title">Audit Log</div></div><div class="section-card" style="padding:48px;text-align:center;color:var(--fg3)">System audit trail</div></div>
+
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── SAMPLE DATA ──
+const DEEDS=[
+  {id:'RYK-2026-0247',type:'SALE',mauza:'چک 72/NP',parties:'M. Zulfiqar → M. Usman',by:'SREG-01',date:'2026-11-05',status:'pending'},
+  {id:'RYK-2026-0246',type:'TRANSFER',mauza:'چک 15/NP',parties:'Ali Raza → Fatima Bibi',by:'SREG-01',date:'2026-11-04',status:'approved'},
+  {id:'RYK-2026-0245',type:'GIFT',mauza:'موضع خانپور',parties:'Haji Bashir → M. Sadiq',by:'SREG-02',date:'2026-11-04',status:'pending'},
+  {id:'RYK-2026-0244',type:'MUTATION',mauza:'چک 72/NP',parties:'PLRA (Fard Badar 199)',by:'SREG-01',date:'2026-10-28',status:'approved'},
+  {id:'RYK-2026-0243',type:'CORRECTION',mauza:'چک 44/NP',parties:'M. Farooq (correction)',by:'SREG-02',date:'2026-10-25',status:'rejected'},
+  {id:'RYK-2026-0242',type:'SALE',mauza:'موضع اسلام آباد',parties:'M. Tahir → Rukhsana',by:'SREG-01',date:'2026-10-22',status:'approved'},
+  {id:'RYK-2026-0241',type:'MORTGAGE',mauza:'چک 8/NP',parties:'M. Aslam → NBP',by:'SREG-02',date:'2026-10-20',status:'draft'},
+];
+const TYPE_CLASS={SALE:'dt-sale',TRANSFER:'dt-transfer',GIFT:'dt-gift',MUTATION:'dt-mutation',CORRECTION:'dt-correction',WILL:'dt-sale',MORTGAGE:'dt-transfer'};
+const TYPE_LABEL={SALE:'Sale Deed',TRANSFER:'Transfer',GIFT:'Gift Deed',MUTATION:'Mutation',CORRECTION:'Correction',WILL:'Will',MORTGAGE:'Mortgage'};
+const ST_CLASS={pending:'sp-pending',approved:'sp-approved',draft:'sp-draft',rejected:'sp-rejected'};
+
+function deedRow(d, withApprove=false){
+  return `<tr>
+    <td><strong>${d.id}</strong></td>
+    <td><span class="deed-type ${TYPE_CLASS[d.type]}">${TYPE_LABEL[d.type]}</span></td>
+    <td style="font-family:var(--urdu);direction:rtl">${d.mauza}</td>
+    <td>${d.parties}</td>
+    ${withApprove?`<td>${d.by}</td>`:''}
+    <td>${d.date}</td>
+    <td><span class="status-pill ${ST_CLASS[d.status]}">${d.status.charAt(0).toUpperCase()+d.status.slice(1)}</span></td>
+    <td><div class="action-btns">
+      <button class="act-btn act-view" onclick="showToast('Deed '+this.closest('tr').querySelector('strong').textContent+' opened')">View</button>
+      ${d.status==='pending'?`<button class="act-btn act-approve" onclick="approveRow(this,'${d.id}')">Approve</button><button class="act-btn act-reject">Reject</button>`:''}
+    </div></td>
+  </tr>`;
+}
+
+function populateTables(){
+  const tbody=document.getElementById('queueTbody');
+  const allbody=document.getElementById('allQueueTbody');
+  if(tbody) tbody.innerHTML=DEEDS.slice(0,5).map(d=>deedRow(d)).join('');
+  if(allbody) allbody.innerHTML=DEEDS.map(d=>deedRow(d,true)).join('');
+}
+
+function approveRow(btn,id){
+  btn.closest('tr').querySelector('.status-pill').className='status-pill sp-approved';
+  btn.closest('tr').querySelector('.status-pill').textContent='Approved';
+  btn.parentElement.innerHTML='<button class="act-btn act-view">View</button>';
+  showToast('✓ Deed '+id+' approved and published');
+}
+
+// ── PARTY MANAGEMENT ──
+let partyCount=0;
+function addParty(){
+  partyCount++;
+  const c=document.getElementById('partiesContainer');
+  const div=document.createElement('div');
+  div.className='party-row';
+  div.id='party-'+partyCount;
+  div.innerHTML=`
+    <div class="fg">
+      <label>Role</label>
+      <div class="fg-field"><select><option>Transferor (فروخت کنندہ)</option><option>Transferee (خریدار)</option><option>Donor (واہب)</option><option>Donee (موہوب لہ)</option></select></div>
+    </div>
+    <div class="fg urdu-field">
+      <label>Name (Urdu)</label>
+      <div class="fg-field"><input type="text" placeholder="نام درج کریں" style="font-family:var(--urdu);direction:rtl;text-align:right"></div>
+    </div>
+    <div class="fg">
+      <label>NIC No.</label>
+      <div class="fg-field"><input type="text" placeholder="XXXXX-XXXXXXX-X"></div>
+    </div>
+    <button class="rm-btn" onclick="document.getElementById('party-${partyCount}').remove()">✕</button>`;
+  c.appendChild(div);
+}
+
+// ── VIEW SWITCHING ──
+function showView(v){
+  document.querySelectorAll('[id^="view-"]').forEach(el=>el.style.display='none');
+  const el=document.getElementById('view-'+v);
+  if(el) el.style.display='block';
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  document.querySelectorAll('.sb-item').forEach(i=>{
+    if(i.getAttribute('onclick')&&i.getAttribute('onclick').includes("'"+v+"'")) i.classList.add('active');
+  });
+}
+
+// ── FORM ACTIONS ──
+let deedSeq=248;
+function saveDeed(){
+  const type=document.getElementById('deedType').value;
+  if(!type){showToast('⚠ Please select a deed type','#E67E22');return;}
+  const no='RYK-2026-0'+deedSeq++;
+  DEEDS.unshift({id:no,type:type||'SALE',mauza:document.getElementById('mauza').value||'—',parties:'New Entry',by:'SREG-01',date:new Date().toISOString().slice(0,10),status:'pending'});
+  populateTables();
+  showToast('✓ Deed '+no+' saved and submitted for approval');
+  showView('queue');
+}
+function saveDraft(){
+  const no='RYK-2026-0'+deedSeq++;
+  DEEDS.unshift({id:no,type:'SALE',mauza:document.getElementById('mauza').value||'—',parties:'Draft',by:'SREG-01',date:new Date().toISOString().slice(0,10),status:'draft'});
+  populateTables();
+  showToast('📋 Draft saved: '+no,'#777');
+}
+function resetForm(){
+  document.querySelectorAll('.deed-form input, .deed-form select, .deed-form textarea').forEach(el=>el.value='');
+  document.getElementById('partiesContainer').innerHTML='';
+  partyCount=0;
+}
+
+// ── TOAST ──
+function showToast(msg,bg='#1B5E35'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.style.background=bg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ── INIT ──
+document.getElementById('todayDate').textContent=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+addParty();addParty(); // default 2 parties
+populateTables();
+</script>

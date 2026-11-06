@@ -1,0 +1,161 @@
+<title>LandOS · Operator Login</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+<style>
+:root{
+  --g1:#1B5E35;--g2:#2D7A45;--g3:#3D9A58;
+  --gold:#C8A045;
+  --bg:#F0F4F0;--win:#fff;--border:#DDE8DD;
+  --fg:#0F1F0F;--fg2:#3A5A3A;--fg3:#7A9A7A;
+  --err:#C0392B;
+  --sans:'Inter',system-ui,sans-serif;
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#080F08;--win:#0D180D;--border:#1A2E1A;--fg:#C8DCC8;--fg2:#7A9A7A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#080F08;--win:#0D180D;--border:#1A2E1A;--fg:#C8DCC8;--fg2:#7A9A7A;color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:max(24px,env(safe-area-inset-top,24px)) max(24px,env(safe-area-inset-right,24px)) max(24px,env(safe-area-inset-bottom,24px)) max(24px,env(safe-area-inset-left,24px))}
+
+.login-wrap{width:100%;max-width:420px}
+.login-brand{text-align:center;margin-bottom:36px}
+.brand-icon{width:64px;height:64px;background:var(--g1);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 12px}
+.brand-name{font-size:22px;font-weight:800;color:var(--fg)}
+.brand-sub{font-size:13px;color:var(--fg3);margin-top:4px}
+
+.login-card{background:var(--win);border:1px solid var(--border);border-radius:16px;padding:32px;box-shadow:0 4px 24px rgba(0,0,0,.07)}
+.card-title{font-size:18px;font-weight:700;color:var(--fg);margin-bottom:4px}
+.card-sub{font-size:13px;color:var(--fg3);margin-bottom:28px}
+
+.role-tabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:24px}
+.rtab{
+  background:var(--bg);border:1.5px solid var(--border);border-radius:8px;
+  padding:10px 8px;text-align:center;cursor:pointer;transition:all .12s;
+}
+.rtab.active{background:var(--g1);border-color:var(--g1);color:#fff}
+.rtab-icon{font-size:18px;display:block;margin-bottom:4px}
+.rtab-label{font-size:11px;font-weight:600}
+
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:16px}
+.field label{font-size:12px;font-weight:600;color:var(--fg2);text-transform:uppercase;letter-spacing:.05em}
+.field-wrap{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;background:var(--win);transition:border-color .12s}
+.field-wrap:focus-within{border-color:var(--g1)}
+.field-ico{padding:0 12px;color:var(--fg3);font-size:15px;display:flex;align-items:center}
+.field-wrap input{flex:1;border:none;outline:none;padding:11px 12px 11px 0;font-size:14px;font-family:var(--sans);color:var(--fg);background:transparent}
+.field-eye{padding:0 12px;color:var(--fg3);cursor:pointer;font-size:14px;display:flex;align-items:center;user-select:none}
+
+.login-btn{
+  width:100%;background:var(--g1);color:#fff;border:none;border-radius:10px;
+  padding:14px;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;
+  transition:background .12s;display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.login-btn:hover{background:var(--g2)}
+.login-btn:disabled{opacity:.5;cursor:default}
+
+.hint{background:#EAF5EA;border:1px solid #B8DDB8;border-radius:8px;padding:12px 14px;margin-top:16px;font-size:12px;color:var(--fg2);line-height:1.6}
+.hint strong{color:var(--g1)}
+
+.err-msg{background:#FEF0F0;border:1px solid #FFBBBB;border-radius:8px;padding:10px 14px;font-size:13px;color:var(--err);margin-top:8px;display:none}
+.err-msg.show{display:block}
+
+.back-link{text-align:center;margin-top:20px;font-size:13px;color:var(--fg3)}
+.back-link a{color:var(--g1);font-weight:600;cursor:pointer;text-decoration:none}
+</style>
+
+<div class="login-wrap">
+  <div class="login-brand">
+    <div class="brand-icon">🌍</div>
+    <div class="brand-name">LandOS</div>
+    <div class="brand-sub">National Land Administration Platform</div>
+  </div>
+
+  <div class="login-card">
+    <div class="card-title">Operator Sign In</div>
+    <div class="card-sub">Select your role and enter your credentials</div>
+
+    <div class="role-tabs">
+      <div class="rtab active" id="tab-subregist" onclick="setRole('subregist')">
+        <span class="rtab-icon">⚖️</span>
+        <span class="rtab-label">Sub-Registrar</span>
+      </div>
+      <div class="rtab" id="tab-patwari" onclick="setRole('patwari')">
+        <span class="rtab-icon">📋</span>
+        <span class="rtab-label">Patwari</span>
+      </div>
+      <div class="rtab" id="tab-admin" onclick="setRole('admin')">
+        <span class="rtab-icon">🛡️</span>
+        <span class="rtab-label">Admin</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Employee ID / Username</label>
+      <div class="field-wrap">
+        <span class="field-ico">👤</span>
+        <input type="text" id="uid" placeholder="Enter your employee ID" autocomplete="username">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Password</label>
+      <div class="field-wrap">
+        <span class="field-ico">🔒</span>
+        <input type="password" id="pwd" placeholder="Enter your password" autocomplete="current-password" id="pwdinp">
+        <span class="field-eye" onclick="togglePwd()">👁</span>
+      </div>
+    </div>
+
+    <div class="hint">
+      <strong>Demo credentials:</strong><br>
+      Sub-Registrar: <strong>SREG-RYK-01</strong> / <strong>demo1234</strong><br>
+      Patwari: <strong>PAT-72NP-01</strong> / <strong>demo1234</strong><br>
+      Admin: <strong>ADMIN</strong> / <strong>admin1234</strong>
+    </div>
+
+    <div class="err-msg" id="errMsg">Invalid credentials. Please check your Employee ID and password.</div>
+
+    <button class="login-btn" id="loginBtn" onclick="doLogin()">
+      Sign In →
+    </button>
+  </div>
+
+  <div class="back-link">← <a href="rod-pulse-citizen.html">Return to Citizen Portal</a> &nbsp;·&nbsp; <a href="index.html">Platform Home</a></div>
+</div>
+
+<script>
+let role='subregist';
+const CREDS={
+  'SREG-RYK-01':'demo1234',
+  'PAT-72NP-01':'demo1234',
+  'ADMIN':'admin1234'
+};
+const DEST={
+  'SREG-RYK-01':'rod-pulse-operator.html',
+  'PAT-72NP-01':'clrmis-khata14-tool.html',
+  'ADMIN':'rod-pulse-operator.html'
+};
+function setRole(r){
+  role=r;
+  document.querySelectorAll('.rtab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+r).classList.add('active');
+  document.getElementById('uid').value='';
+  document.getElementById('errMsg').classList.remove('show');
+  const ph={'subregist':'SREG-RYK-01','patwari':'PAT-72NP-01','admin':'ADMIN'};
+  document.getElementById('uid').placeholder=ph[r];
+}
+function togglePwd(){
+  const i=document.getElementById('pwdinp')||document.querySelector('input[type=password]');
+  if(i)i.type=i.type==='password'?'text':'password';
+}
+function doLogin(){
+  const uid=document.getElementById('uid').value.trim().toUpperCase();
+  const pwd=document.querySelector('input[type=password]').value;
+  document.getElementById('errMsg').classList.remove('show');
+  if(CREDS[uid]&&CREDS[uid]===pwd){
+    document.getElementById('loginBtn').textContent='Signing in…';
+    document.getElementById('loginBtn').disabled=true;
+    setTimeout(()=>{ location.href=DEST[uid]||'rod-pulse-operator.html'; },800);
+  } else {
+    document.getElementById('errMsg').classList.add('show');
+  }
+}
+document.addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); });
+</script>
