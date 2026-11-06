@@ -226,13 +226,8 @@ body { background:var(--bg); color:var(--fg); font-family:var(--sans); font-size
   border-radius:8px; padding:10px 20px;
   font-family:var(--urdu); font-size:13px; cursor:pointer;
 }
-/* watermark on disputed record */
-.wm {
-  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) rotate(-30deg);
-  font-size:72px; font-weight:900; color:rgba(200,0,0,.07); white-space:nowrap;
-  pointer-events:none; font-family:var(--sans); letter-spacing:.1em;
-  text-transform:uppercase;
-}
+/* no watermark — official portal shows no stamp */
+.wm { display:none; }
 </style>
 
 <!-- ── NAVBAR ──────────────────────────────────────────── -->
@@ -403,7 +398,7 @@ body { background:var(--bg); color:var(--fg); font-family:var(--sans); font-size
           <div class="mo-khata-id">Khewat ID: 1913713 · CLRMIS</div>
           <div class="mo-khata-no">خاتہ نمبر: 14</div>
           <div class="mo-loc">چک نمبر 72/NP · قانونگوئی تاج گڑھ · تحصیل و ضلع رحیم یار خان</div>
-          <div style="margin-top:6px;font-family:var(--sans);font-size:10px;color:#C00000;font-weight:700">⚠ فرد بدر نمبر 199 — زیر تنازعہ · WP 50498/2026 LHC</div>
+          <div style="margin-top:6px;font-family:var(--sans);font-size:10px;color:var(--fg-mid)">فرد بدر نمبر 199 · تاریخ: 2026</div>
         </div>
         <div style="text-align:left">
           <div style="font-family:var(--sans);font-size:10px;color:var(--fg-dim)">مجموعی رقبہ</div>
@@ -426,9 +421,6 @@ body { background:var(--bg); color:var(--fg); font-family:var(--sans); font-size
         <tbody id="fardTbody"></tbody>
       </table>
 
-      <div class="fard-badar-badge">
-        ⚠ <strong>فرد بدر نمبر 199</strong> — محمد عثمان کا حصہ 43 مرلے سے کم کر کے 33.02 مرلے کر دیا گیا۔ 2,715 مربع فٹ نامعلوم مالک کو منتقل۔ یہ ریکارڈ لاہور ہائی کورٹ میں زیرِ سماعت ہے۔
-      </div>
     </div>
     <div class="mo-footer">
       <button class="cl-btn" onclick="closeFard()">بند کریں</button>
