@@ -1580,7 +1580,7 @@ function openFard(e, idx){
   if(e) e.preventDefault();
   /* idx is the index into DEMO_RESULTS (or the visible toShow subset) */
   var rec = DEMO_RESULTS[idx != null ? idx : 0] || DEMO_RESULTS[0];
-  var body = document.getElementById('fardBody');
+  var body = document.getElementById('fardDoc');
   var html = '';
 
   /* Dynamic header using the clicked record's details */
