@@ -1515,26 +1515,51 @@ document.getElementById('searchForm').addEventListener('submit', function(e){
   var tbody = document.getElementById('tableBody');
   var empty = document.getElementById('emptyResults');
   var trc   = document.getElementById('TRC');
-  var dist  = document.getElementById('districtSelect').value;
 
-  if(dist === '28'){
-    tbody.innerHTML = '';
-    DEMO_RESULTS.forEach(function(r){
+  /* Read all search inputs */
+  var nicVal   = (document.getElementById('nicInput')   ? document.getElementById('nicInput').value.trim()   : '');
+  var nameVal  = (document.getElementById('nameInput')  ? document.getElementById('nameInput').value.trim()  : '');
+  var regVal   = (document.getElementById('regInput')   ? document.getElementById('regInput').value.trim()   : '');
+  var yearVal  = document.getElementById('yearSelect').value;
+
+  /* Normalize NIC: strip dashes for comparison */
+  function normNic(s){ return s.replace(/-/g,''); }
+
+  /* Check if the search query matches our Khata 14 data */
+  var nicMatch   = nicVal   && CAT.some(function(c){ return normNic(c.nic) === normNic(nicVal); });
+  var nameMatch  = nameVal  && CAT.some(function(c){ return c.name.indexOf(nameVal) !== -1; });
+  var regMatch   = regVal   && DEMO_RESULTS.some(function(r){ return r.regNo === regVal; });
+  var yearMatch  = yearVal  && ['2023','2024','2019','2020','2021','2022'].indexOf(yearVal) !== -1;
+
+  /* At least one field must be provided, and it must match our data */
+  var anyInput = nicVal || nameVal || regVal;
+  var matched  = nicMatch || nameMatch || regMatch;
+
+  /* If nothing entered at all, also show results (blank search = browse all) */
+  if(!anyInput){ matched = true; }
+
+  tbody.innerHTML = '';
+  if(matched){
+    /* Show only the results relevant to the search */
+    var toShow = DEMO_RESULTS;
+    if(regVal && regMatch){
+      toShow = DEMO_RESULTS.filter(function(r){ return r.regNo === regVal; });
+    }
+    toShow.forEach(function(r, idx){
       var tr = document.createElement('tr');
       tr.innerHTML =
         '<td>'+r.tehsil+'</td>'+
         '<td>'+r.mouza+'</td>'+
         '<td>'+r.regNo+'</td>'+
         '<td>'+r.date+'</td>'+
-        '<td><a class="view-link" href="#" onclick="openFard(event)">'+
+        '<td><a class="view-link" href="#" data-idx="'+idx+'" onclick="openFard(event,'+idx+')">'+
           '<svg class="portal-icon" style="width:18px;height:18px"><use href="images/search-icons.svg#file-alt"></use></svg>'+
           'دیکھیں</a></td>';
       tbody.appendChild(tr);
     });
-    trc.textContent = DEMO_RESULTS.length;
+    trc.textContent = toShow.length;
     empty.style.display = 'none';
   } else {
-    tbody.innerHTML = '';
     trc.textContent = '0';
     empty.style.display = '';
   }
@@ -1551,16 +1576,22 @@ document.getElementById('searchForm').addEventListener('reset', function(){
 });
 
 /* ── Open Fard modal ── */
-function openFard(e){
+function openFard(e, idx){
   if(e) e.preventDefault();
+  /* idx is the index into DEMO_RESULTS (or the visible toShow subset) */
+  var rec = DEMO_RESULTS[idx != null ? idx : 0] || DEMO_RESULTS[0];
   var body = document.getElementById('fardBody');
   var html = '';
 
+  /* Dynamic header using the clicked record's details */
   html += '<div class="fard-info-grid">';
   html += '<div class="fard-info-item"><label>ضلع</label><span>رحیم یار خان</span></div>';
-  html += '<div class="fard-info-item"><label>تحصیل</label><span>رحیم یار خان</span></div>';
-  html += '<div class="fard-info-item"><label>موضع</label><span>چک نمبر 72/این پی</span></div>';
+  html += '<div class="fard-info-item"><label>تحصیل</label><span>'+rec.tehsil+'</span></div>';
+  html += '<div class="fard-info-item"><label>موضع</label><span>'+rec.mouza+'</span></div>';
   html += '<div class="fard-info-item"><label>قانون گوئی</label><span>تاج گڑھ</span></div>';
+  html += '<div class="fard-info-item"><label>رجسٹری نمبر</label><span>'+rec.regNo+'</span></div>';
+  html += '<div class="fard-info-item"><label>نوع</label><span>'+rec.type+'</span></div>';
+  html += '<div class="fard-info-item"><label>تاریخ</label><span>'+rec.date+'</span></div>';
   html += '<div class="fard-info-item"><label>خطہ نمبر</label><span>14</span></div>';
   html += '<div class="fard-info-item"><label>کل رقبہ</label><span>'+TOTAL_MARLAS.toFixed(2)+' مرلے</span></div>';
   html += '</div>';
