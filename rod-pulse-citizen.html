@@ -1,805 +1,1295 @@
-<title>PULSE · پنجاب لینڈ ریکارڈ اتھارٹی</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap">
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>دستاویزات کی معلومات تلاش کریں | PULSE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --g1:#1B5E35;--g2:#1F7A3E;--g3:#2D8A4E;
-  --bg:#F2F5F2;--win:#FFFFFF;--border:#D8E5D8;
-  --fg:#1A2A1A;--fg2:#4A6A4A;--fg3:#8AA08A;
-  --urdu:'Noto Nastaliq Urdu','Arial Unicode MS',serif;
-  --sans:'Roboto',system-ui,sans-serif;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--fg);font-family:var(--sans);direction:rtl;min-height:100vh;display:flex;flex-direction:column}
-
-/* ══ NAVBAR ══ */
-.nav{
-  background:#fff;border-bottom:1px solid #E5EDE5;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 max(24px,env(safe-area-inset-right,0px)) 0 max(24px,env(safe-area-inset-left,0px));
-  height:70px;position:sticky;top:0;z-index:50;
-  box-shadow:0 1px 3px rgba(0,0,0,.06);
-}
-/* brand — right side (RTL) */
-.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
-.nav-emblem{width:52px;height:52px;flex-shrink:0}
-.nav-txt{line-height:1.25}
-.nav-pulse{font-size:21px;font-weight:700;color:#1A2A1A;font-family:var(--sans);display:block}
-.nav-sub{font-family:var(--urdu);font-size:11px;color:#6A8A6A;display:block;direction:rtl}
-/* center search pill */
-.nav-center{position:absolute;left:50%;transform:translateX(-50%)}
-.nav-search-pill{
-  background:#1B5E35;color:#fff;border:none;border-radius:8px;
-  padding:10px 28px;font-family:var(--urdu);font-size:14px;font-weight:600;
-  display:flex;align-items:center;gap:8px;cursor:pointer;white-space:nowrap;
-}
-.nav-search-pill:hover{background:#1F7A3E}
-/* left side — رہنمائی + user */
-.nav-left{display:flex;align-items:center;gap:16px}
-.nav-guide{display:flex;align-items:center;gap:5px;font-family:var(--urdu);font-size:13px;color:var(--fg2);cursor:pointer}
-.nav-guide svg{color:#555}
-.nav-user{display:flex;align-items:center;gap:8px;cursor:pointer}
-.nav-avatar{width:36px;height:36px;border-radius:50%;background:#1B5E35;color:#fff;
-  display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0}
-.nav-username{font-size:13px;color:var(--fg);max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.nav-chev{font-size:10px;color:#777}
-
-/* ══ HERO ══ */
-.hero{
-  background:linear-gradient(160deg,#1A5A2C 0%,#1E6830 55%,#287840 100%);
-  position:relative;overflow:hidden;min-height:200px;
-  display:flex;align-items:center;
-  padding:28px max(28px,env(safe-area-inset-right,0px)) 28px max(28px,env(safe-area-inset-left,0px));
-}
-/* dot grid top-left */
-.hero-dots{position:absolute;top:18px;right:28px;opacity:.25;pointer-events:none}
-/* folder+magnifier illustration — LEFT side (in RTL = left of screen) */
-.hero-illo{position:absolute;left:40px;bottom:0;width:160px;opacity:.92;pointer-events:none;display:flex;align-items:flex-end}
-/* fort silhouette — far right */
-.hero-fort{position:absolute;right:20px;top:0;bottom:0;width:260px;opacity:.18;pointer-events:none;display:flex;align-items:flex-end;justify-content:flex-end}
-/* text — center */
-.hero-txt{flex:1;text-align:center;position:relative;z-index:2;padding:0 180px}
-.hero-title{font-family:var(--urdu);font-size:30px;font-weight:700;color:#fff;line-height:1.6;text-shadow:0 1px 8px rgba(0,0,0,.2)}
-.hero-sub{font-family:var(--urdu);font-size:14px;color:rgba(255,255,255,.75);line-height:1.8;margin-top:4px}
-
-/* ══ SEARCH CARD ══ */
-.search-wrap{
-  margin:0 max(20px,env(safe-area-inset-right,0px)) 20px max(20px,env(safe-area-inset-left,0px));
-  margin-top:-22px;position:relative;z-index:10;
-}
-.search-card{
-  background:#fff;border-radius:16px;
-  box-shadow:0 4px 20px rgba(0,0,0,.08);
-  padding:28px 24px 22px;
-}
-/* 3-column grid */
-.sf-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px 20px;margin-bottom:20px}
-.sf{display:flex;flex-direction:column;gap:5px}
-.sf-label{font-family:var(--urdu);font-size:12px;color:var(--fg2);text-align:right;direction:rtl;line-height:1.6}
-.sf-row{
-  display:flex;align-items:center;
-  border:1.5px solid #D0E0D0;border-radius:8px;overflow:hidden;
-  background:#fff;direction:rtl;transition:border-color .15s;height:50px;
-}
-.sf-row:focus-within{border-color:#1B5E35}
-/* icon on RIGHT */
-.sf-ico{
-  width:46px;height:100%;display:flex;align-items:center;justify-content:center;
-  background:#F4FAF4;border-left:1.5px solid #D0E0D0;flex-shrink:0;
-  color:#2D7A3A;font-size:16px;order:2;
-}
-.sf-row input,.sf-row select{
-  flex:1;border:none;outline:none;padding:0 12px;
-  font-family:var(--urdu);font-size:13px;color:var(--fg);
-  background:transparent;text-align:right;direction:rtl;
-  appearance:none;-webkit-appearance:none;order:1;height:100%;
-}
-/* chevron LEFT of select */
-.sf-chev{
-  width:30px;height:100%;display:flex;align-items:center;justify-content:center;
-  color:#888;font-size:11px;flex-shrink:0;order:0;
+/* ── CSS Custom Properties (exact from live site) ── */
+:root {
+  --portal-green: #075d3d;
+  --portal-deep: #034b35;
+  --portal-ink: #244438;
+  --portal-muted: #7c8781;
+  --portal-line: #e3eae3;
+  --portal-paper: #fff;
+  --portal-canvas: #f7f9f6;
+  --portal-tint: #edf4eb;
+  --portal-shadow: 0 7px 24px #25412e0a;
+  --portal-radius: 16px;
+  --green: #08613d;
+  --deep: #004b36;
 }
 
-/* search/reset buttons */
-.sbtns{display:flex;gap:14px}
-.btn-search{
-  flex:1;background:#1B5E35;color:#fff;border:none;border-radius:8px;
-  padding:13px 20px;font-family:var(--urdu);font-size:15px;font-weight:600;
-  display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;direction:rtl;
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Base (matches .pulse-search) ── */
+body {
+  min-height: 100vh;
+  background: rgb(250, 251, 249);
+  color: rgb(101, 108, 106);
+  font-family: Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  direction: ltr;
 }
-.btn-search:hover{background:#1F7A3E}
-.btn-reset{
-  flex:1;background:#fff;color:var(--fg2);border:1.5px solid #ccc;border-radius:8px;
-  padding:12px 20px;font-family:var(--urdu);font-size:15px;
-  display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;direction:rtl;
+
+/* Urdu font family — substituting PulseUrdu/PortalUrdu with Noto Nastaliq Urdu */
+.urdu,
+.search-main,
+.portal-nav a,
+.portal-account-label,
+.portal-account-menu,
+.portal-account-avatar,
+.portal-help-button span,
+.search-hero h1,
+.search-hero p,
+.search-field label,
+.field-control .form-control,
+.search-actions button,
+.results-heading h2,
+.result-count,
+.empty-results h3,
+.empty-results p,
+#searchTable,
+.fard-panel-header h3,
+.fard-info-item,
+.fard-section-title,
+.owner-table,
+.fard-panel-footer button {
+  font-family: 'Noto Nastaliq Urdu', serif;
 }
-.btn-reset:hover{background:#f8f8f8}
 
-/* ══ RESULTS ══ */
-.results-wrap{
-  margin:0 max(20px,env(safe-area-inset-right,0px)) 24px max(20px,env(safe-area-inset-left,0px));
-  background:#fff;border-radius:16px;
-  box-shadow:0 2px 12px rgba(0,0,0,.06);overflow:hidden;
+/* ── SVG Portal Icon (exact from live site) ── */
+.portal-icon {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: middle;
+  flex-shrink: 0;
 }
-.results-hdr{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:16px 20px;border-bottom:1px solid var(--border);
+
+/* ══════════════════════════════════════════
+   HEADER — pulse-header (exact from live)
+   ══════════════════════════════════════════ */
+.pulse-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  min-height: 108px;
+  padding: 15px 34px;
+  max-width: 1660px;
+  margin: auto;
+  direction: ltr;
+  position: relative;
+  z-index: 20;
+  background: var(--portal-canvas);
 }
-.rh-left{display:flex;align-items:center;gap:10px}
-.rh-icon{width:34px;height:34px;border-radius:8px;background:#EBF2EB;
-  display:flex;align-items:center;justify-content:center;color:#2D7A3A;font-size:16px}
-.rh-title{font-family:var(--urdu);font-size:15px;font-weight:600;color:var(--fg)}
-.rh-count{border:1.5px solid var(--border);border-radius:8px;padding:5px 14px;
-  font-family:var(--urdu);font-size:13px;color:var(--fg2)}
 
-/* 5-column table header matching real site */
-.rtbl-hdr{
-  display:grid;grid-template-columns:1fr 1fr 1fr 1.2fr 1fr;
-  background:#1B5E35;padding:12px 20px;gap:4px;
+/* ── Brand ── */
+.portal-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  color: rgb(22, 98, 63);
+  text-decoration: none;
 }
-.rth{font-family:var(--urdu);font-size:13px;color:#fff;
-  display:flex;align-items:center;gap:5px;justify-content:center}
-.rth:last-child{justify-content:flex-start}
-.rth:first-child{justify-content:flex-end}
-
-/* result rows */
-.rtbl-row{
-  display:grid;grid-template-columns:1fr 1fr 1fr 1.2fr 1fr;
-  padding:14px 20px;gap:4px;
-  border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s;align-items:center;
+.portal-brand-mark {
+  width: 82px;
+  height: 78px;
+  display: block;
+  /* CSS fallback for sprite-based logo */
+  background: linear-gradient(135deg, #075d3d 0%, #0a7a50 40%, #04472e 100%);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  mix-blend-mode: multiply;
 }
-.rtbl-row:hover{background:#F5FAF5}
-.rtd{font-family:var(--urdu);font-size:13px;color:var(--fg);text-align:center}
-.rtd.eng{font-family:var(--sans);font-size:12px;direction:ltr}
-.rtd.right{text-align:right}
-.rtd.left{text-align:left}
+.portal-brand-mark::before {
+  content: "P";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font: 700 42px "Segoe UI", Arial, sans-serif;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: -1px;
+}
+.portal-brand-mark::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 22px;
+  background: repeating-linear-gradient(90deg,
+    transparent, transparent 6px,
+    rgba(255,255,255,0.12) 6px, rgba(255,255,255,0.12) 8px);
+}
+.portal-brand strong {
+  font: 700 25px "Segoe UI", Arial, sans-serif;
+  display: block;
+  letter-spacing: 0.3px;
+}
+.portal-brand small {
+  font: 16px 'Noto Nastaliq Urdu', serif;
+  display: block;
+  color: rgb(51, 72, 59);
+}
 
-/* empty state */
-.rtbl-empty{position:relative;overflow:hidden;min-height:260px;
-  display:flex;align-items:center;justify-content:center;padding:40px 20px}
-.leaf-deco{position:absolute;right:0;bottom:0;opacity:.6}
-.dots-deco{position:absolute;top:20px;left:30px;opacity:.2}
-.empty-inner{text-align:center;position:relative;z-index:2}
-.empty-illo{margin:0 auto 16px;display:flex;justify-content:center}
-.empty-txt{font-family:var(--urdu);font-size:17px;font-weight:600;color:var(--fg);margin-bottom:6px}
-.empty-sub{font-family:var(--urdu);font-size:13px;color:var(--fg3)}
+/* ── Navigation (pill style — exact from .portal-ui .portal-nav) ── */
+.portal-nav {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  direction: rtl;
+  font-size: 17px;
+  background: rgb(240, 245, 241);
+  padding: 6px;
+  border: 1px solid rgb(226, 235, 227);
+  border-radius: 14px;
+}
+.portal-nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 9px 19px;
+  border-radius: 10px;
+  font-size: 18px;
+  line-height: 2;
+  color: var(--portal-ink);
+  text-decoration: none;
+  position: relative;
+  transition: background 0.2s;
+}
+.portal-nav a[aria-current="page"] {
+  background: rgb(7, 93, 61);
+  color: rgb(255, 255, 255);
+  box-shadow: rgba(7, 93, 61, 0.125) 0px 3px 8px;
+}
+.portal-nav a:not([aria-current]):hover {
+  background: rgba(7, 93, 61, 0.08);
+}
 
-/* ══ FOOTER ══ */
-.footer{margin-top:auto;padding:18px max(20px,env(safe-area-inset-right,0px));
-  text-align:center;font-family:var(--sans);font-size:12px;color:#888;
-  display:flex;justify-content:space-between;align-items:center;
-  border-top:1px solid var(--border);background:#fff}
-.footer-heart{color:#e05}
+/* ── Header Actions ── */
+.portal-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.portal-help-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--portal-line);
+  background: var(--portal-paper);
+  color: var(--portal-ink);
+  cursor: pointer;
+  font: 15px 'Noto Nastaliq Urdu', serif;
+}
+.portal-help-button:hover { background: var(--portal-tint); }
 
-/* ══ FARD MODAL ══ */
-.mo{position:fixed;inset:0;background:rgba(0,0,0,.55);
-  display:none;align-items:center;justify-content:center;z-index:200;
-  padding:16px max(16px,env(safe-area-inset-right,0px))}
-.mo.open{display:flex}
-.mo-box{background:#fff;border-radius:16px;width:100%;max-width:800px;max-height:90vh;
-  display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)}
-.mo-hdr{background:#1B5E35;color:#fff;padding:16px 20px;
-  display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.mo-title{font-family:var(--urdu);font-size:15px;font-weight:600;direction:rtl}
-.mo-close{background:rgba(255,255,255,.2);border:none;color:#fff;width:30px;height:30px;
-  border-radius:6px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
-.mo-body{flex:1;overflow-y:auto;padding:20px}
-.mo-meta{display:flex;justify-content:space-between;align-items:flex-start;
-  margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border);gap:12px}
-.mo-id{font-family:var(--sans);font-size:11px;color:var(--fg3);direction:ltr}
-.mo-khata{font-family:var(--urdu);font-size:14px;font-weight:600;color:var(--fg)}
-.mo-loc{font-family:var(--urdu);font-size:12px;color:var(--fg2)}
-.mo-total{text-align:left;flex-shrink:0}
-.mo-total-lbl{font-family:var(--urdu);font-size:11px;color:var(--fg3)}
-.mo-total-val{font-family:var(--sans);font-size:16px;font-weight:700;color:#1B5E35}
-.mo-total-sub{font-family:var(--sans);font-size:11px;color:var(--fg3)}
-.fard-tbl{width:100%;border-collapse:collapse;direction:rtl}
-.fard-tbl th{background:#1B5E35;color:#fff;padding:10px 12px;
-  font-family:var(--urdu);font-size:12px;font-weight:600;text-align:right}
-.fard-tbl td{padding:10px 12px;border-bottom:1px solid #EEF4EE;
-  font-family:var(--urdu);font-size:13px;text-align:right;vertical-align:middle}
-.fard-tbl tr.pet td{background:#FFF8E1}
-.fard-tbl tr:hover td{background:#F5FAF5}
-.mo-footer{padding:14px 20px;border-top:1px solid var(--border);
-  display:flex;gap:10px;flex-shrink:0}
-.cl-btn{background:#fff;color:var(--fg2);border:1.5px solid #ccc;
-  border-radius:8px;padding:10px 20px;font-family:var(--urdu);font-size:14px;cursor:pointer}
-.dl-btn{background:#1B5E35;color:#fff;border:none;
-  border-radius:8px;padding:10px 20px;font-family:var(--urdu);font-size:14px;cursor:pointer;
-  display:flex;align-items:center;gap:6px}
-.dl-btn:hover{background:#1F7A3E}
+/* ── Account ── */
+.portal-account { position: relative; }
+.portal-account-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 12px;
+}
+.portal-account-button:hover { background: rgba(7, 93, 61, 0.06); }
+.portal-account-avatar {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgb(11, 107, 73);
+  color: white;
+  font: 700 18px 'Noto Nastaliq Urdu', serif;
+}
+.portal-account-label {
+  font: 17px 'Noto Nastaliq Urdu', serif;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--portal-ink);
+}
 
-@media(max-width:700px){
-  .sf-grid{grid-template-columns:1fr}
-  .hero-txt{padding:0 20px}
-  .hero-illo,.hero-fort{display:none}
-  .rtbl-hdr,.rtbl-row{grid-template-columns:1fr 1fr 1fr}
-  .rth:nth-child(4),.rth:nth-child(5),.rtd:nth-child(4),.rtd:nth-child(5){display:none}
-  .nav-center{position:static;transform:none}
+/* ── Account Dropdown ── */
+.portal-account-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 230px;
+  padding: 8px;
+  background: white;
+  border: 1px solid var(--portal-line);
+  border-radius: 14px;
+  box-shadow: rgba(34, 72, 51, 0.125) 0px 12px 35px;
+  direction: rtl;
+  z-index: 100;
+}
+.portal-account-menu[hidden] { display: none; }
+.portal-account-hello {
+  font: 14px 'Noto Nastaliq Urdu', serif;
+  color: var(--portal-muted);
+  padding: 8px 12px 2px;
+}
+.portal-account-name {
+  display: block;
+  font: 700 16px 'Noto Nastaliq Urdu', serif;
+  color: var(--portal-ink);
+  padding: 0 12px 10px;
+  border-bottom: 1px solid var(--portal-line);
+  margin-bottom: 4px;
+}
+.portal-account-menu a,
+.portal-account-menu button {
+  display: block;
+  width: 100%;
+  text-align: right;
+  padding: 10px 12px;
+  border: none;
+  background: none;
+  font: 15px 'Noto Nastaliq Urdu', serif;
+  color: var(--portal-ink);
+  cursor: pointer;
+  border-radius: 8px;
+  text-decoration: none;
+}
+.portal-account-menu a:hover,
+.portal-account-menu button:hover {
+  background: var(--portal-tint);
+}
+
+/* ══════════════════════════════════════════
+   SEARCH MAIN (exact from live)
+   ══════════════════════════════════════════ */
+.search-main {
+  margin: 0px 26px;
+  padding: 0px 24px 14px;
+  border-radius: 0px 0px 16px 16px;
+  background: linear-gradient(120deg, rgb(251, 252, 250), rgb(247, 248, 246));
+  position: relative;
+}
+
+/* ── Hero Section ── */
+.search-hero {
+  height: 167px;
+  margin: 0px -24px;
+  position: relative;
+  border-radius: 15px;
+  background: radial-gradient(at 95% 45%, rgb(39, 124, 89), transparent 40%),
+              linear-gradient(110deg, rgb(0, 60, 48), rgb(5, 86, 62));
+  box-shadow: rgba(23, 61, 34, 0.063) 0px 4px 15px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  color: rgb(255, 255, 255);
+  isolation: isolate;
+  overflow: hidden;
+}
+.search-hero > div {
+  position: relative;
+  z-index: 2;
+  padding-top: 27px;
+}
+.search-hero h1 {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.7;
+  margin: 0;
+}
+.search-hero p {
+  font-size: 22px;
+  margin: 0;
+  line-height: 1.8;
+  color: rgb(240, 244, 233);
+}
+
+/* Dot pattern (exact) */
+.search-hero::before {
+  content: "";
+  position: absolute;
+  top: 25px;
+  left: 18px;
+  width: 75px;
+  height: 83px;
+  background: radial-gradient(circle, rgb(174, 202, 179) 1.5px, transparent 2px) 0px 0px / 17px 17px;
+  opacity: 0.6;
+}
+
+/* Fort silhouette (CSS fallback for sprite) */
+.hero-fort {
+  position: absolute;
+  right: 3px;
+  top: 0px;
+  width: 390px;
+  height: 135px;
+  border-radius: 0px 15px 0px 0px;
+  mask-image: linear-gradient(90deg, transparent, rgb(0, 0, 0) 25%);
+  -webkit-mask-image: linear-gradient(90deg, transparent, rgb(0, 0, 0) 25%);
+  overflow: hidden;
+  opacity: 0.18;
+}
+.hero-fort::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(255,255,255,0.5), rgba(255,255,255,0.1) 70%, transparent);
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 390 135'%3E%3Cpath d='M30 135V75l12-8V48l-6-4V30h-4V20h5V12h-5V4h5l2 7h4l2-7h5V12h-5v8h5v14h-4v4l-6 8v19l12 8v60zM100 135V80l10-7V55l-5-3V38h-3V28h4V20h-4V12h4l1.5 7h4l1.5-7h4V20h-4v8h4v14h-3v3l-5 7v18l10 7v55zM170 135V75l12-8V48l-6-4V30h-4V20h5V12h-5V4h5l2 7h4l2-7h5V12h-5v8h5v14h-4v4l-6 8v19l12 8v60zM240 135V80l10-7V55l-5-3V38h-3V28h4V20h-4V12h4l1.5 7h4l1.5-7h4V20h-4v8h4v14h-3v3l-5 7v18l10 7v55zM310 135V75l12-8V48l-6-4V30h-4V20h5V12h-5V4h5l2 7h4l2-7h5V12h-5v8h5v14h-4v4l-6 8v19l12 8v60z' fill='white'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 390 135'%3E%3Cpath d='M30 135V75l12-8V48l-6-4V30h-4V20h5V12h-5V4h5l2 7h4l2-7h5V12h-5v8h5v14h-4v4l-6 8v19l12 8v60zM100 135V80l10-7V55l-5-3V38h-3V28h4V20h-4V12h4l1.5 7h4l1.5-7h4V20h-4v8h4v14h-3v3l-5 7v18l10 7v55zM170 135V75l12-8V48l-6-4V30h-4V20h5V12h-5V4h5l2 7h4l2-7h5V12h-5v8h5v14h-4v4l-6 8v19l12 8v60zM240 135V80l10-7V55l-5-3V38h-3V28h4V20h-4V12h4l1.5 7h4l1.5-7h4V20h-4v8h4v14h-3v3l-5 7v18l10 7v55zM310 135V75l12-8V48l-6-4V30h-4V20h5V12h-5V4h5l2 7h4l2-7h5V12h-5v8h5v14h-4v4l-6 8v19l12 8v60z' fill='white'/%3E%3C/svg%3E");
+  mask-size: cover;
+  -webkit-mask-size: cover;
+}
+
+/* Documents artwork (CSS fallback) */
+.hero-documents {
+  position: absolute;
+  left: 120px;
+  top: 17px;
+  width: 238px;
+  height: 136px;
+  mask-image: linear-gradient(90deg, transparent, rgb(0, 0, 0) 20%, rgb(0, 0, 0) 80%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, rgb(0, 0, 0) 20%, rgb(0, 0, 0) 80%, transparent);
+  z-index: 3;
+  opacity: 0.15;
+  pointer-events: none;
+}
+.hero-documents::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.15));
+  border-radius: 8px;
+}
+
+/* ── Search Card (exact) ── */
+.search-card {
+  position: relative;
+  z-index: 2;
+  margin-top: -33px;
+  padding: 27px 46px 24px;
+  background: rgb(255, 255, 255);
+  border: 1px solid rgb(233, 234, 231);
+  border-radius: 15px;
+  box-shadow: rgba(35, 62, 38, 0.063) 0px 7px 18px;
+}
+
+/* ── Search Fields Grid (exact) ── */
+.search-fields {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0px, 1fr));
+  gap: 24px 38px;
+}
+.search-field label {
+  display: block;
+  text-align: right;
+  font-size: 16px;
+  line-height: 29px;
+  margin: 0px 6px 8px;
+  color: rgb(115, 120, 117);
+}
+.field-control {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 0px;
+  height: 49px;
+  border: 1px solid rgb(226, 229, 224);
+  border-radius: 11px;
+  background: rgb(255, 255, 255);
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.field-control:focus-within {
+  border-color: rgb(67, 133, 104);
+  box-shadow: rgba(50, 120, 85, 0.086) 0px 0px 0px 3px;
+}
+.field-control > .ui-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 53px;
+  align-self: stretch;
+  color: rgb(48, 119, 80);
+  font-size: 22px;
+  background: radial-gradient(rgb(232, 240, 228), rgb(245, 248, 242));
+  border-left: 1px solid rgb(238, 240, 235);
+}
+.field-control .form-control {
+  width: 100%;
+  height: 47px;
+  min-width: 0px;
+  border-radius: 0px;
+  background-color: transparent;
+  color: rgb(116, 124, 119);
+  text-align: right;
+  font-size: 16px;
+  padding: 0px 19px;
+  line-height: 45px;
+  border: 0px;
+  box-shadow: none;
+  outline: none;
+}
+.field-control select.form-control {
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='m1 1 5 5 5-5' fill='none' stroke='%232e7055' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 18px center;
+  padding-left: 40px;
+}
+
+/* ── Search Actions (exact) ── */
+.search-actions {
+  display: flex;
+  direction: ltr;
+  gap: 18px;
+  margin-top: 26px;
+  justify-content: flex-start;
+}
+.search-actions button {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row-reverse;
+  gap: 19px;
+  width: 253px;
+  border-radius: 11px;
+  border: 1px solid rgb(18, 100, 66);
+  background: linear-gradient(110deg, rgb(8, 96, 59), rgb(7, 88, 53));
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  font-size: 20px;
+  transition: opacity 0.2s;
+}
+.search-actions button:hover { opacity: 0.9; }
+.search-actions .reset-button {
+  width: 239px;
+  background: rgb(255, 255, 255);
+  color: rgb(33, 108, 74);
+  border-color: #c5d6c9;
+}
+.search-actions .reset-button:hover {
+  background: var(--portal-tint);
+}
+
+/* ══════════════════════════════════════════
+   RESULTS CARD (exact from live)
+   ══════════════════════════════════════════ */
+.results-card {
+  position: relative;
+  margin-top: 22px;
+  padding: 16px 24px 0px;
+  border: 1px solid rgb(232, 234, 230);
+  border-radius: 15px;
+  background: rgb(255, 255, 255);
+  box-shadow: rgba(35, 62, 38, 0.047) 0px 5px 15px;
+  min-height: 354px;
+}
+
+/* Results decoration (CSS fallback for sprite) */
+.results-card::before {
+  content: "";
+  position: absolute;
+  left: -25px;
+  bottom: -12px;
+  width: 135px;
+  height: 190px;
+  mix-blend-mode: multiply;
+  opacity: 0.06;
+  background: radial-gradient(ellipse at center, #075d3d, transparent 70%);
+  pointer-events: none;
+}
+
+.results-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0px 0px 15px;
+  min-height: 56px;
+}
+.results-heading h2 {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0;
+  color: rgb(7, 83, 55);
+  font: 700 24px 'Noto Nastaliq Urdu', serif;
+}
+.results-heading h2 > span {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(130deg, rgb(237, 245, 233), rgb(220, 234, 217));
+  font-size: 26px;
+  color: rgb(33, 114, 73);
+}
+.result-count {
+  font: 16px 'Noto Nastaliq Urdu', serif;
+  color: var(--portal-muted);
+}
+.result-count strong {
+  color: var(--portal-green);
+  font-weight: 700;
+}
+
+/* ── Data Table (exact) ── */
+.results-table-wrap { overflow-x: auto; }
+#searchTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0px;
+  table-layout: fixed;
+  color: rgb(88, 103, 94);
+  font-size: 19px;
+}
+#searchTable thead {
+  background: linear-gradient(100deg, rgb(0, 80, 57), rgb(0, 67, 47));
+  color: rgb(255, 255, 255);
+}
+#searchTable th {
+  position: relative;
+  height: 55px;
+  padding: 10px 15px;
+  text-align: center;
+  white-space: nowrap;
+  border: 0px;
+  font-size: 18px;
+  font-weight: 400;
+}
+#searchTable th:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 0px;
+  top: 17px;
+  height: 22px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.208);
+}
+#searchTable th:first-child { border-radius: 0 10px 0 0; }
+#searchTable th:last-child { border-radius: 10px 0 0 0; }
+#searchTable td {
+  padding: 12px 15px;
+  text-align: center;
+  border-bottom: 1px solid #eef0ec;
+  line-height: 1.9;
+}
+#searchTable tbody tr:hover { background: #f8faf7; }
+#searchTable tbody tr:last-child td { border-bottom: 0; }
+
+/* View link in table */
+.view-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--portal-green);
+  text-decoration: none;
+  font-weight: 700;
+  cursor: pointer;
+}
+.view-link:hover { text-decoration: underline; }
+
+/* ── Empty Results (exact) ── */
+.empty-results {
+  text-align: center;
+  padding: 20px 10px 14px;
+  min-height: 207px;
+}
+.empty-art {
+  display: block;
+  margin: 0px auto 7px;
+  width: 182px;
+  height: 104px;
+  /* CSS fallback for sprite artwork */
+  background: linear-gradient(135deg, #d4e7d0, #e8f0e5, #c7dcc3);
+  border-radius: 16px;
+  mix-blend-mode: multiply;
+  position: relative;
+  overflow: hidden;
+}
+.empty-art::before {
+  content: "📄";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 44px;
+  opacity: 0.35;
+}
+.empty-results h3 {
+  font: 400 21px / 1.7 'Noto Nastaliq Urdu', serif;
+  color: rgb(78, 87, 87);
+}
+.empty-results p {
+  font-size: 18px;
+  color: rgb(146, 151, 149);
+  line-height: 1.7;
+}
+
+/* ══════════════════════════════════════════
+   FARD MODAL
+   ══════════════════════════════════════════ */
+.fard-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 1000;
+  place-items: center;
+  backdrop-filter: blur(3px);
+}
+.fard-overlay.active { display: grid; }
+.fard-panel {
+  width: 95%;
+  max-width: 780px;
+  max-height: 90vh;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.fard-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 28px;
+  direction: rtl;
+  background: linear-gradient(110deg, rgb(0, 60, 48), rgb(5, 86, 62));
+  color: #fff;
+}
+.fard-panel-header h3 {
+  font: 700 22px 'Noto Nastaliq Urdu', serif;
+  margin: 0;
+}
+.fard-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.fard-close:hover { background: rgba(255,255,255,0.2); }
+
+.fard-body {
+  padding: 24px 28px;
+  overflow-y: auto;
+  direction: rtl;
+  flex: 1;
+}
+.fard-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 28px;
+  margin-bottom: 20px;
+}
+.fard-info-item label {
+  display: block;
+  font-size: 14px;
+  color: var(--portal-muted);
+  margin-bottom: 3px;
+}
+.fard-info-item span {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--portal-ink);
+}
+.fard-section-title {
+  font: 700 20px 'Noto Nastaliq Urdu', serif;
+  color: rgb(7, 83, 55);
+  margin: 18px 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--portal-tint);
+}
+
+/* Owner table inside Fard */
+.owner-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+.owner-table thead {
+  background: linear-gradient(100deg, rgb(0, 80, 57), rgb(0, 67, 47));
+  color: #fff;
+}
+.owner-table th {
+  padding: 10px 12px;
+  text-align: center;
+  font-weight: 400;
+  font-size: 15px;
+  white-space: nowrap;
+}
+.owner-table th:first-child { border-radius: 0 8px 0 0; }
+.owner-table th:last-child { border-radius: 8px 0 0 0; }
+.owner-table td {
+  padding: 10px 12px;
+  text-align: center;
+  border-bottom: 1px solid #eef0ec;
+  line-height: 1.8;
+}
+.owner-table tbody tr:hover { background: #f8faf7; }
+.owner-table .pet-row { background: #fffde7; }
+.owner-table .pet-row td {
+  font-weight: 700;
+  border-bottom-color: #e8e2a0;
+}
+.pet-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  background: #d32f2f;
+  color: #fff;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: Arial, sans-serif;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.fard-panel-footer {
+  padding: 14px 28px;
+  direction: rtl;
+  border-top: 1px solid var(--portal-line);
+  display: flex;
+  gap: 12px;
+  justify-content: flex-start;
+}
+.fard-panel-footer button {
+  padding: 10px 28px;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid rgb(18, 100, 66);
+  background: linear-gradient(110deg, rgb(8, 96, 59), rgb(7, 88, 53));
+  color: #fff;
+}
+.fard-panel-footer button:hover { opacity: 0.9; }
+.fard-panel-footer .btn-outline {
+  background: #fff;
+  color: rgb(33, 108, 74);
+  border-color: #c5d6c9;
+}
+.fard-panel-footer .btn-outline:hover { background: var(--portal-tint); }
+
+/* ── Footer (exact) ── */
+.pulse-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 21px 40px 14px;
+  font: 12px Arial, sans-serif;
+  color: rgb(113, 119, 120);
+  direction: ltr;
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE (exact breakpoints from live)
+   ══════════════════════════════════════════ */
+@media (min-width: 1700px) {
+  .search-main { max-width: 1600px; margin-inline: auto; }
+}
+@media (max-width: 1050px) {
+  .hero-documents { left: 20px; opacity: 0.1; }
+  .hero-fort { width: 270px; opacity: 0.12; }
+  .search-card { padding-inline: 25px; }
+  .search-fields { column-gap: 22px; }
+}
+@media (max-width: 700px) {
+  .search-main { margin: 0px 10px; padding: 0px 12px 12px; }
+  .pulse-header { padding: 12px 16px; gap: 12px; min-height: 80px; flex-wrap: wrap; }
+  .portal-nav { font-size: 15px; }
+  .portal-nav a { padding: 7px 14px; font-size: 16px; }
+  .portal-account-label { display: none; }
+  .search-hero { height: 158px; }
+  .search-hero h1 { font-size: 27px; }
+  .search-fields { grid-template-columns: 1fr; gap: 15px; }
+  .search-actions button,
+  .search-actions .reset-button { width: 50%; font-size: 18px; }
+  .hero-documents { display: none; }
+  .hero-fort { opacity: 0; }
+  .fard-info-grid { grid-template-columns: 1fr; }
+  .fard-panel { max-width: 98%; }
+  .pulse-footer { flex-direction: column; text-align: center; padding: 14px 16px; }
 }
 </style>
+</head>
+<body>
 
-<!-- ══ NAVBAR ══ -->
-<nav class="nav">
-  <!-- Brand RIGHT (RTL) -->
-  <a class="nav-brand" href="#">
-    <svg class="nav-emblem" viewBox="0 0 100 100" fill="none">
-      <circle cx="50" cy="50" r="48" fill="#1B5E35" stroke="#2D8A4E" stroke-width="1.5"/>
-      <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
-      <line x1="50" y1="72" x2="50" y2="38" stroke="#C8A045" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="44" y1="68" x2="44" y2="40" stroke="#C8A045" stroke-width="2" stroke-linecap="round"/>
-      <line x1="56" y1="68" x2="56" y2="40" stroke="#C8A045" stroke-width="2" stroke-linecap="round"/>
-      <ellipse cx="50" cy="36" rx="4" ry="7" fill="#C8A045" opacity=".9"/>
-      <ellipse cx="44" cy="38" rx="3" ry="5.5" fill="#C8A045" opacity=".8" transform="rotate(-10 44 38)"/>
-      <ellipse cx="56" cy="38" rx="3" ry="5.5" fill="#C8A045" opacity=".8" transform="rotate(10 56 38)"/>
-      <path d="M50 55 L38 60 L38 72 Q38 80 50 85 Q62 80 62 72 L62 60 Z" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5"/>
-      <text x="50" y="93" text-anchor="middle" fill="white" font-size="8" font-family="Arial,sans-serif" font-weight="700" letter-spacing="1">PLRA</text>
-    </svg>
-    <div class="nav-txt">
-      <span class="nav-pulse">PULSE</span>
-      <span class="nav-sub">پنجاب لینڈر ریکارڈ اتھارٹی</span>
-    </div>
+<!-- ════════════════════════════════════════════════════════
+     HEADER (pulse-header)
+     ════════════════════════════════════════════════════════ -->
+<header class="pulse-header">
+  <a class="portal-brand" href="#" aria-label="PULSE home">
+    <span class="portal-brand-mark" aria-hidden="true"></span>
+    <span>
+      <strong>PULSE</strong>
+      <small lang="ur">پنجاب لینڈ ریکارڈ اتھارٹی</small>
+    </span>
   </a>
 
-  <!-- Center pill -->
-  <div class="nav-center">
-    <button class="nav-search-pill">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.5" stroke="white" stroke-width="1.5"/><line x1="10.5" y1="10.5" x2="14.5" y2="14.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+  <nav class="portal-nav" aria-label="مرکزی نیویگیشن" dir="rtl">
+    <a href="#" aria-current="page">
+      <svg class="portal-icon"><use href="images/search-icons.svg#search"></use></svg>
       تلاش کریں
+    </a>
+    <a href="#">
+      <svg class="portal-icon"><use href="images/search-icons.svg#file-alt"></use></svg>
+      میرے چالان
+    </a>
+  </nav>
+
+  <div class="portal-header-actions">
+    <button type="button" class="portal-help-button">
+      <svg class="portal-icon"><use href="images/search-icons.svg#file-alt"></use></svg>
+      <span>رہنمائی</span>
     </button>
-  </div>
-
-  <!-- Left side: رہنمائی + user -->
-  <div class="nav-left">
-    <div class="nav-guide">
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 2h8l3 3v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z" stroke="#555" stroke-width="1.4"/><path d="M13 2v3h3" stroke="#555" stroke-width="1.4"/></svg>
-      رہنمائی
-    </div>
-    <div class="nav-user">
-      <div class="nav-avatar">M</div>
-      <span class="nav-username">Muhammadusmanzulfi...</span>
-      <span class="nav-chev">▾</span>
-    </div>
-  </div>
-</nav>
-
-<!-- ══ HERO ══ -->
-<div class="hero">
-  <!-- dot grid top-right -->
-  <div class="hero-dots">
-    <svg width="80" height="60" viewBox="0 0 80 60">
-      <circle cx="10" cy="10" r="2" fill="rgba(255,255,255,.4)"/><circle cx="26" cy="10" r="2" fill="rgba(255,255,255,.4)"/><circle cx="42" cy="10" r="2" fill="rgba(255,255,255,.4)"/><circle cx="58" cy="10" r="2" fill="rgba(255,255,255,.4)"/>
-      <circle cx="10" cy="26" r="2" fill="rgba(255,255,255,.4)"/><circle cx="26" cy="26" r="2" fill="rgba(255,255,255,.4)"/><circle cx="42" cy="26" r="2" fill="rgba(255,255,255,.4)"/><circle cx="58" cy="26" r="2" fill="rgba(255,255,255,.4)"/>
-      <circle cx="10" cy="42" r="2" fill="rgba(255,255,255,.4)"/><circle cx="26" cy="42" r="2" fill="rgba(255,255,255,.4)"/><circle cx="42" cy="42" r="2" fill="rgba(255,255,255,.4)"/><circle cx="58" cy="42" r="2" fill="rgba(255,255,255,.4)"/>
-    </svg>
-  </div>
-
-  <!-- folder+magnifier illustration LEFT -->
-  <div class="hero-illo">
-    <svg width="155" height="150" viewBox="0 0 155 150" fill="none">
-      <!-- folder body -->
-      <rect x="10" y="55" width="100" height="75" rx="6" fill="#2A7A40" opacity=".8"/>
-      <rect x="10" y="45" width="50" height="20" rx="4" fill="#2A7A40" opacity=".6"/>
-      <!-- document pages -->
-      <rect x="28" y="40" width="60" height="78" rx="3" fill="rgba(255,255,255,.85)"/>
-      <rect x="34" y="50" width="40" height="4" rx="2" fill="#C8E6C8" opacity=".9"/>
-      <rect x="34" y="58" width="34" height="3" rx="1.5" fill="#C8E6C8" opacity=".7"/>
-      <rect x="34" y="65" width="38" height="3" rx="1.5" fill="#C8E6C8" opacity=".7"/>
-      <rect x="34" y="72" width="28" height="3" rx="1.5" fill="#C8E6C8" opacity=".5"/>
-      <!-- magnifier -->
-      <circle cx="102" cy="82" r="28" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.4)" stroke-width="2"/>
-      <circle cx="102" cy="82" r="20" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
-      <line x1="118" y1="98" x2="134" y2="115" stroke="rgba(255,255,255,.6)" stroke-width="5" stroke-linecap="round"/>
-    </svg>
-  </div>
-
-  <!-- fort silhouette RIGHT -->
-  <div class="hero-fort">
-    <svg width="250" height="200" viewBox="0 0 250 200" fill="none">
-      <rect x="15" y="120" width="220" height="80" fill="rgba(255,255,255,.1)"/>
-      <path d="M90 120 L90 75 Q90 52 125 52 Q160 52 160 75 L160 120 Z" fill="rgba(255,255,255,.12)"/>
-      <path d="M105 120 L105 85 Q105 68 125 68 Q145 68 145 85 L145 120 Z" fill="rgba(0,0,0,.18)"/>
-      <rect x="18" y="82" width="44" height="38" fill="rgba(255,255,255,.1)"/>
-      <rect x="188" y="82" width="44" height="38" fill="rgba(255,255,255,.1)"/>
-      <path d="M18 82 L18 60 L40 55 L62 60 L62 82 Z" fill="rgba(255,255,255,.08)"/>
-      <path d="M188 82 L188 60 L210 55 L232 60 L232 82 Z" fill="rgba(255,255,255,.08)"/>
-      <rect x="94" y="64" width="7" height="11" fill="rgba(255,255,255,.1)"/>
-      <rect x="105" y="64" width="7" height="11" fill="rgba(255,255,255,.1)"/>
-      <rect x="138" y="64" width="7" height="11" fill="rgba(255,255,255,.1)"/>
-      <rect x="149" y="64" width="7" height="11" fill="rgba(255,255,255,.1)"/>
-      <!-- trees -->
-      <ellipse cx="195" cy="108" rx="12" ry="20" fill="rgba(255,255,255,.08)"/>
-      <ellipse cx="215" cy="112" rx="10" ry="16" fill="rgba(255,255,255,.07)"/>
-      <line x1="195" y1="128" x2="195" y2="118" stroke="rgba(255,255,255,.12)" stroke-width="3"/>
-      <line x1="215" y1="128" x2="215" y2="116" stroke="rgba(255,255,255,.12)" stroke-width="2.5"/>
-    </svg>
-  </div>
-
-  <!-- centered text -->
-  <div class="hero-txt">
-    <div class="hero-title">دستاویزات کی معلومات تلاش کریں</div>
-    <div class="hero-sub">درج ذیل معیار کی بنیاد پر ریکارڈ تلاش کریں</div>
-  </div>
-</div>
-
-<!-- ══ SEARCH CARD ══ -->
-<div class="search-wrap">
-  <div class="search-card">
-    <!-- ROW 1: ضلع | تحصیل | موضع -->
-    <div class="sf-grid">
-      <!-- ضلع -->
-      <div class="sf">
-        <div class="sf-label">ضلع — انتخاب کریں</div>
-        <div class="sf-row">
-          <div class="sf-ico">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="8" r="3.5" stroke="#2D7A3A" stroke-width="1.4"/><path d="M9 1C5.69 1 3 3.69 3 7c0 4.5 6 10 6 10s6-5.5 6-10c0-3.31-2.69-6-6-6z" stroke="#2D7A3A" stroke-width="1.4" fill="none"/></svg>
-          </div>
-          <select id="district" onchange="onDistrict()">
-            <option value="">ضلع منتخب کریں</option>
-          </select>
-          <div class="sf-chev">▾</div>
-        </div>
-      </div>
-      <!-- تحصیل -->
-      <div class="sf">
-        <div class="sf-label">تحصیل — انتخاب کریں</div>
-        <div class="sf-row">
-          <div class="sf-ico">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="4" width="14" height="11" rx="1.5" stroke="#2D7A3A" stroke-width="1.4"/><path d="M2 7h14" stroke="#2D7A3A" stroke-width="1.1"/><rect x="6" y="1" width="2" height="5" rx="1" fill="#2D7A3A"/><rect x="10" y="1" width="2" height="5" rx="1" fill="#2D7A3A"/></svg>
-          </div>
-          <select id="tehsil" onchange="onTehsil()" disabled>
-            <option value="">پہلے ضلع منتخب کریں</option>
-          </select>
-          <div class="sf-chev">▾</div>
-        </div>
-      </div>
-      <!-- موضع -->
-      <div class="sf">
-        <div class="sf-label">موضع — انتخاب کریں</div>
-        <div class="sf-row">
-          <div class="sf-ico">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="1" y="1" width="16" height="16" rx="2" stroke="#2D7A3A" stroke-width="1.4"/><path d="M1 7h16M7 1v16" stroke="#2D7A3A" stroke-width="1.1"/></svg>
-          </div>
-          <select id="mouza" disabled>
-            <option value="">پہلے تحصیل منتخب کریں</option>
-          </select>
-          <div class="sf-chev">▾</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ROW 2: شناختی کارڈ | رجسٹری نمبر | نام -->
-    <div class="sf-grid">
-      <!-- شناختی کارڈ -->
-      <div class="sf">
-        <div class="sf-label">شناختی کارڈ نمبر (بغیر ڈیش کے درج کریں)</div>
-        <div class="sf-row">
-          <div class="sf-ico">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="1" y="4" width="16" height="10" rx="2" stroke="#2D7A3A" stroke-width="1.4"/><circle cx="6" cy="9" r="2" stroke="#2D7A3A" stroke-width="1.1"/><line x1="10" y1="7.5" x2="15" y2="7.5" stroke="#2D7A3A" stroke-width="1"/><line x1="10" y1="10" x2="15" y2="10" stroke="#2D7A3A" stroke-width="1"/></svg>
-          </div>
-          <input type="text" id="cnic" placeholder="شناختی کارڈ نمبر درج کریں" inputmode="numeric">
-        </div>
-      </div>
-      <!-- رجسٹری نمبر -->
-      <div class="sf">
-        <div class="sf-label">رجسٹری نمبر</div>
-        <div class="sf-row">
-          <div class="sf-ico" style="font-family:var(--sans);font-size:17px;font-weight:700;color:#2D7A3A">#</div>
-          <input type="text" id="regno" placeholder="رجسٹری نمبر درج کریں">
-        </div>
-      </div>
-      <!-- نام -->
-      <div class="sf">
-        <div class="sf-label">نام (اردو/انگریزی میں درج کریں)</div>
-        <div class="sf-row">
-          <div class="sf-ico">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6.5" r="2.8" stroke="#2D7A3A" stroke-width="1.4"/><path d="M3 16c0-3.31 2.69-6 6-6s6 2.69 6 6" stroke="#2D7A3A" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>
-          </div>
-          <input type="text" id="nameinp" placeholder="نام درج کریں">
-        </div>
-      </div>
-    </div>
-
-    <div class="sbtns">
-      <button class="btn-search" onclick="doSearch()">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.5" stroke="white" stroke-width="1.5"/><line x1="10.5" y1="10.5" x2="14.5" y2="14.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
-        تلاش کریں
+    <div class="portal-account">
+      <button type="button" class="portal-account-button" onclick="toggleMenu()">
+        <span class="portal-account-avatar">M</span>
+        <span class="portal-account-label">Muhammadusman</span>
       </button>
-      <button class="btn-reset" onclick="resetSearch()">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 8A5 5 0 1 1 8 3h4M12 1v4h-4" stroke="#666" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        دوبارہ انتخاب کریں
-      </button>
+      <div class="portal-account-menu" id="accountMenu" hidden>
+        <p class="portal-account-hello">خوش آمدید</p>
+        <strong class="portal-account-name">Muhammadusman</strong>
+        <a href="#">میرے چالان</a>
+        <button type="button">پروفائل کی تفصیلات</button>
+        <button type="button">سائن آوٹ کریں</button>
+      </div>
     </div>
   </div>
-</div>
+</header>
 
-<!-- ══ RESULTS ══ -->
-<div class="results-wrap">
-  <div class="results-hdr">
-    <div class="rh-left">
-      <div class="rh-icon">
-        <svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M4 2h6l4 4v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z" stroke="#2D7A3A" stroke-width="1.4"/><path d="M10 2v4h4" stroke="#2D7A3A" stroke-width="1.4"/></svg>
-      </div>
-      <div class="rh-title">ریکارڈ کی تفصیلات</div>
+<!-- ════════════════════════════════════════════════════════
+     MAIN SEARCH AREA
+     ════════════════════════════════════════════════════════ -->
+<main class="search-main">
+  <!-- Hero Banner -->
+  <section class="search-hero" aria-labelledby="search-title">
+    <div dir="rtl">
+      <h1 id="search-title">دستاویزات کی معلومات تلاش کریں</h1>
+      <p>درج ذیل معیار کی بنیاد پر ریکارڈ تلاش کریں</p>
     </div>
-    <div class="rh-count">کل نتائج: <span id="resCount">0</span></div>
-  </div>
+    <span class="hero-fort" aria-hidden="true"></span>
+  </section>
+  <span class="hero-documents" aria-hidden="true"></span>
 
-  <!-- 5-column header matching real site -->
-  <div class="rtbl-hdr">
-    <div class="rth" style="justify-content:flex-end">
-      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="5" r="2.2" stroke="rgba(255,255,255,.85)" stroke-width="1.1"/><path d="M2 12c0-2.49 2.01-4.5 4.5-4.5S11 9.51 11 12" stroke="rgba(255,255,255,.85)" stroke-width="1.1" fill="none" stroke-linecap="round"/></svg>
-      تحصیل کا نام
-    </div>
-    <div class="rth">
-      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="1.5" width="10" height="10" rx="1.2" stroke="rgba(255,255,255,.85)" stroke-width="1.1"/><line x1="4" y1="5" x2="9" y2="5" stroke="rgba(255,255,255,.85)" stroke-width=".9"/><line x1="4" y1="7.5" x2="7" y2="7.5" stroke="rgba(255,255,255,.85)" stroke-width=".9"/></svg>
-      موضع کا نام
-    </div>
-    <div class="rth">
-      <span style="font-family:var(--sans);font-weight:700;opacity:.85;font-size:13px">#</span>
-      رجسٹری نمبر
-    </div>
-    <div class="rth">
-      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="2" width="10" height="9" rx="1" stroke="rgba(255,255,255,.85)" stroke-width="1.1"/><path d="M1.5 5h10" stroke="rgba(255,255,255,.85)" stroke-width=".9"/><rect x="4" y=".5" width="1.5" height="3.5" rx=".75" fill="rgba(255,255,255,.85)"/><rect x="7.5" y=".5" width="1.5" height="3.5" rx=".75" fill="rgba(255,255,255,.85)"/></svg>
-      ریکارڈ کی تاریخ
-    </div>
-    <div class="rth" style="justify-content:flex-start">
-      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 2h5l3 3v7a.8.8 0 0 1-.8.8H3a.8.8 0 0 1-.8-.8V2.8A.8.8 0 0 1 3 2z" stroke="rgba(255,255,255,.85)" stroke-width="1.1"/><path d="M8 2v3h3" stroke="rgba(255,255,255,.85)" stroke-width="1.1"/></svg>
-      دست ریکارڈ
-    </div>
-  </div>
-
-  <div id="resultsBody">
-    <div class="rtbl-empty" id="emptyState">
-      <div class="leaf-deco">
-        <svg width="100" height="140" viewBox="0 0 100 140" fill="none" opacity=".65">
-          <path d="M15 130 Q10 80 38 58 Q58 38 68 12" stroke="#3A9A4E" stroke-width="2.2" fill="none"/>
-          <path d="M38 58 Q20 65 15 82" stroke="#3A9A4E" stroke-width="1.4" fill="none"/>
-          <path d="M52 35 Q35 45 30 64" stroke="#3A9A4E" stroke-width="1.4" fill="none"/>
-          <ellipse cx="38" cy="60" rx="22" ry="12" fill="#3A9A4E" opacity=".18" transform="rotate(-28 38 60)"/>
-          <ellipse cx="52" cy="36" rx="18" ry="10" fill="#3A9A4E" opacity=".18" transform="rotate(-48 52 36)"/>
-        </svg>
-      </div>
-      <div class="dots-deco">
-        <svg width="80" height="80" viewBox="0 0 80 80">
-          <circle cx="12" cy="12" r="2.5" fill="#3A9A4E"/><circle cx="32" cy="12" r="2.5" fill="#3A9A4E"/><circle cx="52" cy="12" r="2.5" fill="#3A9A4E"/>
-          <circle cx="12" cy="32" r="2.5" fill="#3A9A4E"/><circle cx="32" cy="32" r="2.5" fill="#3A9A4E"/><circle cx="52" cy="32" r="2.5" fill="#3A9A4E"/>
-          <circle cx="12" cy="52" r="2.5" fill="#3A9A4E"/><circle cx="32" cy="52" r="2.5" fill="#3A9A4E"/><circle cx="52" cy="52" r="2.5" fill="#3A9A4E"/>
-        </svg>
-      </div>
-      <div class="empty-inner">
-        <div class="empty-illo">
-          <svg width="115" height="90" viewBox="0 0 115 90" fill="none">
-            <rect x="5" y="28" width="68" height="50" rx="4" fill="#C8E6C8" stroke="#5FA870" stroke-width="1.5" opacity=".75"/>
-            <path d="M5 32 L39 54 L73 32" stroke="#5FA870" stroke-width="1.5" fill="none" opacity=".65"/>
-            <line x1="16" y1="50" x2="48" y2="50" stroke="#5FA870" stroke-width="1.2" opacity=".5"/>
-            <line x1="16" y1="56" x2="40" y2="56" stroke="#5FA870" stroke-width="1.2" opacity=".4"/>
-            <circle cx="85" cy="52" r="20" fill="#E8F5E8" stroke="#5FA870" stroke-width="2" opacity=".9"/>
-            <circle cx="85" cy="52" r="12" fill="none" stroke="#5FA870" stroke-width="1.5" opacity=".6"/>
-            <line x1="99" y1="66" x2="110" y2="77" stroke="#5FA870" stroke-width="3.5" stroke-linecap="round" opacity=".8"/>
-            <!-- sparkles -->
-            <line x1="58" y1="22" x2="62" y2="22" stroke="#8AC88A" stroke-width="1.5" opacity=".6"/>
-            <line x1="60" y1="20" x2="60" y2="24" stroke="#8AC88A" stroke-width="1.5" opacity=".6"/>
-            <line x1="20" y1="18" x2="23" y2="18" stroke="#8AC88A" stroke-width="1.2" opacity=".5"/>
-            <line x1="21.5" y1="16.5" x2="21.5" y2="19.5" stroke="#8AC88A" stroke-width="1.2" opacity=".5"/>
-          </svg>
+  <!-- Search Form Card -->
+  <section class="search-card">
+    <form id="searchForm" novalidate method="get" dir="rtl">
+      <div class="search-fields">
+        <!-- 1: District -->
+        <div class="search-field">
+          <label>ضلع کا نام</label>
+          <div class="field-control">
+            <select class="form-control" id="districtSelect" onchange="loadTehsils()">
+              <option value="">ضلع منتخب کریں</option>
+              <option value="2">بھاولنگر</option>
+              <option value="3">بہاولپور</option>
+              <option value="4">لاہور</option>
+              <option value="5">چکوال</option>
+              <option value="6">چنیوٹ</option>
+              <option value="7">ڈیرہ غازی خان</option>
+              <option value="8">فیصل آباد</option>
+              <option value="9">گوجرانوالہ</option>
+              <option value="10">گجرات</option>
+              <option value="11">حافظ آباد</option>
+              <option value="12">جھنگ</option>
+              <option value="13">جہلم</option>
+              <option value="14">قصور</option>
+              <option value="15">خانیوال</option>
+              <option value="16">خوشاب</option>
+              <option value="17">بھکر</option>
+              <option value="18">لیہ</option>
+              <option value="19">لودھراں</option>
+              <option value="20">منڈی بہاوالدین</option>
+              <option value="21">میاںوالی</option>
+              <option value="22">ملتان</option>
+              <option value="23">مظفرگڑھ</option>
+              <option value="24">ننکانہ صاحب</option>
+              <option value="25">نارووال</option>
+              <option value="26">اوکاڑہ</option>
+              <option value="27">پاکپتن</option>
+              <option value="28">رحیم یار خان</option>
+              <option value="29">راجن پور</option>
+              <option value="30">راولپنڈی</option>
+              <option value="31">ساہیوال</option>
+              <option value="32">سرگودھا</option>
+              <option value="33">شیخوپورہ</option>
+              <option value="34">سیالکوٹ</option>
+              <option value="35">ٹوبہ ٹیک سنگھ</option>
+              <option value="36">وہاڑی</option>
+            </select>
+            <span class="ui-icon">
+              <svg class="portal-icon"><use href="images/search-icons.svg#map-marker-alt"></use></svg>
+            </span>
+          </div>
         </div>
-        <div class="empty-txt">کوئی معلومات دستیاب نہیں!</div>
-        <div class="empty-sub">براہ کرم تلاش کے معیار تبدیل یا دوبارہ کوشش کریں</div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- ══ FOOTER ══ -->
-<footer class="footer">
-  <span>PULSE, Copyright © 2026 All rights reserved.</span>
-  <span>Crafted By PULSE Software Development Team <span class="footer-heart">♥</span></span>
-</footer>
-
-<!-- ══ FARD MODAL ══ -->
-<div class="mo" id="fardModal">
-  <div class="mo-box">
-    <div class="mo-hdr">
-      <button class="mo-close" onclick="closeFard()">✕</button>
-      <div class="mo-title">فردِ مالکیت — خاتہ نمبر 14 · چک نمبر 72/NP</div>
-    </div>
-    <div class="mo-body">
-      <div class="mo-meta">
-        <div>
-          <div class="mo-id">Khewat ID: 1913713 · CLRMIS</div>
-          <div class="mo-khata">خاتہ نمبر: 14</div>
-          <div class="mo-loc">چک نمبر 72/NP · قانونگوئی تاج گڑھ · تحصیل و ضلع رحیم یار خان</div>
+        <!-- 2: Tehsil -->
+        <div class="search-field">
+          <label>تحصیل کا نام</label>
+          <div class="field-control">
+            <select class="form-control" id="tehsilSelect">
+              <option value="">تحصیل منتخب کریں</option>
+            </select>
+            <span class="ui-icon">
+              <svg class="portal-icon"><use href="images/search-icons.svg#building"></use></svg>
+            </span>
+          </div>
         </div>
-        <div class="mo-total">
-          <div class="mo-total-lbl">مجموعی رقبہ</div>
-          <div class="mo-total-val">3,180,340 sqft</div>
-          <div class="mo-total-sub">584K 12.43M</div>
+
+        <!-- 3: NIC -->
+        <div class="search-field">
+          <label>شناختی کارڈ نمبر</label>
+          <div class="field-control">
+            <input type="text" class="form-control" id="nicInput"
+                   placeholder="شناختی کارڈ نمبر درج کریں" maxlength="15">
+            <span class="ui-icon">
+              <svg class="portal-icon"><use href="images/search-icons.svg#address-card"></use></svg>
+            </span>
+          </div>
+        </div>
+
+        <!-- 4: Name -->
+        <div class="search-field">
+          <label>نام</label>
+          <div class="field-control">
+            <input type="text" class="form-control" id="nameInput"
+                   placeholder="نام درج کریں">
+            <span class="ui-icon">
+              <svg class="portal-icon"><use href="images/search-icons.svg#user"></use></svg>
+            </span>
+          </div>
+        </div>
+
+        <!-- 5: Registry Number -->
+        <div class="search-field">
+          <label>رجسٹری نمبر</label>
+          <div class="field-control">
+            <input type="text" class="form-control" id="regNoInput"
+                   placeholder="رجسٹری نمبر درج کریں">
+            <span class="ui-icon">
+              <svg class="portal-icon"><use href="images/search-icons.svg#hashtag"></use></svg>
+            </span>
+          </div>
+        </div>
+
+        <!-- 6: Year -->
+        <div class="search-field">
+          <label>سال</label>
+          <div class="field-control">
+            <select class="form-control" id="yearSelect">
+              <option value="">سال منتخب کریں</option>
+            </select>
+            <span class="ui-icon">
+              <svg class="portal-icon"><use href="images/search-icons.svg#calendar-alt"></use></svg>
+            </span>
+          </div>
         </div>
       </div>
-      <table class="fard-tbl">
-        <thead><tr>
-          <th>نام مالک</th><th>ولدیت</th><th>شناختی کارڈ</th>
-          <th>رقبہ (مرلے)</th><th>کنال-مرلہ</th><th>مربع فٹ</th>
-        </tr></thead>
-        <tbody id="fardRows"></tbody>
+
+      <!-- Action Buttons -->
+      <div class="search-actions">
+        <button type="submit" id="searchButton">
+          <svg class="portal-icon" style="stroke:#fff"><use href="images/search-icons.svg#search"></use></svg>
+          تلاش کریں
+        </button>
+        <button type="reset" class="reset-button">
+          <svg class="portal-icon"><use href="images/search-icons.svg#sync-alt"></use></svg>
+          دوبارہ انتخاب کریں
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Results Section -->
+  <section class="results-card" aria-labelledby="results-title">
+    <div class="results-heading">
+      <h2 id="results-title">
+        <span>
+          <svg class="portal-icon" style="width:26px;height:26px"><use href="images/search-icons.svg#file-alt"></use></svg>
+        </span>
+        ریکارڈ کی تفصیلات
+      </h2>
+      <div class="result-count" dir="rtl">کل نتائج: <strong id="TRC">0</strong></div>
+    </div>
+    <div class="results-table-wrap">
+      <table id="searchTable" dir="rtl">
+        <thead>
+          <tr>
+            <th>تحصیل کا نام</th>
+            <th>موضع کا نام</th>
+            <th>رجسٹری نمبر</th>
+            <th>ریکارڈ کی تاریخ</th>
+            <th>دست ریکارڈ</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody" class="urdu"></tbody>
       </table>
     </div>
-    <div class="mo-footer">
-      <button class="cl-btn" onclick="closeFard()">بند کریں</button>
-      <button class="dl-btn" onclick="downloadFard()">📥 دستاویز ڈاؤن لوڈ کریں</button>
+    <div id="emptyResults" class="empty-results" dir="rtl">
+      <span class="empty-art" aria-hidden="true"></span>
+      <h3>کوئی معلومات دستیاب نہیں!</h3>
+      <p>براہ کرم تلاش کے معیار تبدیل یا دوبارہ کوشش کریں</p>
+    </div>
+  </section>
+</main>
+
+<!-- ════════════════════════════════════════════════════════
+     FARD MODAL
+     ════════════════════════════════════════════════════════ -->
+<div class="fard-overlay" id="fardOverlay" onclick="if(event.target===this)closeFard()">
+  <div class="fard-panel">
+    <div class="fard-panel-header">
+      <h3 id="fardTitle">فرد — خطہ نمبر 14</h3>
+      <button class="fard-close" onclick="closeFard()">&times;</button>
+    </div>
+    <div class="fard-body" id="fardBody"></div>
+    <div class="fard-panel-footer">
+      <button onclick="downloadFard()">
+        <svg class="portal-icon" style="width:18px;height:18px;stroke:#fff"><use href="images/search-icons.svg#file-alt"></use></svg>
+        ڈاؤن لوڈ کریں
+      </button>
+      <button class="btn-outline" onclick="closeFard()">بند کریں</button>
     </div>
   </div>
 </div>
 
-<script>
-/* ══ PUNJAB DISTRICTS → TEHSILS → MOUZAS ══ */
-const PUNJAB={
-  'رحیم یار خان':{
-    'رحیم یار خان':['عال','لیاری','چک 72/NP','چک 73/NP','چک 74/NP','چک 75/NP','چک 76/NP','چک 77/NP','چک 78/NP','چک 79/NP','چک 80/NP','تاج گڑھ','شاہ فیصل آباد','مچھکہ','کوٹ سبزل','جام پور روڈ','فقیر والی','حاجی پور','کریم پور','بہاول نگر روڈ'],
-    'خانپور':['خانپور','چک 1/F','چک 2/F','چک 3/F','مرالہ','کوٹ سمابہ','اسماعیل پور','ہارونی','حبیب پور','نواں کوٹ','مظفر گڑھ روڈ','سدھار','گھوٹکی روڈ'],
-    'لیاقت پور':['لیاقت پور','چک 72/M','چک 73/M','چک 74/M','جام پور','خیرپور تامیوالی','بیگم والا','پیر والا','تونسہ'],
-    'صادق آباد':['صادق آباد','چک 110/P','چک 111/P','چک 112/P','رسول نگر','بوستان نگر','رحیم پور','تلمبہ','پیر محل'],
-  },
-  'لاہور':{
-    'لاہور':['شاہدرہ','بادامی باغ','ڈیفنس','ماڈل ٹاؤن','گلبرگ','جوہر ٹاؤن','سمن آباد','اچھرہ','مغلپورہ','شالیمار','رائیونڈ','نشتر کالونی','فیروز پور روڈ','واہگہ','بھاٹی گیٹ'],
-    'شیخوپورہ':['شیخوپورہ','فیروز والا','سفدر آباد','مریدکے','نندی پور','موری والا','سنگھ پورہ'],
-    'نانکانہ صاحب':['نانکانہ صاحب','سانگلہ ہل','شرقپور','بھائی پھیرو'],
-  },
-  'فیصل آباد':{
-    'فیصل آباد':['چک جھمرہ','تندلیانوالہ','سمندری','بھاؤوالہ','لائل پور','جڑانوالہ','خانوانہ','ملک والا','وڈالہ ستارہ'],
-    'جڑانوالہ':['جڑانوالہ','چک 73/JB','چک 74/JB','چک 75/JB','بکھر والا','سہووالہ'],
-    'سمندری':['سمندری','چک 220/RB','چک 221/RB','چک 222/RB','لال میاں','توت والا'],
-    'تندلیانوالہ':['تندلیانوالہ','چک 94/JB','چک 95/JB','بغدادی','شاہ پور'],
-  },
-  'ملتان':{
-    'ملتان':['شجاع آباد','جلال پور پیر والا','بوسہ والا','سرائے صدو','خانپور باگڑ','شاہ رکن عالم','لودھراں','سہارن پور','دولت پور'],
-    'شجاع آباد':['شجاع آباد','میلسی','وہاڑی','نواں کوٹ','خان پور باگڑ'],
-    'جلال پور پیر والا':['جلال پور پیر والا','چک 44/WB','چک 45/WB','چک 46/WB'],
-  },
-  'بہاول پور':{
-    'بہاول پور':['بہاول پور','احمد پور شرقیہ','خانپور','حاصل پور','یزمان','قبلہ'],
-    'احمد پور شرقیہ':['احمد پور شرقیہ','چاچڑاں شریف','میاں چنوں','کوٹ سبزل'],
-    'حاصل پور':['حاصل پور','چک 72/B','چک 73/B','چک 74/B','نئی آبادی'],
-  },
-  'گوجرانوالہ':{
-    'گوجرانوالہ':['گوجرانوالہ','نوشہرہ ورکاں','وزیر آباد','قلعہ دیدار سنگھ','سمن آباد','کامونکی'],
-    'وزیر آباد':['وزیر آباد','علی پور چٹھہ','شکر گڑھ','ڈنگہ'],
-    'حافظ آباد':['حافظ آباد','پنڈی بھٹیاں','وزیرآباد روڈ','کھو روڈ'],
-  },
-  'راولپنڈی':{
-    'راولپنڈی':['راولپنڈی','تخت پاری','مری','کھاریاں','پنڈیالہ','گوجر خان','تلہ گنگ'],
-    'گوجر خان':['گوجر خان','ڈنگلی','مناوالہ','جنڈ','سواں'],
-    'مری':['مری','پیر سوہاوہ','بھوربن','کاہوٹہ'],
-  },
-  'سرگودھا':{
-    'سرگودھا':['سرگودھا','بھیرہ','خوشاب','میانوالی','جہلم','چکوال'],
-    'بھیرہ':['بھیرہ','شاہ پور','حضرو','وادی','آواں'],
-    'خوشاب':['خوشاب','نور پور تھال','قائد آباد','جلال پور بھٹیاں'],
-  },
-  'ساہیوال':{
-    'ساہیوال':['ساہیوال','چیچہ وطنی','اوکاڑہ','دیپالپور','رینالہ خورد'],
-    'چیچہ وطنی':['چیچہ وطنی','چک 95/9L','چک 96/9L','نوشہرہ'],
-    'اوکاڑہ':['اوکاڑہ','رینالہ خورد','ہاورتھ','ڈیہڑ'],
-  },
-  'جھنگ':{
-    'جھنگ':['جھنگ','چنیوٹ','شورکوٹ','احمد پور سیال','ٹوبہ ٹیک سنگھ'],
-    'چنیوٹ':['چنیوٹ','بھوانہ','گوگیرہ','للیانی'],
-    'شورکوٹ':['شورکوٹ','پیر محل','قادر آباد','مادھو لال حسین'],
-  },
-  'خانیوال':{
-    'خانیوال':['خانیوال','میاں چنوں','جہانیاں','تلمبہ'],
-    'میاں چنوں':['میاں چنوں','ہیڈ اسلام','بوری والا','چک 42/14-L'],
-    'جہانیاں':['جہانیاں','چک 44/14-L','چک 45/14-L','فرید آباد'],
-  },
-  'وہاڑی':{
-    'وہاڑی':['وہاڑی','بورے والا','میلسی','ماچھی والا'],
-    'بورے والا':['بورے والا','چک 115/9-R','چک 116/9-R','سلطان پور'],
-    'میلسی':['میلسی','چک 60/WB','چک 61/WB','نواں گڑھ'],
-  },
-  'بہاول نگر':{
-    'بہاول نگر':['بہاول نگر','فورٹ عباس','چشتیاں','ہارون آباد'],
-    'چشتیاں':['چشتیاں','چک 73/DB','چک 74/DB','مچھی والا'],
-    'فورٹ عباس':['فورٹ عباس','کلر والا','مکھد','ڈھاڈر'],
-  },
-  'مظفر گڑھ':{
-    'مظفر گڑھ':['مظفر گڑھ','علی پور','کوٹ ادو','جتوئی'],
-    'علی پور':['علی پور','چاچڑاں','جام پور','چک 220/TDA'],
-    'کوٹ ادو':['کوٹ ادو','سنجاول','رنگ پور','تونسہ شریف'],
-  },
-  'ڈیرہ غازی خان':{
-    'ڈیرہ غازی خان':['ڈیرہ غازی خان','تونسہ','کوہ سلیمان','شادی خیل'],
-    'تونسہ':['تونسہ','پہاڑ پور','کلاچی','چاکر'],
-  },
-  'لیہ':{
-    'لیہ':['لیہ','چوک اعظم','کروڑ لعل عیسن','بھکر'],
-    'چوک اعظم':['چوک اعظم','فتح پور','کندھ کوٹ','شادی خیل'],
-  },
-  'میانوالی':{
-    'میانوالی':['میانوالی','عیسیٰ خیل','پیوندی','کلور کوٹ'],
-    'عیسیٰ خیل':['عیسیٰ خیل','وناہ','پانو عاقل','علی خیل'],
-  },
-  'چکوال':{
-    'چکوال':['چکوال','تلاگنگ','لاوہ','کلر کہار'],
-    'تلاگنگ':['تلاگنگ','بلکسر','پنڈ دادن خان','قائد آباد'],
-  },
-  'جہلم':{
-    'جہلم':['جہلم','سوہاوہ','پنڈ دادن خان','دینہ'],
-    'دینہ':['دینہ','لیلا','سڑوالہ','چکری'],
-  },
-  'گجرات':{
-    'گجرات':['گجرات','خاریاں','سرائے عالمگیر','کنجاہ'],
-    'خاریاں':['خاریاں','لالہ موسیٰ','مانڈی بہاؤالدین','شاہ پور'],
-  },
-  'منڈی بہاؤالدین':{
-    'منڈی بہاؤالدین':['منڈی بہاؤالدین','ملکوال','پھالیہ','شاہ پور'],
-    'ملکوال':['ملکوال','چک 149/NB','چک 150/NB','راجہ جنگ'],
-  },
-  'نارووال':{
-    'نارووال':['نارووال','شکر گڑھ','ظفر وال','شاہ پور کنڈی'],
-    'شکر گڑھ':['شکر گڑھ','ریحان','حیات نگر','چاچڑاں'],
-  },
-  'سیالکوٹ':{
-    'سیالکوٹ':['سیالکوٹ','ڈسکہ','سمبڑیال','پسرور'],
-    'ڈسکہ':['ڈسکہ','کونترلہ','نیلا بٹ','کندی'],
-    'سمبڑیال':['سمبڑیال','ڈمبالا','گکھڑ','ادارہ'],
-  },
-  'قصور':{
-    'قصور':['قصور','پتوکی','چونیاں','کوٹ رادھا کشن'],
-    'پتوکی':['پتوکی','چک 10/1-R','چک 11/1-R','بیٹ'],
-    'چونیاں':['چونیاں','گنجی بار','ہیڈ قادر آباد','جیٹاکہ'],
-  },
-  'اوکاڑہ':{
-    'اوکاڑہ':['اوکاڑہ','ڈیپالپور','رینالہ خورد','ہاورتھ'],
-    'ڈیپالپور':['ڈیپالپور','ملتان روڈ','پنجگرائیں','گوگیرہ'],
-  },
-  'پاکپتن':{
-    'پاکپتن':['پاکپتن','عارف والا','چک 25/9-L','چک 26/9-L'],
-    'عارف والا':['عارف والا','لدھیانہ','تاندلیانوالہ','راجپوتانہ'],
-  },
-  'ٹوبہ ٹیک سنگھ':{
-    'ٹوبہ ٹیک سنگھ':['ٹوبہ ٹیک سنگھ','گوجرہ','کمالیہ','پیر محل'],
-    'گوجرہ':['گوجرہ','چک 467/JB','چک 468/JB','للیانی'],
-  },
-  'حافظ آباد':{
-    'حافظ آباد':['حافظ آباد','پنڈی بھٹیاں','سنہری','کلوکے'],
-    'پنڈی بھٹیاں':['پنڈی بھٹیاں','وڈالہ','جیا بھٹی','راجہ کلاس'],
-  },
-  'مینگورہ/اٹک':{
-    'اٹک':['اٹک','کیمبل پور','حضرو','جنڈ','فتح جنگ'],
-    'حضرو':['حضرو','خیر آباد','کلولہ','نیلا'],
-  },
-};
+<!-- ════════════════════════════════════════════════════════
+     FOOTER
+     ════════════════════════════════════════════════════════ -->
+<footer class="pulse-footer">
+  <span>&copy; 2026 Punjab Land Records Authority &mdash; Government of Punjab</span>
+  <span>PULSE v3.0</span>
+</footer>
 
+<!-- ════════════════════════════════════════════════════════
+     JAVASCRIPT
+     ════════════════════════════════════════════════════════ -->
+<script>
+/* ── Khata 14 Owner Data (CAT array) ── */
 const CAT=[
   {name:'محمد ذوالفقار',father:'عبدالغفور',nic:'3130320357489',m:188.62,km:'9K 8.62M',sqft:51305},
   {name:'محمد فاروق',father:'عبدالستار',nic:'4420361529293',m:65.25,km:'3K 5.25M',sqft:17748},
   {name:'محمد عثمان',father:'محمد ذوالفقار',nic:'3520242512499',m:33.02,km:'1K 13.02M',sqft:8982,pet:true},
   {name:'محمد عمر ذوالفقار',father:'محمد ذوالفقار',nic:'3130328374897',m:21.83,km:'1K 1.83M',sqft:5937},
 ];
+const TOTAL_MARLAS = CAT.reduce((s,o)=>s+o.m,0);
 
-/* populate districts on load */
-window.addEventListener('DOMContentLoaded',()=>{
-  const dSel=document.getElementById('district');
-  Object.keys(PUNJAB).sort().forEach(d=>{
-    const o=document.createElement('option');
-    o.value=d; o.textContent=d;
-    dSel.appendChild(o);
-  });
-  // pre-select RYK for demo
-  dSel.value='رحیم یار خان';
-  onDistrict(true);
-});
+/* ── Tehsil cascading data ── */
+const TEHSILS = {
+  '28': [{v:'280',t:'رحیم یار خان'},{v:'281',t:'صادق آباد'},{v:'282',t:'خانپور'},{v:'283',t:'لیاقت پور'}],
+  '4':  [{v:'40',t:'لاہور شہر'},{v:'41',t:'لاہور صدر'},{v:'42',t:'ماڈل ٹاؤن'},{v:'43',t:'شالامار'}],
+  '22': [{v:'220',t:'ملتان شہر'},{v:'221',t:'ملتان صدر'},{v:'222',t:'شجاع آباد'},{v:'223',t:'جلال پور پیر والا'}],
+  '8':  [{v:'80',t:'فیصل آباد شہر'},{v:'81',t:'فیصل آباد صدر'},{v:'82',t:'جڑانوالہ'},{v:'83',t:'تاندلیانوالہ'}],
+  '30': [{v:'300',t:'راولپنڈی'},{v:'301',t:'گوجر خان'},{v:'302',t:'ٹیکسلا'},{v:'303',t:'کہوٹہ'}],
+  '9':  [{v:'90',t:'گوجرانوالہ شہر'},{v:'91',t:'گوجرانوالہ صدر'},{v:'92',t:'کامونکی'},{v:'93',t:'وزیر آباد'}],
+  '34': [{v:'340',t:'سیالکوٹ'},{v:'341',t:'ڈسکہ'},{v:'342',t:'پسرور'},{v:'343',t:'سمبڑیال'}],
+  '31': [{v:'310',t:'ساہیوال'},{v:'311',t:'چیچہ وطنی'},{v:'312',t:'پاکپتن'}],
+  '32': [{v:'320',t:'سرگودھا'},{v:'321',t:'بھلوال'},{v:'322',t:'شاہ پور'},{v:'323',t:'سلاں والی'}],
+};
 
-function onDistrict(preload){
-  const d=document.getElementById('district').value;
-  const tSel=document.getElementById('tehsil');
-  const mSel=document.getElementById('mouza');
-  tSel.innerHTML='<option value="">تحصیل منتخب کریں</option>';
-  mSel.innerHTML='<option value="">پہلے تحصیل منتخب کریں</option>';
-  mSel.disabled=true;
-  if(!d){tSel.disabled=true;return;}
-  tSel.disabled=false;
-  Object.keys(PUNJAB[d]).forEach(t=>{
-    const o=document.createElement('option');
-    o.value=t; o.textContent=t;
-    tSel.appendChild(o);
-  });
-  if(preload){tSel.value='رحیم یار خان';onTehsil(true);}
-}
+/* ── Demo search results (Khata 14 records) ── */
+const DEMO_RESULTS = [
+  {tehsil:'رحیم یار خان', mouza:'چک نمبر 72/این پی', regNo:'199', date:'15-08-2024', type:'فرد بدر'},
+  {tehsil:'رحیم یار خان', mouza:'چک نمبر 72/این پی', regNo:'14',  date:'10-03-2023', type:'انتقال'},
+];
 
-function onTehsil(preload){
-  const d=document.getElementById('district').value;
-  const t=document.getElementById('tehsil').value;
-  const mSel=document.getElementById('mouza');
-  mSel.innerHTML='<option value="">موضع منتخب کریں</option>';
-  if(!d||!t){mSel.disabled=true;return;}
-  mSel.disabled=false;
-  const mouzas=PUNJAB[d][t]||[];
-  mouzas.forEach(m=>{
-    const o=document.createElement('option');
-    o.value=m; o.textContent=m;
-    mSel.appendChild(o);
-  });
-  if(preload){mSel.value='چک 72/NP';}
-}
+/* ── Populate year dropdown: 2026 → 1900 ── */
+(function(){
+  var sel = document.getElementById('yearSelect');
+  for(var y=2026; y>=1900; y--){
+    var o = document.createElement('option');
+    o.value = y; o.textContent = y;
+    sel.appendChild(o);
+  }
+})();
 
-function doSearch(){
-  const nic=(document.getElementById('cnic').value||'').replace(/-/g,'').trim();
-  const name=(document.getElementById('nameinp').value||'').trim().toLowerCase();
-  const dist=document.getElementById('district').value;
-  const mouza=document.getElementById('mouza').value;
-  const hit=nic==='3520242512499'||nic==='3130320357489'||nic==='4420361529293'||nic==='3130328374897'
-    ||(name&&(document.getElementById('nameinp').value.trim().includes('عثمان')||name.includes('usman')||name.includes('zulfiqar')||name.includes('farooq')||name.includes('umar')))
-    ||(dist==='رحیم یار خان'&&mouza.includes('72'));
-  if(hit){
-    document.getElementById('resCount').textContent='1';
-    const tehsilVal=document.getElementById('tehsil').value||'رحیم یار خان';
-    const mouzaVal=mouza||'چک 72/NP';
-    document.getElementById('resultsBody').innerHTML=`
-      <div class="rtbl-row" onclick="openFard()">
-        <div class="rtd right">${tehsilVal}</div>
-        <div class="rtd">${mouzaVal}</div>
-        <div class="rtd eng">14 / 1913713</div>
-        <div class="rtd eng">08/11/2026</div>
-        <div class="rtd left" style="color:#1B5E35;font-family:var(--urdu);font-size:13px">فردِ مالکیت</div>
-      </div>`;
-  } else {
-    document.getElementById('resCount').textContent='0';
-    const es=document.getElementById('emptyState');
-    document.getElementById('resultsBody').innerHTML=es?es.outerHTML:'<div style="padding:40px;text-align:center;font-family:var(--urdu)">کوئی معلومات دستیاب نہیں!</div>';
+/* ── Cascading tehsils on district change ── */
+function loadTehsils(){
+  var dv = document.getElementById('districtSelect').value;
+  var ts = document.getElementById('tehsilSelect');
+  ts.innerHTML = '<option value="">تحصیل منتخب کریں</option>';
+  if(TEHSILS[dv]){
+    TEHSILS[dv].forEach(function(t){
+      var o = document.createElement('option');
+      o.value = t.v; o.textContent = t.t;
+      ts.appendChild(o);
+    });
   }
 }
 
-function resetSearch(){
-  document.getElementById('cnic').value='';
-  document.getElementById('nameinp').value='';
-  document.getElementById('regno').value='';
-  document.getElementById('resCount').textContent='0';
-  location.reload();
+/* ── Account menu toggle ── */
+function toggleMenu(){
+  var m = document.getElementById('accountMenu');
+  m.hidden = !m.hidden;
 }
+document.addEventListener('click', function(e){
+  var acc = document.querySelector('.portal-account');
+  if(!acc.contains(e.target)){
+    document.getElementById('accountMenu').hidden = true;
+  }
+});
 
-function openFard(){
-  let rows='';
-  CAT.forEach(p=>{
-    rows+=`<tr class="${p.pet?'pet':''}">
-      <td>${p.name}</td><td>${p.father}</td>
-      <td style="font-family:var(--sans);font-size:11px;direction:ltr;text-align:left">${p.nic}</td>
-      <td style="font-family:var(--sans);direction:ltr;text-align:right">${p.m.toFixed(4)}</td>
-      <td style="font-family:var(--sans);direction:ltr;text-align:right">${p.km}</td>
-      <td style="font-family:var(--sans);direction:ltr;text-align:right">${p.sqft.toLocaleString()}</td>
-    </tr>`;
+/* ── Search form submit ── */
+document.getElementById('searchForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  var tbody = document.getElementById('tableBody');
+  var empty = document.getElementById('emptyResults');
+  var trc   = document.getElementById('TRC');
+  var dist  = document.getElementById('districtSelect').value;
+
+  if(dist === '28'){
+    tbody.innerHTML = '';
+    DEMO_RESULTS.forEach(function(r){
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td>'+r.tehsil+'</td>'+
+        '<td>'+r.mouza+'</td>'+
+        '<td>'+r.regNo+'</td>'+
+        '<td>'+r.date+'</td>'+
+        '<td><a class="view-link" href="#" onclick="openFard(event)">'+
+          '<svg class="portal-icon" style="width:18px;height:18px"><use href="images/search-icons.svg#file-alt"></use></svg>'+
+          'دیکھیں</a></td>';
+      tbody.appendChild(tr);
+    });
+    trc.textContent = DEMO_RESULTS.length;
+    empty.style.display = 'none';
+  } else {
+    tbody.innerHTML = '';
+    trc.textContent = '0';
+    empty.style.display = '';
+  }
+});
+
+/* ── Reset form ── */
+document.getElementById('searchForm').addEventListener('reset', function(){
+  setTimeout(function(){
+    document.getElementById('tableBody').innerHTML = '';
+    document.getElementById('TRC').textContent = '0';
+    document.getElementById('emptyResults').style.display = '';
+    document.getElementById('tehsilSelect').innerHTML = '<option value="">تحصیل منتخب کریں</option>';
+  }, 10);
+});
+
+/* ── Open Fard modal ── */
+function openFard(e){
+  if(e) e.preventDefault();
+  var body = document.getElementById('fardBody');
+  var html = '';
+
+  html += '<div class="fard-info-grid">';
+  html += '<div class="fard-info-item"><label>ضلع</label><span>رحیم یار خان</span></div>';
+  html += '<div class="fard-info-item"><label>تحصیل</label><span>رحیم یار خان</span></div>';
+  html += '<div class="fard-info-item"><label>موضع</label><span>چک نمبر 72/این پی</span></div>';
+  html += '<div class="fard-info-item"><label>قانون گوئی</label><span>تاج گڑھ</span></div>';
+  html += '<div class="fard-info-item"><label>خطہ نمبر</label><span>14</span></div>';
+  html += '<div class="fard-info-item"><label>کل رقبہ</label><span>'+TOTAL_MARLAS.toFixed(2)+' مرلے</span></div>';
+  html += '</div>';
+
+  html += '<div class="fard-section-title">مالکان کی تفصیلات</div>';
+  html += '<table class="owner-table" dir="rtl"><thead><tr>';
+  html += '<th>#</th><th>نام</th><th>والد کا نام</th><th>شناختی کارڈ</th><th>حصہ (مرلے)</th><th>حصہ (کنال-مرلہ)</th>';
+  html += '</tr></thead><tbody>';
+
+  CAT.forEach(function(o,i){
+    var cls = o.pet ? ' class="pet-row"' : '';
+    var badge = o.pet ? '<span class="pet-badge">CAT-A</span>' : '';
+    html += '<tr'+cls+'>';
+    html += '<td>'+(i+1)+'</td>';
+    html += '<td>'+badge+o.name+'</td>';
+    html += '<td>'+o.father+'</td>';
+    html += '<td style="font-family:Arial;direction:ltr">'+o.nic+'</td>';
+    html += '<td>'+o.m+'</td>';
+    html += '<td>'+o.km+'</td>';
+    html += '</tr>';
   });
-  rows+=`<tr><td>…دیگر 1,406 مالکان</td><td colspan="2">—</td><td style="font-family:var(--sans);direction:ltr;text-align:right">11,383.71</td><td style="font-family:var(--sans);direction:ltr;text-align:right">569K 3.71M</td><td style="font-family:var(--sans);direction:ltr;text-align:right">3,096,368</td></tr>`;
-  document.getElementById('fardRows').innerHTML=rows;
-  document.getElementById('fardModal').classList.add('open');
-}
-function closeFard(){document.getElementById('fardModal').classList.remove('open')}
 
-function downloadFard(){
-  const now=new Date();
-  const dateStr=`${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-  const doc=`<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;600;700&display=swap">
-<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Noto Nastaliq Urdu','Arial Unicode MS',serif;direction:rtl;padding:12px;background:#fff;color:#000;font-size:12px}.doc-wrap{max-width:900px;margin:0 auto;border:2px solid #000;padding:8px;position:relative;overflow:hidden}.watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-35deg);font-size:72px;color:rgba(220,0,0,.08);white-space:nowrap;font-weight:700;pointer-events:none;z-index:0}.content{position:relative;z-index:1}.title-row{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1.5px solid #000;padding:4px 8px;text-align:center;gap:4px;align-items:center}.title-main{font-size:16px;font-weight:700;text-align:right}.title-center{font-size:12px;text-align:center}.title-left{font-size:14px;font-weight:700;text-align:left;direction:ltr}.qr-row{display:grid;grid-template-columns:auto 1fr auto;align-items:start;padding:6px 8px;border-bottom:1px solid #ccc;gap:8px}.qr-box{width:65px;height:65px;border:1.5px solid #666;display:flex;align-items:center;justify-content:center;font-size:7px;text-align:center;color:#444;padding:4px;line-height:1.3}.meta-row{display:flex;gap:0;border-bottom:1.5px solid #000;flex-wrap:wrap}.meta-cell{border-left:1px solid #000;padding:4px 8px;font-size:11px;white-space:nowrap}.meta-cell:first-child{border-left:none}.meta-cell strong{font-weight:700}table{width:100%;border-collapse:collapse;margin-top:0}th{background:#1B5E35;color:#fff;padding:7px 6px;font-size:11px;font-weight:700;border:1px solid #000;text-align:center}td{padding:6px 6px;border:1px solid #aaa;font-size:11px;vertical-align:top;text-align:right}tr.flagged td{color:#CC0000}.col-num{text-align:center;font-size:10px}.footer-row{border-top:1.5px solid #000;margin-top:4px;display:grid;grid-template-columns:repeat(7,1fr);gap:0;font-size:9.5px}.fc{padding:5px 6px;border-left:1px solid #aaa;text-align:center}.fc:first-child{border-left:none}@media print{body{padding:0}.doc-wrap{border:none;padding:0}}</style></head><body>
-<div class="doc-wrap"><div class="watermark">فرد برائے نقشہ</div><div class="content">
-<div class="title-row"><div class="title-main">نقل رجسٹر حقداران زمین</div><div class="title-center">(مسل میعادی)</div><div class="title-left">نقل</div></div>
-<div class="qr-row"><div class="qr-box">QR Code<br>فرد نمبر<br>0032617059</div><div></div><div style="font-size:9px;color:#444;text-align:left;direction:ltr;padding-top:2px">Scan to verify authenticity<br>PLRA · CLRMIS</div></div>
-<div class="meta-row"><div class="meta-cell"><strong>چک نمبر:</strong> 72/NP</div><div class="meta-cell"><strong>موضع:</strong> عال</div><div class="meta-cell"><strong>طرف/پتی:</strong> —</div><div class="meta-cell"><strong>عدد:</strong> —</div><div class="meta-cell"><strong>تحصیل:</strong> رحیم یارخان</div><div class="meta-cell"><strong>ضلع:</strong> رحیم یارخان</div><div class="meta-cell"><strong>سال:</strong> 2019-20</div><div class="meta-cell"><strong>ورق نمبر:</strong> 2/1</div></div>
-<table><thead><tr><th class="col-num">١٠<br><small>نمبر شمار</small></th><th>٩<br><small>خاتہ نمبر</small></th><th>٨<br><small>خسرہ نمبر</small></th><th>٧<br><small>رقبہ (کنال/مرلہ)</small></th><th>٦<br><small>قسم زمین</small></th><th style="min-width:140px">٥ — ٣(الف)<br><small>نام مالک، ولدیت، ذات، شناختی کارڈ</small></th><th>٤<br><small>حصہ</small></th><th>٣<br><small>قیدات</small></th><th>٢<br><small>انتقال نمبر</small></th><th>١<br><small>ریمارکس</small></th></tr></thead>
-<tbody>
-<tr class="flagged"><td class="col-num">1</td><td>14</td><td>مختلف</td><td>9K 8.62M<br><small>51,305 sqft</small></td><td>مزروعہ</td><td><strong>محمد ذوالفقار</strong><br>ولد: عبدالغفور<br>ش.کارڈ: 3130320357489<br><span style="color:#CC0000;font-size:9.5px">انتقال نمبر 9394</span></td><td>188.62</td><td>—</td><td style="color:#CC0000">9394</td><td>—</td></tr>
-<tr><td class="col-num">2</td><td>14</td><td>مختلف</td><td>3K 5.25M<br><small>17,748 sqft</small></td><td>مزروعہ</td><td><strong>محمد فاروق</strong><br>ولد: عبدالستار<br>ش.کارڈ: 4420361529293</td><td>65.25</td><td>—</td><td>—</td><td>—</td></tr>
-<tr style="background:#FFF8E1"><td class="col-num">3</td><td>14</td><td>مختلف</td><td>1K 13.02M<br><small>8,982 sqft</small></td><td>مزروعہ</td><td><strong>محمد عثمان</strong><br>ولد: محمد ذوالفقار<br>ش.کارڈ: 3520242512499<br><span style="color:#1B5E35;font-size:9.5px">درخواست کنندہ</span></td><td>33.02</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td class="col-num">4</td><td>14</td><td>مختلف</td><td>1K 1.83M<br><small>5,937 sqft</small></td><td>مزروعہ</td><td><strong>محمد عمر ذوالفقار</strong><br>ولد: محمد ذوالفقار<br>ش.کارڈ: 3130328374897</td><td>21.83</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td class="col-num" style="color:#888">5</td><td colspan="9" style="color:#888;text-align:center;font-size:10px">…دیگر 1,406 مالکان</td></tr>
-</tbody></table>
-<div class="footer-row"><div class="fc">نقل مطابق اصل ہے</div><div class="fc"><strong>نام:</strong><br>Muhammad Usman</div><div class="fc"><strong>ش.کارڈ:</strong><br>3520242512499</div><div class="fc"><strong>تاریخ اجراء:</strong><br>${dateStr}</div><div class="fc"><strong>فرد فیس:</strong><br>950</div><div class="fc">پنجاب زمین پولیس</div><div class="fc" style="font-size:8px">0-00-00-030-00-00-00-0032617059</div></div>
-</div></div>
-<script>window.onload=()=>window.print()<\/script>
-</body></html>`;
-  const blob=new Blob([doc],{type:'text/html'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download='Fard-Malkiat-Khata14-72NP.html';a.click();URL.revokeObjectURL(url);
+  html += '</tbody></table>';
+  body.innerHTML = html;
+  document.getElementById('fardOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
 }
+
+/* ── Close Fard modal ── */
+function closeFard(){
+  document.getElementById('fardOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+/* ── Download Fard as text ── */
+function downloadFard(){
+  var txt = '';
+  txt += String.fromCharCode(9552).repeat(39)+'\n';
+  txt += '       فرد — خطہ نمبر 14\n';
+  txt += '       پنجاب لینڈ ریکارڈ اتھارٹی\n';
+  txt += String.fromCharCode(9552).repeat(39)+'\n\n';
+  txt += 'ضلع:       رحیم یار خان\n';
+  txt += 'تحصیل:     رحیم یار خان\n';
+  txt += 'موضع:      چک نمبر 72/این پی\n';
+  txt += 'قانون گوئی: تاج گڑھ\n';
+  txt += 'خطہ نمبر:   14\n';
+  txt += 'کل رقبہ:    '+TOTAL_MARLAS.toFixed(2)+' مرلے\n\n';
+  txt += String.fromCharCode(9472).repeat(39)+'\n';
+  txt += '  مالکان کی تفصیلات\n';
+  txt += String.fromCharCode(9472).repeat(39)+'\n\n';
+
+  CAT.forEach(function(o,i){
+    var flag = o.pet ? ' [CAT-A / Petitioner]' : '';
+    txt += (i+1)+'. '+o.name+' بن '+o.father+flag+'\n';
+    txt += '   CNIC: '+o.nic+'\n';
+    txt += '   حصہ: '+o.m+' مرلے ('+o.km+')\n';
+    txt += '   رقبہ: '+o.sqft+' مربع فٹ\n\n';
+  });
+
+  txt += String.fromCharCode(9552).repeat(39)+'\n';
+  txt += ' Generated by PULSE / LandOS\n';
+
+  var blob = new Blob([txt], {type:'text/plain;charset=utf-8'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'fard-khata-14.txt';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+}
+
+/* ── Keyboard: Escape closes modal ── */
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape') closeFard();
+});
 </script>
+</body>
+</html>
