@@ -325,40 +325,51 @@ body{background:var(--bg);color:var(--fg);font-family:var(--sans);direction:rtl;
 <!-- ══ SEARCH CARD ══ -->
 <div class="search-wrap">
   <div class="search-card">
-    <!-- ROW 1: ضلع | تحصیل | شناختی کارڈ -->
+    <!-- ROW 1: ضلع | تحصیل | موضع -->
     <div class="sf-grid">
       <!-- ضلع -->
       <div class="sf">
-        <div class="sf-label">انتخاب کریں</div>
+        <div class="sf-label">ضلع — انتخاب کریں</div>
         <div class="sf-row">
           <div class="sf-ico">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="8" r="3.5" stroke="#2D7A3A" stroke-width="1.4"/><path d="M9 1C5.69 1 3 3.69 3 7c0 4.5 6 10 6 10s6-5.5 6-10c0-3.31-2.69-6-6-6z" stroke="#2D7A3A" stroke-width="1.4" fill="none"/></svg>
           </div>
-          <select id="district">
-            <option value="RYK">رحیم یار خان</option>
-            <option value="LHR">لاہور</option>
-            <option value="FSD">فیصل آباد</option>
-            <option value="MLT">ملتان</option>
+          <select id="district" onchange="onDistrict()">
+            <option value="">ضلع منتخب کریں</option>
           </select>
           <div class="sf-chev">▾</div>
         </div>
       </div>
       <!-- تحصیل -->
       <div class="sf">
-        <div class="sf-label">انتخاب کریں</div>
+        <div class="sf-label">تحصیل — انتخاب کریں</div>
         <div class="sf-row">
           <div class="sf-ico">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="4" width="14" height="11" rx="1.5" stroke="#2D7A3A" stroke-width="1.4"/><path d="M2 7h14" stroke="#2D7A3A" stroke-width="1.1"/><rect x="6" y="1" width="2" height="5" rx="1" fill="#2D7A3A"/><rect x="10" y="1" width="2" height="5" rx="1" fill="#2D7A3A"/></svg>
           </div>
-          <select id="tehsil">
-            <option value="RYK">رحیم یار خان</option>
-            <option value="KHN">خانپور</option>
-            <option value="LPR">لیاقت پور</option>
-            <option value="SDB">صادق آباد</option>
+          <select id="tehsil" onchange="onTehsil()" disabled>
+            <option value="">پہلے ضلع منتخب کریں</option>
           </select>
           <div class="sf-chev">▾</div>
         </div>
       </div>
+      <!-- موضع -->
+      <div class="sf">
+        <div class="sf-label">موضع — انتخاب کریں</div>
+        <div class="sf-row">
+          <div class="sf-ico">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="1" y="1" width="16" height="16" rx="2" stroke="#2D7A3A" stroke-width="1.4"/><path d="M1 7h16M7 1v16" stroke="#2D7A3A" stroke-width="1.1"/></svg>
+          </div>
+          <select id="mouza" disabled>
+            <option value="">پہلے تحصیل منتخب کریں</option>
+          </select>
+          <div class="sf-chev">▾</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 2: شناختی کارڈ | رجسٹری نمبر | نام -->
+    <div class="sf-grid">
       <!-- شناختی کارڈ -->
       <div class="sf">
         <div class="sf-label">شناختی کارڈ نمبر (بغیر ڈیش کے درج کریں)</div>
@@ -367,27 +378,6 @@ body{background:var(--bg);color:var(--fg);font-family:var(--sans);direction:rtl;
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="1" y="4" width="16" height="10" rx="2" stroke="#2D7A3A" stroke-width="1.4"/><circle cx="6" cy="9" r="2" stroke="#2D7A3A" stroke-width="1.1"/><line x1="10" y1="7.5" x2="15" y2="7.5" stroke="#2D7A3A" stroke-width="1"/><line x1="10" y1="10" x2="15" y2="10" stroke="#2D7A3A" stroke-width="1"/></svg>
           </div>
           <input type="text" id="cnic" placeholder="شناختی کارڈ نمبر درج کریں" inputmode="numeric">
-        </div>
-      </div>
-    </div>
-
-    <!-- ROW 2: ریکارڈ کا سال | رجسٹری نمبر | نام -->
-    <div class="sf-grid">
-      <!-- سال -->
-      <div class="sf">
-        <div class="sf-label">ریکارڈ کا سال</div>
-        <div class="sf-row">
-          <div class="sf-ico">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="4" width="14" height="11" rx="1.5" stroke="#2D7A3A" stroke-width="1.4"/><path d="M2 7h14" stroke="#2D7A3A" stroke-width="1.1"/><rect x="6" y="1" width="2" height="5" rx="1" fill="#2D7A3A"/><rect x="10" y="1" width="2" height="5" rx="1" fill="#2D7A3A"/></svg>
-          </div>
-          <select id="year">
-            <option value="">سال کا انتخاب کریں</option>
-            <option value="2026">2026</option>
-            <option value="2025">2025</option>
-            <option value="2024">2024</option>
-            <option value="2023">2023</option>
-          </select>
-          <div class="sf-chev">▾</div>
         </div>
       </div>
       <!-- رجسٹری نمبر -->
@@ -543,6 +533,144 @@ body{background:var(--bg);color:var(--fg);font-family:var(--sans);direction:rtl;
 </div>
 
 <script>
+/* ══ PUNJAB DISTRICTS → TEHSILS → MOUZAS ══ */
+const PUNJAB={
+  'رحیم یار خان':{
+    'رحیم یار خان':['عال','لیاری','چک 72/NP','چک 73/NP','چک 74/NP','چک 75/NP','چک 76/NP','چک 77/NP','چک 78/NP','چک 79/NP','چک 80/NP','تاج گڑھ','شاہ فیصل آباد','مچھکہ','کوٹ سبزل','جام پور روڈ','فقیر والی','حاجی پور','کریم پور','بہاول نگر روڈ'],
+    'خانپور':['خانپور','چک 1/F','چک 2/F','چک 3/F','مرالہ','کوٹ سمابہ','اسماعیل پور','ہارونی','حبیب پور','نواں کوٹ','مظفر گڑھ روڈ','سدھار','گھوٹکی روڈ'],
+    'لیاقت پور':['لیاقت پور','چک 72/M','چک 73/M','چک 74/M','جام پور','خیرپور تامیوالی','بیگم والا','پیر والا','تونسہ'],
+    'صادق آباد':['صادق آباد','چک 110/P','چک 111/P','چک 112/P','رسول نگر','بوستان نگر','رحیم پور','تلمبہ','پیر محل'],
+  },
+  'لاہور':{
+    'لاہور':['شاہدرہ','بادامی باغ','ڈیفنس','ماڈل ٹاؤن','گلبرگ','جوہر ٹاؤن','سمن آباد','اچھرہ','مغلپورہ','شالیمار','رائیونڈ','نشتر کالونی','فیروز پور روڈ','واہگہ','بھاٹی گیٹ'],
+    'شیخوپورہ':['شیخوپورہ','فیروز والا','سفدر آباد','مریدکے','نندی پور','موری والا','سنگھ پورہ'],
+    'نانکانہ صاحب':['نانکانہ صاحب','سانگلہ ہل','شرقپور','بھائی پھیرو'],
+  },
+  'فیصل آباد':{
+    'فیصل آباد':['چک جھمرہ','تندلیانوالہ','سمندری','بھاؤوالہ','لائل پور','جڑانوالہ','خانوانہ','ملک والا','وڈالہ ستارہ'],
+    'جڑانوالہ':['جڑانوالہ','چک 73/JB','چک 74/JB','چک 75/JB','بکھر والا','سہووالہ'],
+    'سمندری':['سمندری','چک 220/RB','چک 221/RB','چک 222/RB','لال میاں','توت والا'],
+    'تندلیانوالہ':['تندلیانوالہ','چک 94/JB','چک 95/JB','بغدادی','شاہ پور'],
+  },
+  'ملتان':{
+    'ملتان':['شجاع آباد','جلال پور پیر والا','بوسہ والا','سرائے صدو','خانپور باگڑ','شاہ رکن عالم','لودھراں','سہارن پور','دولت پور'],
+    'شجاع آباد':['شجاع آباد','میلسی','وہاڑی','نواں کوٹ','خان پور باگڑ'],
+    'جلال پور پیر والا':['جلال پور پیر والا','چک 44/WB','چک 45/WB','چک 46/WB'],
+  },
+  'بہاول پور':{
+    'بہاول پور':['بہاول پور','احمد پور شرقیہ','خانپور','حاصل پور','یزمان','قبلہ'],
+    'احمد پور شرقیہ':['احمد پور شرقیہ','چاچڑاں شریف','میاں چنوں','کوٹ سبزل'],
+    'حاصل پور':['حاصل پور','چک 72/B','چک 73/B','چک 74/B','نئی آبادی'],
+  },
+  'گوجرانوالہ':{
+    'گوجرانوالہ':['گوجرانوالہ','نوشہرہ ورکاں','وزیر آباد','قلعہ دیدار سنگھ','سمن آباد','کامونکی'],
+    'وزیر آباد':['وزیر آباد','علی پور چٹھہ','شکر گڑھ','ڈنگہ'],
+    'حافظ آباد':['حافظ آباد','پنڈی بھٹیاں','وزیرآباد روڈ','کھو روڈ'],
+  },
+  'راولپنڈی':{
+    'راولپنڈی':['راولپنڈی','تخت پاری','مری','کھاریاں','پنڈیالہ','گوجر خان','تلہ گنگ'],
+    'گوجر خان':['گوجر خان','ڈنگلی','مناوالہ','جنڈ','سواں'],
+    'مری':['مری','پیر سوہاوہ','بھوربن','کاہوٹہ'],
+  },
+  'سرگودھا':{
+    'سرگودھا':['سرگودھا','بھیرہ','خوشاب','میانوالی','جہلم','چکوال'],
+    'بھیرہ':['بھیرہ','شاہ پور','حضرو','وادی','آواں'],
+    'خوشاب':['خوشاب','نور پور تھال','قائد آباد','جلال پور بھٹیاں'],
+  },
+  'ساہیوال':{
+    'ساہیوال':['ساہیوال','چیچہ وطنی','اوکاڑہ','دیپالپور','رینالہ خورد'],
+    'چیچہ وطنی':['چیچہ وطنی','چک 95/9L','چک 96/9L','نوشہرہ'],
+    'اوکاڑہ':['اوکاڑہ','رینالہ خورد','ہاورتھ','ڈیہڑ'],
+  },
+  'جھنگ':{
+    'جھنگ':['جھنگ','چنیوٹ','شورکوٹ','احمد پور سیال','ٹوبہ ٹیک سنگھ'],
+    'چنیوٹ':['چنیوٹ','بھوانہ','گوگیرہ','للیانی'],
+    'شورکوٹ':['شورکوٹ','پیر محل','قادر آباد','مادھو لال حسین'],
+  },
+  'خانیوال':{
+    'خانیوال':['خانیوال','میاں چنوں','جہانیاں','تلمبہ'],
+    'میاں چنوں':['میاں چنوں','ہیڈ اسلام','بوری والا','چک 42/14-L'],
+    'جہانیاں':['جہانیاں','چک 44/14-L','چک 45/14-L','فرید آباد'],
+  },
+  'وہاڑی':{
+    'وہاڑی':['وہاڑی','بورے والا','میلسی','ماچھی والا'],
+    'بورے والا':['بورے والا','چک 115/9-R','چک 116/9-R','سلطان پور'],
+    'میلسی':['میلسی','چک 60/WB','چک 61/WB','نواں گڑھ'],
+  },
+  'بہاول نگر':{
+    'بہاول نگر':['بہاول نگر','فورٹ عباس','چشتیاں','ہارون آباد'],
+    'چشتیاں':['چشتیاں','چک 73/DB','چک 74/DB','مچھی والا'],
+    'فورٹ عباس':['فورٹ عباس','کلر والا','مکھد','ڈھاڈر'],
+  },
+  'مظفر گڑھ':{
+    'مظفر گڑھ':['مظفر گڑھ','علی پور','کوٹ ادو','جتوئی'],
+    'علی پور':['علی پور','چاچڑاں','جام پور','چک 220/TDA'],
+    'کوٹ ادو':['کوٹ ادو','سنجاول','رنگ پور','تونسہ شریف'],
+  },
+  'ڈیرہ غازی خان':{
+    'ڈیرہ غازی خان':['ڈیرہ غازی خان','تونسہ','کوہ سلیمان','شادی خیل'],
+    'تونسہ':['تونسہ','پہاڑ پور','کلاچی','چاکر'],
+  },
+  'لیہ':{
+    'لیہ':['لیہ','چوک اعظم','کروڑ لعل عیسن','بھکر'],
+    'چوک اعظم':['چوک اعظم','فتح پور','کندھ کوٹ','شادی خیل'],
+  },
+  'میانوالی':{
+    'میانوالی':['میانوالی','عیسیٰ خیل','پیوندی','کلور کوٹ'],
+    'عیسیٰ خیل':['عیسیٰ خیل','وناہ','پانو عاقل','علی خیل'],
+  },
+  'چکوال':{
+    'چکوال':['چکوال','تلاگنگ','لاوہ','کلر کہار'],
+    'تلاگنگ':['تلاگنگ','بلکسر','پنڈ دادن خان','قائد آباد'],
+  },
+  'جہلم':{
+    'جہلم':['جہلم','سوہاوہ','پنڈ دادن خان','دینہ'],
+    'دینہ':['دینہ','لیلا','سڑوالہ','چکری'],
+  },
+  'گجرات':{
+    'گجرات':['گجرات','خاریاں','سرائے عالمگیر','کنجاہ'],
+    'خاریاں':['خاریاں','لالہ موسیٰ','مانڈی بہاؤالدین','شاہ پور'],
+  },
+  'منڈی بہاؤالدین':{
+    'منڈی بہاؤالدین':['منڈی بہاؤالدین','ملکوال','پھالیہ','شاہ پور'],
+    'ملکوال':['ملکوال','چک 149/NB','چک 150/NB','راجہ جنگ'],
+  },
+  'نارووال':{
+    'نارووال':['نارووال','شکر گڑھ','ظفر وال','شاہ پور کنڈی'],
+    'شکر گڑھ':['شکر گڑھ','ریحان','حیات نگر','چاچڑاں'],
+  },
+  'سیالکوٹ':{
+    'سیالکوٹ':['سیالکوٹ','ڈسکہ','سمبڑیال','پسرور'],
+    'ڈسکہ':['ڈسکہ','کونترلہ','نیلا بٹ','کندی'],
+    'سمبڑیال':['سمبڑیال','ڈمبالا','گکھڑ','ادارہ'],
+  },
+  'قصور':{
+    'قصور':['قصور','پتوکی','چونیاں','کوٹ رادھا کشن'],
+    'پتوکی':['پتوکی','چک 10/1-R','چک 11/1-R','بیٹ'],
+    'چونیاں':['چونیاں','گنجی بار','ہیڈ قادر آباد','جیٹاکہ'],
+  },
+  'اوکاڑہ':{
+    'اوکاڑہ':['اوکاڑہ','ڈیپالپور','رینالہ خورد','ہاورتھ'],
+    'ڈیپالپور':['ڈیپالپور','ملتان روڈ','پنجگرائیں','گوگیرہ'],
+  },
+  'پاکپتن':{
+    'پاکپتن':['پاکپتن','عارف والا','چک 25/9-L','چک 26/9-L'],
+    'عارف والا':['عارف والا','لدھیانہ','تاندلیانوالہ','راجپوتانہ'],
+  },
+  'ٹوبہ ٹیک سنگھ':{
+    'ٹوبہ ٹیک سنگھ':['ٹوبہ ٹیک سنگھ','گوجرہ','کمالیہ','پیر محل'],
+    'گوجرہ':['گوجرہ','چک 467/JB','چک 468/JB','للیانی'],
+  },
+  'حافظ آباد':{
+    'حافظ آباد':['حافظ آباد','پنڈی بھٹیاں','سنہری','کلوکے'],
+    'پنڈی بھٹیاں':['پنڈی بھٹیاں','وڈالہ','جیا بھٹی','راجہ کلاس'],
+  },
+  'مینگورہ/اٹک':{
+    'اٹک':['اٹک','کیمبل پور','حضرو','جنڈ','فتح جنگ'],
+    'حضرو':['حضرو','خیر آباد','کلولہ','نیلا'],
+  },
+};
+
 const CAT=[
   {name:'محمد ذوالفقار',father:'عبدالغفور',nic:'3130320357489',m:188.62,km:'9K 8.62M',sqft:51305},
   {name:'محمد فاروق',father:'عبدالستار',nic:'4420361529293',m:65.25,km:'3K 5.25M',sqft:17748},
@@ -550,26 +678,76 @@ const CAT=[
   {name:'محمد عمر ذوالفقار',father:'محمد ذوالفقار',nic:'3130328374897',m:21.83,km:'1K 1.83M',sqft:5937},
 ];
 
+/* populate districts on load */
+window.addEventListener('DOMContentLoaded',()=>{
+  const dSel=document.getElementById('district');
+  Object.keys(PUNJAB).sort().forEach(d=>{
+    const o=document.createElement('option');
+    o.value=d; o.textContent=d;
+    dSel.appendChild(o);
+  });
+  // pre-select RYK for demo
+  dSel.value='رحیم یار خان';
+  onDistrict(true);
+});
+
+function onDistrict(preload){
+  const d=document.getElementById('district').value;
+  const tSel=document.getElementById('tehsil');
+  const mSel=document.getElementById('mouza');
+  tSel.innerHTML='<option value="">تحصیل منتخب کریں</option>';
+  mSel.innerHTML='<option value="">پہلے تحصیل منتخب کریں</option>';
+  mSel.disabled=true;
+  if(!d){tSel.disabled=true;return;}
+  tSel.disabled=false;
+  Object.keys(PUNJAB[d]).forEach(t=>{
+    const o=document.createElement('option');
+    o.value=t; o.textContent=t;
+    tSel.appendChild(o);
+  });
+  if(preload){tSel.value='رحیم یار خان';onTehsil(true);}
+}
+
+function onTehsil(preload){
+  const d=document.getElementById('district').value;
+  const t=document.getElementById('tehsil').value;
+  const mSel=document.getElementById('mouza');
+  mSel.innerHTML='<option value="">موضع منتخب کریں</option>';
+  if(!d||!t){mSel.disabled=true;return;}
+  mSel.disabled=false;
+  const mouzas=PUNJAB[d][t]||[];
+  mouzas.forEach(m=>{
+    const o=document.createElement('option');
+    o.value=m; o.textContent=m;
+    mSel.appendChild(o);
+  });
+  if(preload){mSel.value='چک 72/NP';}
+}
+
 function doSearch(){
   const nic=(document.getElementById('cnic').value||'').replace(/-/g,'').trim();
   const name=(document.getElementById('nameinp').value||'').trim().toLowerCase();
   const dist=document.getElementById('district').value;
+  const mouza=document.getElementById('mouza').value;
   const hit=nic==='3520242512499'||nic==='3130320357489'||nic==='4420361529293'||nic==='3130328374897'
-    ||(name&&('محمد عثمان'.includes(document.getElementById('nameinp').value.trim())||name.includes('usman')||name.includes('zulfiqar')||name.includes('farooq')||name.includes('umar')))
-    ||(dist==='RYK');
+    ||(name&&(document.getElementById('nameinp').value.trim().includes('عثمان')||name.includes('usman')||name.includes('zulfiqar')||name.includes('farooq')||name.includes('umar')))
+    ||(dist==='رحیم یار خان'&&mouza.includes('72'));
   if(hit){
     document.getElementById('resCount').textContent='1';
+    const tehsilVal=document.getElementById('tehsil').value||'رحیم یار خان';
+    const mouzaVal=mouza||'چک 72/NP';
     document.getElementById('resultsBody').innerHTML=`
       <div class="rtbl-row" onclick="openFard()">
-        <div class="rtd right">رحیم یار خان</div>
-        <div class="rtd">چک نمبر 72/NP</div>
+        <div class="rtd right">${tehsilVal}</div>
+        <div class="rtd">${mouzaVal}</div>
         <div class="rtd eng">14 / 1913713</div>
         <div class="rtd eng">08/11/2026</div>
         <div class="rtd left" style="color:#1B5E35;font-family:var(--urdu);font-size:13px">فردِ مالکیت</div>
       </div>`;
   } else {
     document.getElementById('resCount').textContent='0';
-    document.getElementById('resultsBody').innerHTML=document.getElementById('emptyState')?document.getElementById('emptyState').outerHTML:'<div style="padding:40px;text-align:center;font-family:var(--urdu)">کوئی معلومات دستیاب نہیں!</div>';
+    const es=document.getElementById('emptyState');
+    document.getElementById('resultsBody').innerHTML=es?es.outerHTML:'<div style="padding:40px;text-align:center;font-family:var(--urdu)">کوئی معلومات دستیاب نہیں!</div>';
   }
 }
 
