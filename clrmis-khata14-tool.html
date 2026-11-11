@@ -713,8 +713,8 @@ body {
             <div class="data-box-row"><div class="dbr-k">NIC</div><div class="dbr-v nic-cell">35202-4251249-9</div></div>
             <div class="data-box-row"><div class="dbr-k">Share Before FB-199</div><div class="dbr-v green">43.00 M (Lawful)</div></div>
             <div class="data-box-row"><div class="dbr-k">Share After FB-199</div><div class="dbr-v red">33.02 M (CLRMIS Current)</div></div>
-            <div class="data-box-row"><div class="dbr-k">Deficit</div><div class="dbr-v red">≈ 9.98 M · 2,715 sqft</div></div>
-            <div class="data-box-row"><div class="dbr-k">Zero-Sum Effect</div><div class="dbr-v amber">2,715 sqft TRANSFERRED to unknown beneficiary</div></div>
+            <div class="data-box-row"><div class="dbr-k">Deficit</div><div class="dbr-v red">≈ 9.98 M · 2,714 sqft</div></div>
+            <div class="data-box-row"><div class="dbr-k">Zero-Sum Effect</div><div class="dbr-v amber">2,714 sqft TRANSFERRED to unknown beneficiary</div></div>
           </div>
 
           <div class="audit-box">
@@ -843,8 +843,29 @@ const locked   = {};
 
 const toM    = s => s / FPM;
 const toS    = m => Math.round(m * FPM);
-const toKM   = s => { const m = s/FPM; return { k: Math.floor(m/20), m: m%20 }; }
-const fmtM   = m => m.toFixed(4);
+// Kanal-Marla split done on integer hundredths of a marla so the remainder
+// can never display as "20.00M" through floating-point drift.
+const toKM   = s => { const h = Math.round(s * 100 / FPM); return { k: Math.floor(h/2000), m: (h%2000)/100 }; }
+
+// Exact integer apportionment (largest-remainder / Hamilton method).
+// Splits an integer `total` sqft across `items` in proportion to their sqft,
+// guaranteeing every share is a whole sqft and the shares sum to `total` exactly.
+function apportion(total, items) {
+  const W = items.reduce((a,x)=>a+x.sqft,0);
+  const out = new Map();
+  if (!W || !total) { items.forEach(x=>out.set(x.key,0)); return out; }
+  const sgn = Math.sign(total), T = Math.abs(total);
+  let used = 0;
+  const rem = items.map(x=>{
+    const exact = T * x.sqft / W, base = Math.floor(exact);
+    used += base; out.set(x.key, base);
+    return { key:x.key, r: exact - base, w:x.sqft };
+  });
+  rem.sort((a,b)=> b.r-a.r || b.w-a.w || (a.key<b.key?-1:1));
+  for (let i=0; i<T-used; i++) out.set(rem[i].key, out.get(rem[i].key)+1);
+  items.forEach(x=>out.set(x.key, sgn*out.get(x.key)));
+  return out;
+}const fmtM   = m => m.toFixed(4);
 const fmtKM  = s => { const r=toKM(s); return `${r.k}K ${r.m.toFixed(2)}M`; }
 const fmtN   = n => n.toLocaleString();
 const getP   = k => proposed[k] !== undefined ? proposed[k] : (persons.find(x=>x.key===k)||{sqft:0}).sqft;
@@ -940,8 +961,10 @@ function setAbs(mode) {
 function calcScen() {
   const p = persons.find(x=>x.key===document.getElementById('scenPerson').value);
   if (!p) return;
-  const nS = parseInt(document.getElementById('scenS').value)||p.sqft;
+  const raw = parseInt(document.getElementById('scenS').value,10);
+  const nS = Number.isNaN(raw) ? p.sqft : Math.max(0, raw);   // 0 is a valid share
   const d  = nS - p.sqft;
+  let warn = '';
   if (d===0) { document.getElementById('scenNoRes').hidden=false; document.getElementById('scenRes').hidden=true; return; }
   document.getElementById('scenNoRes').hidden=true;
   document.getElementById('scenRes').hidden=false;
@@ -951,23 +974,27 @@ function calcScen() {
 
   if (absMode==='all') {
     const others=persons.filter(x=>x.key!==p.key);
-    const ot=others.reduce((a,x)=>a+x.sqft,0);
-    const catAO=persons.filter(x=>x.key!==p.key&&x.category==='A');
-    const bigO =persons.filter(x=>x.key!==p.key&&x.category!=='A').slice(0,4);
+    const alloc=apportion(-d, others);           // exact: Σ alloc === −d
+    const catAO=others.filter(x=>x.category==='A');
+    const bigO =others.filter(x=>x.category!=='A').slice(0,4);
     const disp=[...catAO,...bigO];
     const shown=new Set(disp.map(x=>x.key));
-    disp.forEach(x=>{const f=x.sqft/ot; const dd=-Math.round(d*f); rows.push({p:x,nS:x.sqft+dd,d:dd,chosen:false});});
+    disp.forEach(x=>{const dd=alloc.get(x.key); rows.push({p:x,nS:x.sqft+dd,d:dd,chosen:false});});
     const rest=others.filter(x=>!shown.has(x.key));
     if(rest.length){
       const rt=rest.reduce((a,x)=>a+x.sqft,0);
-      const rd=-Math.round(d*(rt/ot));
+      const rd=rest.reduce((a,x)=>a+alloc.get(x.key),0);
       rows.push({p:{key:'__r',first_name:`… ${fmtN(rest.length)} others`,last_name:'',marlas:toM(rt),sqft:rt,category:'',nic:''},nS:rt+rd,d:rd,chosen:false});
     }
+    if (others.some(x=>x.sqft+alloc.get(x.key)<0)) warn='Proposed share exceeds the land held by all other owners — not possible.';
   } else {
     const ak=document.getElementById('scenAbsP').value;
     const ab=persons.find(x=>x.key===ak);
-    if(ab) rows.push({p:ab,nS:ab.sqft-d,d:-d,chosen:false});
+    if(ab){ rows.push({p:ab,nS:ab.sqft-d,d:-d,chosen:false});
+      if(ab.sqft-d<0) warn=`Named owner holds only ${fmtN(ab.sqft)} sqft — cannot absorb ${fmtN(d)} sqft.`; }
   }
+  // Net check across every row: must be exactly 0 sqft for the Khata total to hold.
+  const net = rows.reduce((a,r)=>a+r.d,0);
 
   let html='';
   rows.forEach(r=>{
@@ -983,6 +1010,14 @@ function calcScen() {
       <td class="num ${cl}">${sg}${fmtN(Math.abs(r.d))}</td>
     </tr>`;
   });
+  const ok = net===0;
+  html+=`<tr style="font-weight:700">
+      <td>NET CHANGE · Khata total ${fmtN(KHATA+net)} sqft</td>
+      <td class="num" colspan="2"></td>
+      <td class="num ${ok?'d-pos':'d-neg'}">${ok?'0.0000M':fmtM(toM(net))+'M'}</td>
+      <td class="num ${ok?'d-pos':'d-neg'}">${ok?'0 ✓':fmtN(net)+' ⚠'}</td>
+    </tr>`;
+  if (warn) html+=`<tr><td colspan="5" class="d-neg">⚠ ${warn}</td></tr>`;
   document.getElementById('scenImpTbody').innerHTML=html;
 }
 
@@ -1135,8 +1170,8 @@ function showExport() {
   txt+=`  Petitioner (محمد عثمان, NIC 35202-4251249-9)\n`;
   txt+=`  Lawful share: 43.00 Marlas\n`;
   txt+=`  CLRMIS current: 33.02 Marlas\n`;
-  txt+=`  Deficit: ≈ 9.98 Marlas = 2,715 sqft\n`;
-  txt+=`  Zero-sum proof: 2,715 sqft MUST have been credited to another owner.\n`;
+  txt+=`  Deficit: ≈ 9.98 Marlas = 2,714 sqft\n`;
+  txt+=`  Zero-sum proof: 2,714 sqft MUST have been credited to another owner.\n`;
   txt+=`  This export was produced for court production — WP 50498/2026 LHC.\n`;
   document.getElementById('expPre').textContent=txt;
   document.getElementById('expModal').classList.add('open');

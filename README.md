@@ -31,7 +31,7 @@ The tool is designed to demonstrate to the court:
 | **Khata Total (Fixed)** | 3,180,340 sqft = 11,692.43 Marlas = 584K 12.43M |
 | **Petitioner's lawful share** | ~43.00 Marlas |
 | **CLRMIS after FB-199** | 33.02 Marlas |
-| **Deficit caused by FB-199** | ≈ 9.98 Marlas = 2,715 sqft |
+| **Deficit caused by FB-199** | ≈ 9.98 Marlas = 2,714 sqft |
 
 ---
 
@@ -61,7 +61,7 @@ The tool is designed to demonstrate to the court:
 Three modules:
 
 ### 1. Scenario Calculator
-Select any owner → enter a proposed new share → system computes the mandatory zero-sum redistribution across all other owners. Proves that FB-199's reduction of Petitioner's share *must* have increased someone else's share by exactly 2,715 sqft.
+Select any owner → enter a proposed new share → system computes the mandatory zero-sum redistribution across all other owners. Proves that FB-199's reduction of Petitioner's share *must* have increased someone else's share by exactly 2,714 sqft.
 
 ### 2. What-If Comparator
 Full 1,410-owner table with editable proposed Marla values. Live imbalance counter. Demonstrates the zero-sum constraint interactively.
@@ -78,8 +78,8 @@ The Khata total is physically fixed land. It cannot change. Therefore:
 ```
 Total Sqft (before FB-199) = Total Sqft (after FB-199) = 3,180,340 sqft
 
-Petitioner lost:  43.00M − 33.02M = 9.98M ≈ 2,715 sqft
-Therefore:        Some other owner(s) GAINED 2,715 sqft via FB-199
+Petitioner lost:  43.00M − 33.02M = 9.98M ≈ 2,714 sqft
+Therefore:        Some other owner(s) GAINED 2,714 sqft via FB-199
 ```
 
 This is the mechanistic proof of the manipulation. The tool makes the court compute it themselves.
