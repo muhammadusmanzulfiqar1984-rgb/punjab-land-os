@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QR Front-End vs Back-End Demonstration</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+/*
+  Demonstration of method only: how one printed record ID can show one
+  thing on paper while the record its QR code opens has been changed.
+  Uses the real Khata 14 data in data/khata14_persons.json.
+  Deliberately carries no PLRA emblem, officer or signature fields.
+*/
+:root {
+  --bg:#F7F9F6; --paper:#FFFFFF; --tint:#EDF4EB; --line:#E3EAE3; --line-dk:#C5D6C9;
+  --ink:#244438; --mid:#4E6359; --muted:#7C8781;
+  --deep:#034B35; --green:#075D3D;
+  --red:#CC0000; --red-lt:#FDEAEA; --amber:#8A6000; --amber-lt:#FFFBE6;
+  --mono:'Roboto Mono',monospace; --sans:'Roboto',system-ui,sans-serif;
+  --urdu:'Noto Nastaliq Urdu',serif;
+  color-scheme: light;
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background:var(--bg); color:var(--ink); font:13px/1.5 var(--sans); font-variant-numeric:tabular-nums; }
+header { background:var(--deep); color:#fff; padding:12px 16px; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+header h1 { font-size:16px; font-weight:700; }
+header p { font-size:11px; opacity:.75; }
+header .sp { margin-left:auto; display:flex; gap:8px; }
+.btn { padding:7px 14px; border:1px solid var(--line-dk); border-radius:6px; background:var(--paper); color:var(--ink); font:500 12px var(--sans); cursor:pointer; }
+.btn.primary { background:var(--green); border-color:var(--green); color:#fff; }
+.btn.danger  { background:var(--red); border-color:var(--red); color:#fff; }
+.btn:disabled { opacity:.4; cursor:not-allowed; }
+header .btn { background:transparent; color:#fff; border-color:rgba(255,255,255,.4); }
+
+.steps { display:flex; gap:0; background:var(--paper); border-bottom:1px solid var(--line); overflow-x:auto; }
+.step { flex:1; min-width:150px; padding:10px 16px; border-bottom:3px solid transparent; color:var(--muted); font-weight:500; }
+.step b { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--line); color:var(--mid); text-align:center; line-height:20px; font-size:11px; margin-right:6px; }
+.step.on   { color:var(--green); border-bottom-color:var(--green); }
+.step.on b, .step.done b { background:var(--green); color:#fff; }
+.step.done { color:var(--ink); }
+
+main { padding:16px; display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:1300px; margin:0 auto; }
+@media (max-width:900px) { main { grid-template-columns:1fr; } }
+.card { background:var(--paper); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+.card h2 { font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--mid); padding:10px 14px; border-bottom:1px solid var(--line); background:var(--tint); display:flex; justify-content:space-between; align-items:center; gap:8px; }
+.card .body { padding:14px; }
+.full { grid-column:1/-1; }
+.note { font-size:12px; color:var(--mid); }
+.urdu { font-family:var(--urdu); direction:rtl; unicode-bidi:isolate; line-height:2; }
+.mono { font-family:var(--mono); }
+
+/* printed document */
+.doc { position:relative; border:1px solid var(--line-dk); border-radius:4px; padding:16px; background:#fff; overflow:hidden; min-height:300px; }
+.doc .wm { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none;
+  font:700 54px var(--sans); color:rgba(204,0,0,.10); transform:rotate(-24deg); letter-spacing:.1em; white-space:nowrap; }
+.doc-top { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; margin-bottom:12px; }
+.doc-top h3 { font-size:14px; }
+.doc-top .sub { font-size:11px; color:var(--muted); }
+.qr { width:116px; height:116px; flex-shrink:0; padding:4px; background:#fff; border:1px solid var(--line); }
+.qr img, .qr canvas { width:106px !important; height:106px !important; }
+.empty { display:flex; align-items:center; justify-content:center; min-height:260px; color:var(--muted); text-align:center; }
+
+table.kv { width:100%; border-collapse:collapse; font-size:12px; }
+table.kv th, table.kv td { border:1px solid var(--line); padding:6px 8px; text-align:left; vertical-align:middle; }
+table.kv th { background:var(--tint); color:var(--mid); font-weight:500; width:38%; }
+table.kv td.num { font-family:var(--mono); text-align:right; }
+tr.diff td { background:var(--red-lt); color:var(--red); font-weight:700; }
+tr.same td.ok { color:var(--green); font-weight:700; }
+
+.form { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.form label { display:flex; flex-direction:column; gap:3px; font-size:11px; font-weight:700; color:var(--mid); text-transform:uppercase; letter-spacing:.04em; }
+.form select, .form input { padding:7px 8px; border:1px solid var(--line-dk); border-radius:6px; font:12px var(--mono); color:var(--ink); background:#fff; }
+.form .wide { grid-column:1/-1; }
+.check { margin-top:10px; padding:8px 10px; border-radius:6px; font:600 12px var(--mono); }
+.check.ok  { background:var(--tint); color:var(--green); }
+.check.bad { background:var(--red-lt); color:var(--red); }
+
+.log { font:11px/1.7 var(--mono); background:var(--bg); border:1px solid var(--line); border-radius:6px; padding:8px 10px; max-height:160px; overflow:auto; }
+.log div.alert { color:var(--red); }
+.banner { padding:10px 14px; border-radius:8px; font-weight:700; font-size:13px; margin-bottom:12px; }
+.banner.bad { background:var(--red-lt); color:var(--red); border:1px solid #f3b9b9; }
+.banner.ok  { background:var(--tint); color:var(--green); border:1px solid var(--line-dk); }
+.ver { font:500 11px var(--mono); padding:2px 8px; border-radius:10px; background:var(--amber-lt); color:var(--amber); }
+
+/* scan-only view (opened from QR) */
+body.scan-mode .steps, body.scan-mode #mainGrid { display:none; }
+#scanView { display:none; max-width:560px; margin:16px auto; padding:0 16px; }
+body.scan-mode #scanView { display:block; }
+footer { text-align:center; font-size:11px; color:var(--muted); padding:16px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Same Record ID, Different Data: QR Front-End vs Back-End</h1>
+    <p>Demonstration of method using Khata 14 data · not a Fard · not an official PLRA record</p>
+  </div>
+  <div class="sp">
+    <button class="btn" onclick="resetAll()">Reset demonstration</button>
+  </div>
+</header>
+
+<div class="steps">
+  <div class="step" id="st1"><b>1</b>Print document</div>
+  <div class="step" id="st2"><b>2</b>Edit back-end record</div>
+  <div class="step" id="st3"><b>3</b>Scan QR &amp; compare</div>
+</div>
+
+<main id="mainGrid">
+
+  <!-- LEFT: printed document -->
+  <section class="card">
+    <h2>Printed document <span class="note" style="text-transform:none;letter-spacing:0">frozen at print time</span></h2>
+    <div class="body">
+      <div id="printForm">
+        <div class="form">
+          <label>Record ID<input id="inId" value="DEMO-0199"></label>
+          <label>Record date<input id="inDate" value="2006"></label>
+          <label class="wide">Owner on document
+            <select id="inOwner"></select>
+          </label>
+          <label>Share printed (Marlas)<input id="inShare" type="number" step="0.0001" value="43.0000"></label>
+          <label>= Sqft<input id="inShareS" readonly></label>
+          <label class="wide">Owner whose share is later increased (the real beneficiary is not disclosed; pick any owner to demonstrate)
+            <select id="edTo"></select>
+          </label>
+        </div>
+        <p class="note" style="margin-top:10px">The printed share is the petitioner's lawful share (43 M × 272 = 11,696 sqft). The document records it, and its QR code points to this record ID.</p>
+        <button class="btn primary" style="margin-top:12px" onclick="doPrint()">1 · Print document</button>
+      </div>
+      <div id="docWrap" hidden></div>
+    </div>
+  </section>
+
+  <!-- RIGHT: back-end -->
+  <section class="card">
+    <h2>Back-end record <span class="ver" id="verChip">v1</span></h2>
+    <div class="body">
+      <div id="beEmpty" class="empty">Print the document first.<br>The back-end holds the same values at that moment.</div>
+      <div id="beWrap" hidden>
+        <table class="kv" id="beTbl"></table>
+
+        <h3 style="font-size:12px;margin:14px 0 8px;color:var(--mid);text-transform:uppercase;letter-spacing:.05em">Operator edit (after printing)</h3>
+        <div class="form">
+          <label>Move from<input id="edFrom" readonly></label>
+          <label>Sqft to move<input id="edAmt" type="number" step="1" min="1"></label>
+          <label class="wide">Move to<input id="edToShow" readonly></label>
+        </div>
+        <button class="btn danger" style="margin-top:10px" id="edBtn" onclick="doEdit()">2 · Apply back-end edit</button>
+        <div class="check" id="zsCheck"></div>
+
+        <h3 style="font-size:12px;margin:14px 0 8px;color:var(--mid);text-transform:uppercase;letter-spacing:.05em">Back-end change log</h3>
+        <div class="log" id="beLog"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON -->
+  <section class="card full">
+    <h2>3 · Scan the QR on the printed document <span><button class="btn primary" id="scanBtn" onclick="doScan()" disabled>Scan QR</button> <a class="btn" id="scanLink" target="_blank" rel="noopener" hidden>Open QR link in new tab</a></span></h2>
+    <div class="body">
+      <div id="cmpEmpty" class="note">After printing, scan the QR code. It opens the live back-end record for the same ID. The table compares the two field by field.</div>
+      <div id="cmpWrap" hidden></div>
+    </div>
+  </section>
+</main>
+
+<!-- Opened from the QR code -->
+<div id="scanView"></div>
+
+<footer>Demonstration of method · Data: Khata 14 (1,410 owners, 3,180,340 sqft, 272 sqft per marla) · Not a Fard and not an official PLRA record</footer>
+
+<script>
+const FPM = 272;
+const PET_NIC = '3520242512499';
+const LAWFUL_M = 43;
+const KEY = 'qr-demo-khata14-v1';
+let P = [], KHATA = 0, S = null;   // persons, total, state
+
+const fmtN = n => n.toLocaleString('en-US');
+const fmtM = s => (s / FPM).toFixed(4);
+const fmtKM = s => { const h = Math.round(s * 100 / FPM); return `${Math.floor(h/2000)}K ${((h%2000)/100).toFixed(2)}M`; };
+const nicFmt = n => n && n.length===13 ? `${n.slice(0,5)}-${n.slice(5,12)}-${n.slice(12)}` : (n||'—');
+const nameOf = p => `${p.first_name} ${p.last_name==='nan'?'':p.last_name}`.trim();
+const byKey = k => P.find(p=>p.key===k);
+const esc = s => String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const now = () => new Date(Date.now()+5*3600e3).toISOString().replace('T',' ').slice(0,19)+' PKT';
+
+function load(){ try { return JSON.parse(localStorage.getItem(KEY)||'null'); } catch(e){ return null; } }
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
+
+// Current back-end share for an owner
+const beShare = k => (S && S.be[k] !== undefined) ? S.be[k] : byKey(k).sqft;
+const beTotal = () => P.reduce((a,p)=>a+beShare(p.key),0);
+
+// ── init ───────────────────────────────────────────────────
+fetch('data/khata14_persons.json').then(r=>r.json()).then(d=>{
+  P = d.persons; KHATA = d.total_sqft;
+  const sum = P.reduce((a,p)=>a+p.sqft,0);
+  if (sum !== KHATA) alert(`Data check failed: shares sum to ${fmtN(sum)} sqft, total is ${fmtN(KHATA)}.`);
+  S = load();
+  const m = location.hash.match(/scan=([^&]+)/);
+  if (m) { document.body.classList.add('scan-mode'); renderScanView(decodeURIComponent(m[1])); return; }
+  fillSelects(); render();
+}).catch(e=>{ document.body.innerHTML = '<p style="padding:20px">Could not load data/khata14_persons.json: '+esc(e)+'</p>'; });
+
+function fillSelects(){
+  const pet = P.find(p=>p.nic===PET_NIC);
+  const opt = p => `<option value="${esc(p.key)}">${esc(nameOf(p))} · ${nicFmt(p.nic)} · ${fmtM(p.sqft)} M</option>`;
+  document.getElementById('inOwner').innerHTML = opt(pet) + P.filter(p=>p!==pet).map(opt).join('');
+  // Beneficiary must already hold the moved land in the final record (real CLRMIS)
+  document.getElementById('edTo').innerHTML = '<option value="">— select owner —</option>' +
+    P.filter(p=>p!==pet && p.sqft>=(LAWFUL_M*FPM-pet.sqft)).map(opt).join('');
+  const sh = document.getElementById('inShare');
+  sh.oninput = () => document.getElementById('inShareS').value = fmtN(Math.round((parseFloat(sh.value)||0)*FPM));
+  sh.oninput();
+  document.getElementById('inOwner').onchange = () => {
+    const p = byKey(document.getElementById('inOwner').value);
+    sh.value = p.nic===PET_NIC ? LAWFUL_M.toFixed(4) : fmtM(p.sqft); sh.oninput();
+  };
+}
+
+// ── step 1: print ─────────────────────────────────────────
+// The back-end starts consistent with the paper. For the petitioner, the
+// printed 11,696 sqft means the 2,714 sqft later moved sits with the petitioner;
+// the edit in step 2 then brings the record to the real CLRMIS figure (8,982 sqft).
+function doPrint(){
+  const id = document.getElementById('inId').value.trim() || 'DEMO-0199';
+  const date = document.getElementById('inDate').value.trim();
+  const owner = byKey(document.getElementById('inOwner').value);
+  const shareS = Math.round((parseFloat(document.getElementById('inShare').value)||0)*FPM);
+  const recv = byKey(document.getElementById('edTo').value);
+  if (!recv) { alert('Select the owner whose share is later increased.'); return; }
+  if (recv.key === owner.key) { alert('Pick a different owner.'); return; }
+  const hold = shareS - owner.sqft;  // land the paper shows beyond the current record
+  if (recv.sqft - hold < 0) { alert(`${nameOf(recv)} holds only ${fmtN(recv.sqft)} sqft — pick an owner holding at least ${fmtN(hold)} sqft.`); return; }
+  // Back-end at print time matches the paper, and the Khata total is exact:
+  // the printed owner holds shareS, the receiver holds its current share minus `hold`.
+  // After the step-2 edit both return to their real current CLRMIS figures.
+  S = {
+    id, date, owner: owner.key, recv: recv.key,
+    printed: { id, date, owner: owner.key, name: nameOf(owner), nic: owner.nic, sqft: shareS, total: KHATA, at: now() },
+    be: { [owner.key]: shareS, [recv.key]: recv.sqft - hold },
+    hold,
+    version: 1,
+    log: [ `${now()}  v1  Record ${id} printed: ${nameOf(owner)} = ${fmtN(shareS)} sqft (${fmtM(shareS)} M)` ],
+    edited: false, scanned: false,
+  };
+  save(); render();
+}
+
+// ── step 2: back-end edit ─────────────────────────────────
+function doEdit(){
+  const to = byKey(S.recv);
+  const amt = parseInt(document.getElementById('edAmt').value,10);
+  if (!(amt>0)) { alert('Enter the sqft to move.'); return; }
+  const from = byKey(S.owner);
+  const fOld = beShare(from.key);
+  if (amt > fOld) { alert(`${nameOf(from)} holds only ${fmtN(fOld)} sqft in the back-end.`); return; }
+  const tBase = beShare(to.key);
+  S.be[from.key] = fOld - amt;
+  S.be[to.key]   = tBase + amt;
+  S.version++;
+  S.log.push(`${now()}  v${S.version}  ${nameOf(from)}: ${fmtN(fOld)} → ${fmtN(S.be[from.key])} sqft  (−${fmtN(amt)})`);
+  S.log.push(`${now()}  v${S.version}  ${nameOf(to)}: ${fmtN(tBase)} → ${fmtN(S.be[to.key])} sqft  (+${fmtN(amt)})`);
+  S.log.push(`${now()}  v${S.version}  Printed document ${S.id} NOT changed. QR still points to ${S.id}.`);
+  S.edited = true;
+  save(); render();
+}
+
+// ── step 3: scan ──────────────────────────────────────────
+function doScan(){ S.scanned = true; save(); render(); document.getElementById('cmpWrap').scrollIntoView({behavior:'smooth'}); }
+
+function resetAll(){ if (!confirm('Reset the demonstration?')) return; S=null; try{localStorage.removeItem(KEY);}catch(e){} location.hash=''; render(); }
+
+function qrURL(){ return location.href.split('#')[0] + '#scan=' + encodeURIComponent(S.id); }
+
+// rows compared between paper and back-end
+function compareRows(){
+  const pr = S.printed, k = S.owner, be = beShare(k), tot = beTotal();
+  return [
+    ['Record ID',      pr.id,                    S.id],
+    ['Record date',    pr.date||'—',             S.date||'—'],
+    ['Khata / Khewat', '14 / 1913713',           '14 / 1913713'],
+    ['Owner',          pr.name,                  nameOf(byKey(k)), 'urdu'],
+    ['NIC',            nicFmt(pr.nic),           nicFmt(byKey(k).nic)],
+    ['Share (Marlas)', fmtM(pr.sqft),            fmtM(be), 'num'],
+    ['Share (Sqft)',   fmtN(pr.sqft),            fmtN(be), 'num'],
+    ['Kanal-Marla',    fmtKM(pr.sqft),           fmtKM(be), 'num'],
+    ['Khata total',    fmtN(pr.total)+' sqft',   fmtN(tot)+' sqft', 'num'],
+  ];
+}
+
+function kvTable(rows, col){ // col: 1 = printed, 2 = back-end
+  return rows.map(r=>`<tr><th>${r[0]}</th><td class="${r[3]==='urdu'?'urdu':r[3]==='num'?'num':''}">${esc(r[col])}</td></tr>`).join('');
+}
+
+function render(){
+  const step = !S ? 1 : !S.edited ? 2 : 3;
+  ['st1','st2','st3'].forEach((id,i)=>{ const el=document.getElementById(id); el.className='step'+(i+1===step?' on':i+1<step?' done':''); });
+  if (S && S.scanned) document.getElementById('st3').className='step done';
+
+  const printed = !!S;
+  document.getElementById('printForm').hidden = printed;
+  document.getElementById('docWrap').hidden = !printed;
+  document.getElementById('beEmpty').hidden = printed;
+  document.getElementById('beWrap').hidden = !printed;
+  document.getElementById('scanBtn').disabled = !printed;
+  document.getElementById('scanLink').hidden = !printed;
+  document.getElementById('verChip').textContent = printed ? 'v'+S.version : 'v—';
+  if (!printed) { document.getElementById('cmpWrap').hidden = true; document.getElementById('cmpEmpty').hidden = false; return; }
+
+  const rows = compareRows();
+  // printed document
+  document.getElementById('docWrap').innerHTML = `
+    <div class="doc">
+      <div class="wm">DEMONSTRATION</div>
+      <div class="doc-top">
+        <div>
+          <h3>Ownership record · ${esc(S.printed.id)}</h3>
+          <div class="sub">Mauza Chak No. 72/NP · Tehsil &amp; District Rahim Yar Khan</div>
+          <div class="sub">Printed ${esc(S.printed.at)}</div>
+          <div class="sub" style="margin-top:6px">Scan the QR code to view this record online.</div>
+        </div>
+        <div class="qr" id="qrBox"></div>
+      </div>
+      <table class="kv">${kvTable(rows,1)}</table>
+    </div>`;
+  const box = document.getElementById('qrBox');
+  if (window.QRCode) new QRCode(box, { text: qrURL(), width: 106, height: 106, correctLevel: QRCode.CorrectLevel.M });
+  else box.textContent = 'QR library not loaded';
+  document.getElementById('scanLink').href = qrURL();
+
+  // back-end
+  document.getElementById('beTbl').innerHTML = kvTable(rows,2);
+  document.getElementById('edFrom').value = `${nameOf(byKey(S.owner))} · ${fmtN(beShare(S.owner))} sqft`;
+  const amtEl = document.getElementById('edAmt');
+  if (!amtEl.value) amtEl.value = S.hold > 0 ? S.hold : '';
+  document.getElementById('edToShow').value = `${nameOf(byKey(S.recv))} · ${fmtN(beShare(S.recv))} sqft`;
+  document.getElementById('edBtn').disabled = S.edited;
+  amtEl.disabled = S.edited;
+  const tot = beTotal();
+  const zc = document.getElementById('zsCheck');
+  zc.className='check '+(tot===KHATA?'ok':'bad');
+  zc.textContent = `Khata total in back-end: ${fmtN(tot)} sqft ${tot===KHATA?'✓ unchanged (zero-sum)':'⚠ ≠ '+fmtN(KHATA)}`;
+  document.getElementById('beLog').innerHTML = S.log.map(l=>`<div class="${/NOT changed/.test(l)?'alert':''}">${esc(l)}</div>`).join('');
+
+  // comparison
+  const cw = document.getElementById('cmpWrap');
+  cw.hidden = !S.scanned; document.getElementById('cmpEmpty').hidden = S.scanned;
+  if (S.scanned) {
+    const diffs = rows.filter(r=>r[1]!==r[2]).length;
+    const pet = byKey(S.owner);
+    const real = pet.nic===PET_NIC ? `<p class="note" style="margin-top:10px">Back-end share now ${fmtN(beShare(S.owner))} sqft (${fmtM(beShare(S.owner))} M). The current CLRMIS record for this owner is ${fmtN(pet.sqft)} sqft (${fmtM(pet.sqft)} M)${beShare(S.owner)===pet.sqft?' — identical.':'.'}</p>` : '';
+    cw.innerHTML = `
+      <div class="banner ${diffs?'bad':'ok'}">${diffs
+        ? `Same record ID ${esc(S.id)}, same date ${esc(S.date||'—')}: ${diffs} field(s) on the paper do not match what the QR opens.`
+        : 'Paper and QR record match. Apply a back-end edit (step 2) and scan again.'}</div>
+      <div style="overflow-x:auto"><table class="kv">
+        <tr><th>Field</th><th>Printed document (front-end)</th><th>QR opens (back-end, v${S.version})</th><th>Match</th></tr>
+        ${rows.map(r=>{ const same=r[1]===r[2]; const c=r[3]==='urdu'?'urdu':r[3]==='num'?'num':'';
+          return `<tr class="${same?'same':'diff'}"><th>${r[0]}</th><td class="${c}">${esc(r[1])}</td><td class="${c}">${esc(r[2])}</td><td class="${same?'ok':''}">${same?'✓':'✗ differs'}</td></tr>`; }).join('')}
+      </table></div>${real}`;
+  }
+}
+
+// ── view opened from the QR code ──────────────────────────
+function renderScanView(id){
+  const v = document.getElementById('scanView');
+  if (!S || S.id !== id) { v.innerHTML = `<div class="card"><div class="body"><p>No record <b>${esc(id)}</b> on this device.</p><p class="note">The demonstration keeps its back-end in this browser. Open the QR link on the same computer that printed the document.</p></div></div>`; return; }
+  const rows = compareRows();
+  v.innerHTML = `<div class="card"><h2>Online record lookup · ${esc(id)} <span class="ver">v${S.version}</span></h2>
+    <div class="body"><table class="kv">${kvTable(rows,2)}</table>
+    <p class="note" style="margin-top:10px">Looked up ${esc(now())}. Demonstration of method, not an official PLRA record.</p></div></div>`;
+}
+window.addEventListener('hashchange', ()=>location.reload());
+window.addEventListener('storage', ()=>{ S = load(); const m = location.hash.match(/scan=([^&]+)/); m ? renderScanView(decodeURIComponent(m[1])) : render(); });
+</script>
+</body>
+</html>
