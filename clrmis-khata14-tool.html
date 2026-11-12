@@ -568,8 +568,6 @@ body {
   <div class="rf"><span class="rf-k">Tehsil / District</span><span class="rf-v" data-f="tehsil">—</span></div>
   <div class="rf"><span class="rf-k">Total Land (Fixed)</span><span class="rf-v ok" data-f="total">—</span></div>
   <div class="rf"><span class="rf-k">Owners</span><span class="rf-v" data-f="owners">—</span></div>
-  <div class="rf"><span class="rf-k">Fard Badar Ref.</span><span class="rf-v warn" data-f="fardBadar">—</span></div>
-  <div class="rf"><span class="rf-k">Case Ref.</span><span class="rf-v warn" data-f="caseShort">—</span></div>
   <div class="zpill" id="zpill"><span id="zpillTxt">ZERO-SUM: OK</span></div>
 </div>
 
@@ -809,9 +807,6 @@ const META = {
   khewat:    '1913713',
   qanungoi:  'Taj Garh',
   tehsil:    'Rahim Yar Khan',
-  fardBadar: 'No. 199 · DISPUTED',
-  caseShort: 'WP 50498/2026 · LHC',
-  caseRef:   'WP No. 50498/2026 · Crl. Org. 62314/2026 (LHC)',
 };
 
 const cmpMods  = {};
@@ -1132,8 +1127,6 @@ function showExport() {
   txt+=`Total Fixed Land: ${fmtN(KHATA)} sqft = ${(KHATA/FPM).toFixed(2)} Marlas = ${fmtKM(KHATA)}\n`;
   txt+=`Owners in record: ${fmtN(persons.length)}  |  Sum of shares: ${fmtN(persons.reduce((a,p)=>a+p.sqft,0))} sqft\n`;
   txt+=`Generated: ${pkt} PKT\n`;
-  txt+=`Case Ref: ${META.caseRef}\n`;
-  txt+=`Fard Badar: ${META.fardBadar}\n`;
   txt+=`────────────────────────────────────────────────────────────────\n`;
   txt+=`Owner (Urdu)             NIC              Cur(M)   Prop(M)  Δ Marlas\n`;
   txt+=`────────────────────────────────────────────────────────────────\n`;
