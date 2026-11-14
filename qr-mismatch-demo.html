@@ -119,6 +119,10 @@ footer { text-align:center; font-size:11px; color:var(--muted); padding:16px; }
         <div class="form">
           <label>Record ID<input id="inId" value="DEMO-0199"></label>
           <label>Record date<input id="inDate" value="2006"></label>
+          <label>Mauza<input id="inMauza" value="Chak No. 72/NP"></label>
+          <label>Tehsil &amp; District<input id="inTehsil" value="Rahim Yar Khan"></label>
+          <label>Khata No.<input id="inKhata" value="14"></label>
+          <label>Khewat ID<input id="inKhewat" value="1913713"></label>
           <label class="wide">Owner on document
             <select id="inOwner"></select>
           </label>
@@ -177,7 +181,7 @@ footer { text-align:center; font-size:11px; color:var(--muted); padding:16px; }
 const FPM = 272;
 const PET_NIC = '3520242512499';
 const LAWFUL_M = 43;
-const KEY = 'qr-demo-khata14-v1';
+const KEY = 'qr-demo-khata14-v2';
 let P = [], KHATA = 0, S = null;   // persons, total, state
 
 const fmtN = n => n.toLocaleString('en-US');
@@ -230,6 +234,8 @@ function fillSelects(){
 function doPrint(){
   const id = document.getElementById('inId').value.trim() || 'DEMO-0199';
   const date = document.getElementById('inDate').value.trim();
+  const val = id => document.getElementById(id).value.trim();
+  const loc = { mauza: val('inMauza'), tehsil: val('inTehsil'), khata: val('inKhata'), khewat: val('inKhewat') };
   const owner = byKey(document.getElementById('inOwner').value);
   const shareS = Math.round((parseFloat(document.getElementById('inShare').value)||0)*FPM);
   const recv = byKey(document.getElementById('edTo').value);
@@ -242,7 +248,8 @@ function doPrint(){
   // After the step-2 edit both return to their real current CLRMIS figures.
   S = {
     id, date, owner: owner.key, recv: recv.key,
-    printed: { id, date, owner: owner.key, name: nameOf(owner), nic: owner.nic, sqft: shareS, total: KHATA, at: now() },
+    loc,
+    printed: { id, date, ...loc, owner: owner.key, name: nameOf(owner), nic: owner.nic, sqft: shareS, total: KHATA, at: now() },
     be: { [owner.key]: shareS, [recv.key]: recv.sqft - hold },
     hold,
     version: 1,
@@ -284,7 +291,7 @@ function compareRows(){
   return [
     ['Record ID',      pr.id,                    S.id],
     ['Record date',    pr.date||'—',             S.date||'—'],
-    ['Khata / Khewat', '14 / 1913713',           '14 / 1913713'],
+    ['Khata / Khewat', `${pr.khata||'—'} / ${pr.khewat||'—'}`, `${S.loc.khata||'—'} / ${S.loc.khewat||'—'}`],
     ['Owner',          pr.name,                  nameOf(byKey(k)), 'urdu'],
     ['NIC',            nicFmt(pr.nic),           nicFmt(byKey(k).nic)],
     ['Share (Marlas)', fmtM(pr.sqft),            fmtM(be), 'num'],
@@ -321,7 +328,7 @@ function render(){
       <div class="doc-top">
         <div>
           <h3>Ownership record · ${esc(S.printed.id)}</h3>
-          <div class="sub">Mauza Chak No. 72/NP · Tehsil &amp; District Rahim Yar Khan</div>
+          <div class="sub">Mauza ${esc(S.printed.mauza||'—')} · Tehsil &amp; District ${esc(S.printed.tehsil||'—')}</div>
           <div class="sub">Printed ${esc(S.printed.at)}</div>
           <div class="sub" style="margin-top:6px">Scan the QR code to view this record online.</div>
         </div>
