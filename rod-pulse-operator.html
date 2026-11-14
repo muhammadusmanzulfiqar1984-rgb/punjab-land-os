@@ -1,18 +1,19 @@
-<title>LandOS · Sub-Registrar Data Entry</title>
+<meta charset="utf-8">
+<title>Land Records Demonstration · Deed Entry</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap">
 <style>
 :root{
-  --g1:#1B5E35;--g2:#2D7A45;--g3:#3D9A58;
-  --gold:#C8A045;--amber:#E67E22;--red:#C0392B;--blue:#1A4A8C;
-  --bg:#F0F4F0;--win:#fff;--border:#DDE8DD;--border2:#C8D8C8;
-  --fg:#0F1F0F;--fg2:#3A5A3A;--fg3:#7A9A7A;
+  /* PULSE palette, light only */
+  --g1:#034B35;--g2:#075D3D;--g3:#216C4A;
+  --gold:#C8A000;--amber:#8A6000;--red:#CC0000;--blue:#075D3D;
+  --bg:#F7F9F6;--win:#fff;--border:#E3EAE3;--border2:#C5D6C9;
+  --fg:#244438;--fg2:#4E6359;--fg3:#7C8781;
   --sidebar:220px;
   --sans:'Inter',system-ui,sans-serif;
   --urdu:'Noto Nastaliq Urdu','Arial Unicode MS',serif;
+  color-scheme:light;
 }
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#080F08;--win:#0D180D;--border:#1A2E1A;--border2:#1A2E1A;--fg:#C8DCC8;--fg2:#7A9A7A;--fg3:#3A5A3A;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#080F08;--win:#0D180D;--border:#1A2E1A;--border2:#1A2E1A;--fg:#C8DCC8;--fg2:#7A9A7A;--fg3:#3A5A3A;color-scheme:dark}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:13px;min-height:100vh;display:flex;flex-direction:column}
 
@@ -52,7 +53,7 @@ body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:13px
   transition:background .1s;margin-bottom:2px;
 }
 .sb-item:hover{background:var(--bg)}
-.sb-item.active{background:#EAF5EA;color:var(--g1);font-weight:600}
+.sb-item.active{background:#EDF4EB;color:var(--g1);font-weight:600}
 .sb-item.active .sb-ico{color:var(--g1)}
 .sb-ico{font-size:15px;width:20px;text-align:center}
 .sb-badge{margin-left:auto;background:var(--amber);color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:8px}
@@ -78,7 +79,7 @@ body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:13px
 .stat-val{font-size:24px;font-weight:800;color:var(--fg)}
 .stat-lbl{font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
 .stat-delta{font-size:11px;font-weight:600;margin-top:6px}
-.delta-up{color:#1B9E50}
+.delta-up{color:#075D3D}
 .delta-dn{color:var(--red)}
 
 /* ── QUEUE TABLE ── */
@@ -93,20 +94,20 @@ body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:13px
 .tbl tr:last-child td{border-bottom:none}
 .tbl tr:hover td{background:var(--bg)}
 .deed-type{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 8px;border-radius:6px}
-.dt-sale{background:#E8F5E8;color:#1B5E35}
+.dt-sale{background:#EDF4EB;color:#075D3D}
 .dt-transfer{background:#E3F2FD;color:#0D47A1}
 .dt-gift{background:#F3E5F5;color:#6A1B9A}
 .dt-mutation{background:#FFF3E0;color:#E65100}
 .dt-correction{background:#FFEBEE;color:#C62828}
 .status-pill{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:12px}
 .sp-pending{background:#FFF3E0;color:#E65100}
-.sp-approved{background:#E8F5E8;color:#1B5E35}
+.sp-approved{background:#EDF4EB;color:#075D3D}
 .sp-draft{background:#F5F5F5;color:#757575}
 .sp-rejected{background:#FFEBEE;color:#C62828}
 .action-btns{display:flex;gap:6px}
 .act-btn{padding:5px 10px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:none}
 .act-view{background:var(--bg);color:var(--fg2);border:1px solid var(--border)}
-.act-approve{background:#E8F5E8;color:#1B5E35}
+.act-approve{background:#EDF4EB;color:#075D3D}
 .act-reject{background:#FFEBEE;color:#C62828}
 
 /* ── DEED ENTRY FORM ── */
@@ -135,7 +136,7 @@ body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:13px
 .add-party-btn:hover{border-color:var(--g2);color:var(--g2)}
 .rm-btn{background:var(--bg);border:1px solid var(--border);color:var(--red);border-radius:6px;padding:9px 10px;cursor:pointer;font-size:14px;flex-shrink:0}
 
-.deed-no-preview{background:#EAF5EA;border:1px solid #B8DDB8;border-radius:8px;padding:12px 16px;margin-top:16px;display:flex;align-items:center;gap:12px}
+.deed-no-preview{background:#EDF4EB;border:1px solid #C5D6C9;border-radius:8px;padding:12px 16px;margin-top:16px;display:flex;align-items:center;gap:12px}
 .deed-no-val{font-size:18px;font-weight:800;color:var(--g1);font-family:monospace}
 .deed-no-lbl{font-size:11px;color:var(--g2);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
 
@@ -145,19 +146,15 @@ body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:13px
 .urdu-field input,.urdu-field select{font-family:var(--urdu);direction:rtl;text-align:right;font-size:14px}
 
 /* ── SUCCESS TOAST ── */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1B5E35;color:#fff;padding:12px 24px;border-radius:10px;font-size:14px;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,.2);opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#075D3D;color:#fff;padding:12px 24px;border-radius:10px;font-size:14px;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,.2);opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
 .toast.show{opacity:1}
 </style>
 
 <!-- TOP BAR -->
 <div class="topbar">
-  <div class="tb-brand">🌍 LandOS <span class="tb-sep">|</span> <span class="tb-module">Sub-Registrar Portal — رحیم یار خان</span></div>
+  <div class="tb-brand">Land Records Demonstration <span class="tb-sep">|</span> <span class="tb-module">Deed Entry — رحیم یار خان</span></div>
   <div class="tb-right">
-    <span class="tb-session">SES: SREG-RYK-2026 · OPR: SREG-01</span>
-    <div class="tb-user">
-      <div class="tb-avatar">S</div>
-      <span>Sub-Registrar RYK</span>
-    </div>
+    <span class="tb-session">Demonstration · not an official PLRA system</span>
     <span class="tb-logout" onclick="location.href='operator-login.html'">⬅ Logout</span>
   </div>
 </div>
@@ -599,7 +596,7 @@ function showView(v){
 let deedSeq=248;
 function saveDeed(){
   const type=document.getElementById('deedType').value;
-  if(!type){showToast('⚠ Please select a deed type','#E67E22');return;}
+  if(!type){showToast('⚠ Please select a deed type','#8A6000');return;}
   const no='RYK-2026-0'+deedSeq++;
   DEEDS.unshift({id:no,type:type||'SALE',mauza:document.getElementById('mauza').value||'—',parties:'New Entry',by:'SREG-01',date:new Date().toISOString().slice(0,10),status:'pending'});
   populateTables();
@@ -619,7 +616,7 @@ function resetForm(){
 }
 
 // ── TOAST ──
-function showToast(msg,bg='#1B5E35'){
+function showToast(msg,bg='#075D3D'){
   const t=document.getElementById('toast');
   t.textContent=msg;
   t.style.background=bg;
