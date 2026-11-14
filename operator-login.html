@@ -1,13 +1,14 @@
+<meta charset="utf-8">
 <title>LandOS · Operator Login</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
 <style>
 :root{
-  --g1:#1B5E35;--g2:#2D7A45;--g3:#3D9A58;
-  --gold:#C8A045;
-  --bg:#F0F4F0;--win:#fff;--border:#DDE8DD;
-  --fg:#0F1F0F;--fg2:#3A5A3A;--fg3:#7A9A7A;
-  --err:#C0392B;
+  --g1:#034B35;--g2:#075D3D;--g3:#216C4A;
+  --gold:#C8A000;
+  --bg:#F7F9F6;--win:#fff;--border:#E3EAE3;
+  --fg:#244438;--fg2:#4E6359;--fg3:#7C8781;
+  --err:#CC0000;
   --sans:'Inter',system-ui,sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -48,10 +49,10 @@ body{background:var(--bg);color:var(--fg);font-family:var(--sans);min-height:100
 .login-btn:hover{background:var(--g2)}
 .login-btn:disabled{opacity:.5;cursor:default}
 
-.hint{background:#EAF5EA;border:1px solid #B8DDB8;border-radius:8px;padding:12px 14px;margin-top:16px;font-size:12px;color:var(--fg2);line-height:1.6}
+.hint{background:#EDF4EB;border:1px solid #C5D6C9;border-radius:8px;padding:12px 14px;margin-top:16px;font-size:12px;color:var(--fg2);line-height:1.6}
 .hint strong{color:var(--g1)}
 
-.err-msg{background:#FEF0F0;border:1px solid #FFBBBB;border-radius:8px;padding:10px 14px;font-size:13px;color:var(--err);margin-top:8px;display:none}
+.err-msg{background:#FDEAEA;border:1px solid #F3B9B9;border-radius:8px;padding:10px 14px;font-size:13px;color:var(--err);margin-top:8px;display:none}
 .err-msg.show{display:block}
 
 .back-link{text-align:center;margin-top:20px;font-size:13px;color:var(--fg3)}

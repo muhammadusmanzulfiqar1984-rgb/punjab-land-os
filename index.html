@@ -1,17 +1,17 @@
+<meta charset="utf-8">
 <title>LandOS · Platform Home</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap">
 <style>
 :root{
-  --g1:#1B5E35;--g2:#2D7A45;--g3:#3D9A58;--g4:#4DB86B;
-  --gold:#C8A045;--amber:#E67E22;--red:#C0392B;--blue:#1A4A8C;
-  --bg:#F0F4F0;--win:#fff;--border:#DDE8DD;
-  --fg:#0F1F0F;--fg2:#3A5A3A;--fg3:#7A9A7A;
+  --g1:#034B35;--g2:#075D3D;--g3:#216C4A;--g4:#0A7A50;
+  --gold:#C8A000;--amber:#8A6000;--red:#CC0000;--blue:#075D3D;
+  --bg:#F7F9F6;--win:#fff;--border:#E3EAE3;
+  --fg:#244438;--fg2:#4E6359;--fg3:#7C8781;
   --sans:'Inter',system-ui,sans-serif;
   --urdu:'Noto Nastaliq Urdu','Arial Unicode MS',serif;
+  color-scheme:light;
 }
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#060C06;--win:#0A120A;--border:#152515;--fg:#C8DCC8;--fg2:#7A9A7A;--fg3:#3A5A3A;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#060C06;--win:#0A120A;--border:#152515;--fg:#C8DCC8;--fg2:#7A9A7A;--fg3:#3A5A3A;color-scheme:dark}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--fg);font-family:var(--sans);min-height:100vh}
 
@@ -35,21 +35,21 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 /* ── HERO ── */
 .hero{
-  background:linear-gradient(135deg, #0D3D1F 0%, var(--g1) 50%, #1A6B2A 100%);
+  background:linear-gradient(135deg, #034B35 0%, var(--g1) 50%, #075D3D 100%);
   padding:max(72px,env(safe-area-inset-top,0px)) max(24px,env(safe-area-inset-right,0px)) 72px max(24px,env(safe-area-inset-left,0px));
   position:relative;overflow:hidden;
 }
 .hero-dots{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.07) 1px,transparent 1px);background-size:28px 28px;pointer-events:none}
 .hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;color:rgba(255,255,255,.85);margin-bottom:24px;text-transform:uppercase;letter-spacing:.08em}
-.hero-eyebrow-dot{width:6px;height:6px;border-radius:50%;background:#4DB86B;flex-shrink:0}
+.hero-eyebrow-dot{width:6px;height:6px;border-radius:50%;background:#0A7A50;flex-shrink:0}
 h1{font-size:clamp(36px,6vw,72px);font-weight:900;color:#fff;line-height:1.05;letter-spacing:-1.5px;margin-bottom:20px;text-wrap:balance}
 h1 span{color:var(--gold)}
 .hero-sub{font-size:clamp(16px,2vw,19px);color:rgba(255,255,255,.75);max-width:600px;line-height:1.65;margin-bottom:40px}
 .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
 .hbtn{padding:14px 28px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;border:none;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .15s}
 .hbtn-gold{background:var(--gold);color:#1A1A1A}
-.hbtn-gold:hover{background:#D9B050;transform:translateY(-1px)}
+.hbtn-gold:hover{background:#A88600;transform:translateY(-1px)}
 .hbtn-outline{background:transparent;border:2px solid rgba(255,255,255,.35);color:#fff}
 .hbtn-outline:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.65)}
 
@@ -78,7 +78,7 @@ section{max-width:1100px;margin:0 auto;padding:60px max(24px,env(safe-area-inset
 }
 .mod-card:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(0,0,0,.09);border-color:var(--g3)}
 .mod-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--mc,var(--g2))}
-.mod-ic{width:48px;height:48px;border-radius:12px;background:var(--mc-bg,#EAF5EA);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px;flex-shrink:0}
+.mod-ic{width:48px;height:48px;border-radius:12px;background:var(--mc-bg,#EDF4EB);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px;flex-shrink:0}
 .mod-title{font-size:17px;font-weight:800;color:var(--fg);margin-bottom:6px}
 .mod-sub{font-size:13px;color:var(--fg3);line-height:1.6;margin-bottom:20px;flex:1}
 .mod-features{display:flex;flex-direction:column;gap:6px;margin-bottom:20px}
@@ -112,13 +112,13 @@ section{max-width:1100px;margin:0 auto;padding:60px max(24px,env(safe-area-inset
 .market-flag{font-size:28px;margin-bottom:10px}
 .market-name{font-size:14px;font-weight:700;color:var(--fg);margin-bottom:4px}
 .market-desc{font-size:12px;color:var(--fg3);line-height:1.6;margin-bottom:12px}
-.market-tag{display:inline-block;background:#EAF5EA;color:var(--g1);font-size:11px;font-weight:600;padding:3px 8px;border-radius:6px}
+.market-tag{display:inline-block;background:#EDF4EB;color:var(--g1);font-size:11px;font-weight:600;padding:3px 8px;border-radius:6px}
 
 /* ── PRICING ── */
 .pricing-row{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px}
 @media(max-width:700px){.pricing-row{grid-template-columns:1fr}}
 .price-card{background:var(--win);border:1px solid var(--border);border-radius:14px;padding:24px}
-.price-card.featured{border-color:var(--g2);background:linear-gradient(135deg,#F0FAF0,#E8F5E8)}
+.price-card.featured{border-color:var(--g2);background:linear-gradient(135deg,#EDF4EB,#EDF4EB)}
 .price-tier{font-size:11px;font-weight:800;color:var(--fg3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
 .price-val{font-size:28px;font-weight:900;color:var(--fg)}
 .price-val small{font-size:13px;font-weight:500;color:var(--fg3)}
@@ -162,23 +162,23 @@ footer{
   <!-- Fort silhouette -->
   <div class="hero-art">
     <svg width="300" height="260" viewBox="0 0 300 260" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="20" y="180" width="260" height="80" fill="#C8A045"/>
-      <rect x="40" y="130" width="220" height="55" fill="#C8A045"/>
-      <rect x="60" y="90" width="30" height="45" fill="#C8A045"/>
-      <rect x="130" y="80" width="40" height="55" fill="#C8A045"/>
-      <rect x="210" y="90" width="30" height="45" fill="#C8A045"/>
-      <rect x="50" y="118" width="10" height="20" fill="#1B5E35"/>
-      <rect x="70" y="118" width="10" height="20" fill="#1B5E35"/>
-      <rect x="90" y="118" width="10" height="20" fill="#1B5E35"/>
-      <rect x="140" y="118" width="10" height="20" fill="#1B5E35"/>
-      <rect x="160" y="118" width="10" height="20" fill="#1B5E35"/>
-      <rect x="210" y="118" width="10" height="20" fill="#1B5E35"/>
-      <rect x="230" y="118" width="10" height="20" fill="#1B5E35"/>
-      <rect x="80" y="150" width="20" height="35" fill="#0D3D1F"/>
-      <rect x="140" y="145" width="20" height="40" fill="#0D3D1F"/>
-      <rect x="200" y="150" width="20" height="35" fill="#0D3D1F"/>
-      <rect x="130" y="60" width="8" height="22" fill="#C8A045"/>
-      <polygon points="134,38 130,60 138,60" fill="#C8A045"/>
+      <rect x="20" y="180" width="260" height="80" fill="#C8A000"/>
+      <rect x="40" y="130" width="220" height="55" fill="#C8A000"/>
+      <rect x="60" y="90" width="30" height="45" fill="#C8A000"/>
+      <rect x="130" y="80" width="40" height="55" fill="#C8A000"/>
+      <rect x="210" y="90" width="30" height="45" fill="#C8A000"/>
+      <rect x="50" y="118" width="10" height="20" fill="#034B35"/>
+      <rect x="70" y="118" width="10" height="20" fill="#034B35"/>
+      <rect x="90" y="118" width="10" height="20" fill="#034B35"/>
+      <rect x="140" y="118" width="10" height="20" fill="#034B35"/>
+      <rect x="160" y="118" width="10" height="20" fill="#034B35"/>
+      <rect x="210" y="118" width="10" height="20" fill="#034B35"/>
+      <rect x="230" y="118" width="10" height="20" fill="#034B35"/>
+      <rect x="80" y="150" width="20" height="35" fill="#034B35"/>
+      <rect x="140" y="145" width="20" height="40" fill="#034B35"/>
+      <rect x="200" y="150" width="20" height="35" fill="#034B35"/>
+      <rect x="130" y="60" width="8" height="22" fill="#C8A000"/>
+      <polygon points="134,38 130,60 138,60" fill="#C8A000"/>
     </svg>
   </div>
 
@@ -211,7 +211,7 @@ footer{
   <div class="modules-grid">
 
     <!-- Citizen Portal -->
-    <div class="mod-card" style="--mc:#1B5E35;--mc-bg:#EAF5EA" onclick="location.href='rod-pulse-citizen.html'">
+    <div class="mod-card" style="--mc:#034B35;--mc-bg:#EDF4EB" onclick="location.href='rod-pulse-citizen.html'">
       <span class="mod-badge">Live</span>
       <div class="mod-ic">🌐</div>
       <div class="mod-title">ROD PULSE — Citizen Portal</div>
@@ -226,48 +226,48 @@ footer{
     </div>
 
     <!-- Operator Login -->
-    <div class="mod-card" style="--mc:#1A4A8C;--mc-bg:#E8EFFC" onclick="location.href='operator-login.html'">
-      <span class="mod-badge" style="background:#1A4A8C">Secure</span>
-      <div class="mod-ic" style="background:#E8EFFC">🔐</div>
+    <div class="mod-card" style="--mc:#075D3D;--mc-bg:#EDF4EB" onclick="location.href='operator-login.html'">
+      <span class="mod-badge" style="background:#075D3D">Secure</span>
+      <div class="mod-ic" style="background:#EDF4EB">🔐</div>
       <div class="mod-title">Operator Login Gateway</div>
       <div class="mod-sub">Role-based authentication portal for all back-office staff. Routes to the appropriate module based on role.</div>
       <div class="mod-features">
-        <div class="mod-feat"><span class="mod-feat-dot" style="background:#1A4A8C"></span>Sub-Registrar role</div>
-        <div class="mod-feat"><span class="mod-feat-dot" style="background:#1A4A8C"></span>Patwari / CLRMIS role</div>
-        <div class="mod-feat"><span class="mod-feat-dot" style="background:#1A4A8C"></span>Admin role</div>
-        <div class="mod-feat"><span class="mod-feat-dot" style="background:#1A4A8C"></span>Credential-gated access</div>
+        <div class="mod-feat"><span class="mod-feat-dot" style="background:#075D3D"></span>Sub-Registrar role</div>
+        <div class="mod-feat"><span class="mod-feat-dot" style="background:#075D3D"></span>Patwari / CLRMIS role</div>
+        <div class="mod-feat"><span class="mod-feat-dot" style="background:#075D3D"></span>Admin role</div>
+        <div class="mod-feat"><span class="mod-feat-dot" style="background:#075D3D"></span>Credential-gated access</div>
       </div>
-      <a href="operator-login.html" class="mod-cta" style="background:#1A4A8C">Sign In →</a>
+      <a href="operator-login.html" class="mod-cta" style="background:#075D3D">Sign In →</a>
     </div>
 
     <!-- ROD PULSE Operator -->
-    <div class="mod-card" style="--mc:#E67E22;--mc-bg:#FEF4E8" onclick="location.href='operator-login.html'">
-      <span class="mod-badge" style="background:#E67E22">Back-Office</span>
-      <div class="mod-ic" style="background:#FEF4E8">⚖️</div>
+    <div class="mod-card" style="--mc:#8A6000;--mc-bg:#FFFBE6" onclick="location.href='operator-login.html'">
+      <span class="mod-badge" style="background:#8A6000">Back-Office</span>
+      <div class="mod-ic" style="background:#FFFBE6">⚖️</div>
       <div class="mod-title">Sub-Registrar Back-Office</div>
       <div class="mod-sub">Full deed entry and approval workflow for Sub-Registrar staff. Register sale deeds, mutations, transfers and more.</div>
       <div class="mod-features">
-        <div class="mod-feat"><span class="mod-feat-dot" style="background:#E67E22"></span>New deed entry form (5 sections)</div>
-        <div class="mod-feat"><span class="mod-feat-dot" style="background:#E67E22"></span>Multi-party management</div>
-        <div class="mod-feat"><span class="mod-feat-dot" style="background:#E67E22"></span>Approval queue with status</div>
-        <div class="mod-feat"><span class="mod-feat-dot" style="background:#E67E22"></span>Daily register & audit log</div>
+        <div class="mod-feat"><span class="mod-feat-dot" style="background:#8A6000"></span>New deed entry form (5 sections)</div>
+        <div class="mod-feat"><span class="mod-feat-dot" style="background:#8A6000"></span>Multi-party management</div>
+        <div class="mod-feat"><span class="mod-feat-dot" style="background:#8A6000"></span>Approval queue with status</div>
+        <div class="mod-feat"><span class="mod-feat-dot" style="background:#8A6000"></span>Daily register & audit log</div>
       </div>
-      <a href="operator-login.html" class="mod-cta" style="background:#E67E22">Access (Login Required) →</a>
+      <a href="operator-login.html" class="mod-cta" style="background:#8A6000">Access (Login Required) →</a>
     </div>
 
     <!-- CLRMIS -->
-    <div class="mod-card" style="--mc:#6B1B2A;--mc-bg:#F9ECEE" onclick="location.href='clrmis-khata14-tool.html'">
-      <span class="mod-badge" style="background:#6B1B2A">CLRMIS</span>
-      <div class="mod-ic" style="background:#F9ECEE">🗂️</div>
+    <div class="mod-card" style="--mc:#034B35;--mc-bg:#FDEAEA" onclick="location.href='clrmis-khata14-tool.html'">
+      <span class="mod-badge" style="background:#034B35">CLRMIS</span>
+      <div class="mod-ic" style="background:#FDEAEA">🗂️</div>
       <div class="mod-title">Land Records Tool — CLRMIS</div>
       <div class="mod-sub">Khata ownership analysis, Fard Badar mutation review, zero-sum verification, and redistribution calculator.</div>
       <div class="mod-features">
-        <div class="mod-feat"><span class="mod-feat-dot" style="background:#6B1B2A"></span>1,410 owner records loaded</div>
-        <div class="mod-feat"><span class="mod-feat-dot" style="background:#6B1B2A"></span>Scenario calculator</div>
-        <div class="mod-feat"><span class="mod-feat-dot" style="background:#6B1B2A"></span>What-if comparator</div>
-        <div class="mod-feat"><span class="mod-feat-dot" style="background:#6B1B2A"></span>Full redistribution tool</div>
+        <div class="mod-feat"><span class="mod-feat-dot" style="background:#034B35"></span>1,410 owner records loaded</div>
+        <div class="mod-feat"><span class="mod-feat-dot" style="background:#034B35"></span>Scenario calculator</div>
+        <div class="mod-feat"><span class="mod-feat-dot" style="background:#034B35"></span>What-if comparator</div>
+        <div class="mod-feat"><span class="mod-feat-dot" style="background:#034B35"></span>Full redistribution tool</div>
       </div>
-      <a href="clrmis-khata14-tool.html" class="mod-cta" style="background:#6B1B2A">Open Tool →</a>
+      <a href="clrmis-khata14-tool.html" class="mod-cta" style="background:#034B35">Open Tool →</a>
     </div>
 
   </div>
